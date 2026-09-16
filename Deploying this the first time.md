@@ -9,6 +9,17 @@ Nothing here touches the ticket site until step 9.
 
 ---
 
+## The app's real address
+
+```
+https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net
+```
+
+Azure issues regional hostnames with a hash in them now. The short
+`titanintranet.azurewebsites.net` does not resolve. Anywhere below that wants
+this address, it means this one — **Overview → Default domain** in the portal
+is the authority if it ever changes.
+
 ## 1. Make this folder a repository
 
 In a terminal, in `Desktop\Intranet`:
@@ -64,10 +75,13 @@ one where it lives under `webapp/`.
 
 ```
 DATABASE_URL          SECRET_KEY            OFFICE_PASSCODE
-TENANT_ID             AUTH_CLIENT_ID        AUTH_CLIENT_SECRET
-GRAPH_CLIENT_ID       GRAPH_CLIENT_SECRET   PORTAL_ADMINS
-ORIENTATION_USERS     SCM_DO_BUILD_DURING_DEPLOYMENT=true
+TENANT_ID             AUTH_CLIENT_ID        GRAPH_CLIENT_ID
+GRAPH_CLIENT_SECRET   PORTAL_ADMINS         ORIENTATION_USERS
+SCM_DO_BUILD_DURING_DEPLOYMENT=true
 ```
+
+There is no `AUTH_CLIENT_SECRET` anywhere — `titan_auth` falls back to
+`GRAPH_CLIENT_SECRET`, so one secret covers both sign-in and SharePoint.
 
 Do **not** copy `MAIL_*`, `OCR_*` or `RUN_WORKER`. There is no worker in this
 codebase, so there is nothing for them to turn on or off.
@@ -94,8 +108,14 @@ Entra → App registrations → the app in `AUTH_CLIENT_ID` → **Authentication
 Add a redirect URI**:
 
 ```
-https://titanintranet.azurewebsites.net/auth/callback
+https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net/auth/callback
 ```
+
+> **Use the full hostname Azure gave the app**, not `titanintranet.azurewebsites.net`.
+> Azure now issues regional names with a hash in them. The short form does not
+> exist and a redirect URI that does not match character for character fails at
+> sign-in with a message about the reply URL. Azure → titanintranet →
+> **Overview → Default domain** is the authority.
 
 `https://intranet.tetransports.com/auth/callback` is already registered from
 before and does not change — the hostname is the same, only the app behind it
@@ -111,12 +131,12 @@ The push in step 2 may already have run the workflow. If not, GitHub →
 
 Then check, in this order:
 
-1. `https://titanintranet.azurewebsites.net/healthz` — no sign-in needed. It
+1. `https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net/healthz` — no sign-in needed. It
    should say `"ok": true` with `config: ok` and `database: ok`. If the database
    is not ok, `DATABASE_URL` did not come across.
-2. `https://titanintranet.azurewebsites.net/` — sign in. The intranet should
+2. `https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net/` — sign in. The intranet should
    appear exactly as it does today.
-3. `https://titanintranet.azurewebsites.net/access` — the Access screen, with
+3. `https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net/access` — the Access screen, with
    six groups on it.
 
 **Everything must work here before step 8.** After the domain moves there is no
@@ -129,10 +149,11 @@ certificate is issued. Do it when nobody is on the intranet.
 
 1. **titantickets → Custom domains → `intranet.tetransports.com` → Delete.**
    It has to leave the old app before it can join the new one.
-2. **DNS** — repoint the `intranet` CNAME to `titanintranet.azurewebsites.net`,
-   and update the `asuid.intranet` TXT record to the value the next step shows
-   you. (This is also the slow part — the old record may be cached for as long
-   as its TTL.)
+2. **DNS** — repoint the `intranet` CNAME to
+   `titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net`
+   — the full hostname again, not the short form — and update the
+   `asuid.intranet` TXT record to the value the next step shows you. (This is
+   also the slow part: the old record may be cached for as long as its TTL.)
 3. **titanintranet → Custom domains → Add custom domain →**
    `intranet.tetransports.com` → validate → add.
 4. **Create App Service Managed Certificate** for it, then **bind** it, SNI SSL.

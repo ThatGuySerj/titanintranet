@@ -43,6 +43,7 @@ from flask import (Flask, Response, abort, jsonify, redirect, request,
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import psycopg                   # noqa: E402  (for _end_transaction)
 import titan_auth as auth        # noqa: E402  (a copy - see the note above)
 import db                        # noqa: E402
 import intranet_access           # noqa: E402
@@ -76,11 +77,93 @@ def _html(s, code=200):
                     headers={"Cache-Control": "no-store"})
 
 
+# ---------------------------------------------------------------------------
+#  The sign-in page
+# ---------------------------------------------------------------------------
+# Lifted from the ticket site along with _login_page, so the two look the same
+# to somebody who uses both. `mark` resolves to nothing here, because the
+# helmet on this site is a file rather than something inlined out of brand.js -
+# the page renders without it rather than failing, which is what the ticket
+# site's own comment says to do.
+
+LOGIN_HTML = """<!doctype html><meta charset=utf-8>
+<title>Titan Enterprises Intranet</title>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href="%(icon)s">
+<style>
+ :root{--navy:#243090;--navy-dark:#1A2470;--navy-light:#3949B8;
+       --accent:#00AAE6;--red:#E41824;
+       --ink:#1C2230;--ink-soft:#4a5568;--line:#cbd5e1}
+ *{box-sizing:border-box}
+ body{font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;
+      min-height:100vh;display:grid;place-items:center;padding:24px;
+      color:var(--ink);
+      background:radial-gradient(120%% 90%% at 50%% 0%%,var(--navy) 0%%,
+                 var(--navy-dark) 55%%,#0f1547 100%%)}
+ .wrap{width:100%%;max-width:380px;text-align:center}
+ /* The helmet sits on white, the way it does on the tracker header - the
+    artwork has dark outlines and disappears against navy. */
+ .plate{width:104px;height:104px;margin:0 auto 22px;background:#fff;
+        border-radius:22px;display:grid;place-items:center;
+        box-shadow:0 10px 30px rgba(0,0,0,.28)}
+ .helm{width:52px;aspect-ratio:215/312;
+       background:url("%(mark)s") center/contain no-repeat}
+ .card{background:#fff;border-radius:18px;padding:30px 28px 26px;
+       box-shadow:0 18px 44px rgba(0,0,0,.30);text-align:left}
+ h1{font-size:20px;margin:0 0 5px;color:var(--navy);letter-spacing:-.01em}
+ .sub{color:var(--ink-soft);margin:0 0 22px;font-size:13.5px}
+ input{width:100%%;padding:12px 13px;border-radius:11px;border:1px solid var(--line);
+       background:#fff;color:var(--ink);font:inherit;font-size:15px}
+ input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px #e8eaf8}
+ button,.ms{width:100%%;margin-top:12px;padding:13px;border:0;border-radius:11px;
+        background:var(--navy);color:#fff;font:inherit;font-size:15px;
+        font-weight:600;cursor:pointer;display:block;text-align:center;
+        text-decoration:none}
+ button:hover,.ms:hover{background:var(--navy-light,#3949B8)}
+ .ms{display:flex;align-items:center;justify-content:center;gap:10px}
+ .ms svg{flex:none}
+ .err{color:var(--red);font-size:13px;margin-top:14px;line-height:1.45;
+      background:#fee2e2;border-radius:9px;padding:10px 12px}
+ .alt{color:var(--ink-soft);font-size:12px;margin:12px 0 0;line-height:1.5}
+ .foot{color:#aab4e8;font-size:11.5px;margin:18px 0 0;letter-spacing:.03em;
+       text-transform:uppercase}
+</style>
+<div class=wrap>
+ <div class=plate><div class=helm></div></div>
+ <div class=card>
+  <h1>Titan Enterprises Intranet</h1>
+  <p class=sub>%(note)s</p>
+  %(body)s
+  %(err)s
+ </div>
+ <p class=foot>Titan Enterprises</p>
+</div>"""
+
+# Microsoft's four squares, inline: the button is asking people to trust it
+# with a company password, and a broken image on that button is exactly the
+# thing that makes someone hesitate. No network fetch, nothing to break.
+MS_MARK = ('<svg width=17 height=17 viewBox="0 0 23 23" aria-hidden=true>'
+           '<path fill="#f35325" d="M1 1h10v10H1z"/>'
+           '<path fill="#81bc06" d="M12 1h10v10H12z"/>'
+           '<path fill="#05a6f0" d="M1 12h10v10H1z"/>'
+           '<path fill="#ffba08" d="M12 12h10v10H12z"/></svg>')
+
+MS_BUTTON = ('<a class=ms href="/auth/start%s">' + MS_MARK +
+             '<span>Sign in with Microsoft</span></a>')
+
+PASSCODE_FORM = """<form method=post>
+ <input type=password name=passcode placeholder="Passcode" autofocus>
+ <button>Sign in</button>
+</form>"""
+
+
+
 def _brand_bit(which):
-    """The ticket site draws these out of its generated brand.js. Here the
-    helmet is simply a file, so the favicon is a path and there is no mark to
-    inline."""
-    return "/images/favicon.png" if which == "icon" else ""
+    """The ticket site lifts these out of its generated brand.js. Here they are
+    simply files, so they are paths - and the sign-in page gets a helmet rather
+    than an empty white plate."""
+    return ("/images/favicon.png" if which == "icon"
+            else "/images/titan-energy-helmet.png")
 
 
 _local = threading.local()
@@ -636,9 +719,16 @@ def intranet_home():
 
 
 @app.get("/images/<name>")
-@protected
 def image(name):
-    """<name> and not <path:name>, so a slash cannot walk out of the folder."""
+    """The logos, and deliberately NOT behind @protected.
+
+    The sign-in page shows the helmet and the favicon to somebody who has not
+    signed in yet - protected, they 302 to the login page and the sign-in
+    screen renders with an empty white plate. They are the same logo files the
+    public website already serves, so there is nothing here to guard.
+
+    <name> and not <path:name>, so a slash cannot walk out of the folder.
+    """
     ext = os.path.splitext(name)[1].lower()
     if ext not in _IMAGE_TYPES or "/" in name or ".." in name:
         abort(404)
@@ -1151,7 +1241,14 @@ def healthz():
         detail["database"] = "ok"
     except Exception as e:
         ok, detail["database"] = False, str(e)[:120]
-    detail["auth"] = getattr(auth, "VERSION", "unknown")
+    # The same shape the other Titan sites report, so the two can be compared
+    # side by side: it says whether sign-in is switched on and which settings
+    # it thinks are absent, rather than only which version is deployed.
+    try:
+        detail["auth"] = auth.health()
+    except Exception:
+        detail["auth"] = {"version": getattr(auth, "VERSION", "unknown")}
+    detail["site"] = "intranet"
     detail["build"] = BUILD.isoformat(timespec="seconds")
     return jsonify(ok=ok, **detail), (200 if ok else 503)
 

@@ -179,7 +179,9 @@ code is a harder fault to find than one extra deploy. Both workflows also have
 4. **Move the domain** — add `intranet.tetransports.com` as a custom domain on
    **titanintranet**, create its managed certificate, then remove the domain
    from titantickets. The CNAME target changes to
-   `titanintranet.azurewebsites.net`, and a new `asuid.intranet` TXT value.
+   `titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net` (Azure
+   issues regional hostnames with a hash; the short form does not resolve), and
+   a new `asuid.intranet` TXT value.
 5. **On titantickets, set `INTRANET_MOVED=1`.** Now `/intranet` there 301s to
    the new address and the ticket app serves no intranet content at all.
 6. **GitHub secret** — download the new app's publish profile and add it as

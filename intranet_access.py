@@ -234,9 +234,15 @@ def set_rule(conn, item_key, groups):
 
 
 def add_group(conn, name, label):
-    name = re.sub(r"[^a-z0-9_-]+", "-", (name or "").strip().lower()).strip("-")
+    """The short name is optional: the screen says so, so it has to be true.
+
+    Left blank it is made from the label - "Yard Managers" becomes
+    "yard-managers" - which is the only reason anybody would leave it blank.
+    """
+    name = re.sub(r"[^a-z0-9_-]+", "-",
+                  ((name or "").strip() or (label or "").strip()).lower()).strip("-")
     if not name:
-        raise ValueError("A group needs a short name.")
+        raise ValueError("A group needs a name.")
     with conn.cursor() as cur:
         cur.execute("INSERT INTO intranet_group (name, label) VALUES (%s, %s) "
                     "ON CONFLICT (name) DO UPDATE SET label = EXCLUDED.label",
