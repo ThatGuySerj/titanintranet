@@ -1,0 +1,67 @@
+# The intranet, to its own Azure Web App from its own repository.
+#
+# It used to live inside the ticket repository, and that was the wrong shape:
+# one process meant one restart, so renaming a link on the noticeboard took the
+# site people file tickets in down with it. Nothing here touches that site now.
+
+name: Build and deploy - titanintranet
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m venv antenv
+          source antenv/bin/activate
+          pip install -r requirements.txt
+
+      # No database and no network needed for either suite. They are the ones
+      # that would catch a permissions mistake, and a card that wrongly stays
+      # visible is a fault nobody reports.
+      - name: Test
+        run: |
+          source antenv/bin/activate
+          pip install pytest
+          python -m pytest -q
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: intranet
+          path: |
+            .
+            !antenv/
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: intranet
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'titanintranet'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TITANINTRANET }}

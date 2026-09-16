@@ -1,0 +1,70 @@
+{
+  "trailingSlash": "never",
+  "routes": [
+    {
+      "route": "/login",
+      "rewrite": "/.auth/login/aad"
+    },
+    {
+      "route": "/logout",
+      "redirect": "/.auth/logout"
+    },
+    {
+      "route": "/.auth/login/github",
+      "statusCode": 404
+    },
+    {
+      "route": "/.auth/login/twitter",
+      "statusCode": 404
+    },
+    {
+      "route": "/Titan_Enterprises_Intranet_Homepage.html",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/images/*",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/*",
+      "allowedRoles": ["authenticated"]
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/Titan_Enterprises_Intranet_Homepage.html",
+    "exclude": ["/images/*", "/.auth/*"]
+  },
+  "responseOverrides": {
+    "401": {
+      "statusCode": 302,
+      "redirect": "/.auth/login/aad"
+    },
+    "403": {
+      "statusCode": 302,
+      "redirect": "/.auth/login/aad"
+    }
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "same-origin",
+    "Cache-Control": "no-store"
+  },
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": {
+          "openIdIssuer": "https://login.microsoftonline.com/REPLACE_WITH_TENANT_ID/v2.0",
+          "clientIdSettingName": "AAD_CLIENT_ID",
+          "clientSecretSettingName": "AAD_CLIENT_SECRET"
+        }
+      }
+    }
+  },
+  "mimeTypes": {
+    ".html": "text/html",
+    ".json": "application/json",
+    ".png": "image/png"
+  }
+}

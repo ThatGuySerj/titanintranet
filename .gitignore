@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+antenv/
+.env
+*.log
+
+# Working copies that are not the site
+Titan_Enterprises_Intranet_Implementation_Guide.docx
+
+# scratch left by the split out of the ticket repo - safe to delete
+_auth_core.py

@@ -1,0 +1,12 @@
+# The intranet is a noticeboard and a print button. It does not do OCR, so it
+# does not carry PyMuPDF's compiled weight for the page - but the packet merge
+# does need it, and it is the same wheel the ticket site already installs.
+
+Flask>=3.0
+gunicorn>=22.0
+
+# The shared Titan database: groups, members and visibility rules.
+psycopg[binary]>=3.1
+
+# Merging the orientation packets into one PDF.
+PyMuPDF>=1.24
