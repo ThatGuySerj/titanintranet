@@ -579,37 +579,186 @@ def logout():
 # site's admin theme - it belongs to this site now, and importing a palette
 # from another repository is exactly the coupling this split was for.
 ACCESS_CSS = """
-:root{--navy:#1e2a78;--red:#d21f2c;--cyan:#2bb0e8;--black:#0f1115;
-  --card:#262a33;--card-2:#2e333e;--line:#3a3f4b;--page:#1b1e24;
-  --ink:#e8eaef;--mut:#a6acb8;--good:#3ecf8e;--goodbg:#123a2c;
-  --bad:#ff8080;--badbg:#3d1b22;--info:#7fd2f5;--accent:#2bb0e8}
-*{box-sizing:border-box}
-body{font:15px/1.6 Inter,"Segoe UI",system-ui,sans-serif;background:var(--page);
-  color:var(--ink);margin:0}
-a{color:var(--info);text-decoration:none}
-a:hover{text-decoration:underline}
-h1,h2,h3{margin:0 0 .4em;line-height:1.2;font-family:"Barlow Condensed",
-  "Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.6px}
-.bar{background:rgba(27,30,36,.98);border-bottom:4px solid var(--red);
-  padding:11px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.bar .plate{width:34px;height:34px;background:#fff;border-radius:9px;
-  display:grid;place-items:center}
-.bar .plate i{display:block;height:24px;aspect-ratio:110/160;
-  background:url(/images/titan-energy-helmet.png) center/contain no-repeat}
-.bar .brand b{font-family:"Barlow Condensed",sans-serif;font-size:19px;
-  text-transform:uppercase;letter-spacing:.6px}
-.bar .brand span{display:block;font-size:11.5px;color:var(--mut)}
+/* The Access screen wears the intranet's own colours and type. It belongs to
+   this site, and a settings page that looks like a different product makes
+   people wonder whether they are still in the right place. */
+:root{
+  --navy:#1e2a78; --navy-dark:#141c52;
+  --red:#d21f2c;  --red-dark:#a91723;
+  --cyan:#2bb0e8; --cyan-light:#7fd2f5;
+  --green:#3ecf8e; --amber:#f0b64b;
+  --black:#0f1115; --steel:#c9ced8;
+  --surface:#1b1e24; --card:#262a33; --card-2:#2e333e;
+  --line:#3a3f4b;
+  --ink:#e8eaef; --mut:#a6acb8; --dim:#7d848f;
+  --bad:#ff8080; --badbg:#3d1b22; --goodbg:#123a2c;
+  --font-display:"Barlow Condensed","Arial Narrow","Segoe UI",sans-serif;
+  --font-body:"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --shadow:0 3px 10px rgba(0,0,0,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);background:var(--surface);color:var(--ink);
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan);text-decoration:none}
+a:hover{color:var(--cyan-light)}
+h1,h2,h3{font-family:var(--font-display);text-transform:uppercase;
+  letter-spacing:.6px;line-height:1.1}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+
+/* ---- masthead: the same one the intranet has ---- */
+.bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:20px;
+  padding:12px 26px;background:rgba(27,30,36,.98);backdrop-filter:blur(8px);
+  border-bottom:4px solid var(--red);box-shadow:var(--shadow);flex-wrap:wrap}
+.bar .logo{height:38px;width:auto;background:#fff;padding:5px 11px;border-radius:8px}
+.bar .divider{width:1px;height:34px;background:var(--line)}
+.bar .kicker{display:block;font-family:var(--font-display);font-size:.7rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.bar .name{display:block;font-family:var(--font-display);font-size:1.35rem;
+  font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff}
 .bar .sp{flex:1}
-.bar .back,.bar .hr-who{font-size:13px;color:var(--mut)}
+.bar .who{font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:8px;
+  border:1px solid var(--line);border-radius:999px;padding:5px 13px 5px 6px;
+  background:#15181d}
+.bar .who .av{width:26px;height:26px;border-radius:50%;display:grid;
+  place-items:center;font:700 10px/1 var(--font-body);color:#fff;
+  background:linear-gradient(135deg,var(--navy),var(--cyan))}
+.bar .back{font-size:13px;font-weight:600;white-space:nowrap}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px 80px}
+
+/* ---- page head ---- */
+.head{padding:26px 0 22px;display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
+.head h1{font-size:clamp(1.6rem,2.6vw,2.2rem);color:#fff;font-weight:700}
+.head .rule{width:78px;height:4px;border-radius:2px;margin:12px 0;
+  background:linear-gradient(90deg,var(--red),var(--cyan))}
+.head p{color:var(--mut);font-size:14px;max-width:66ch}
+.head .tally{margin-left:auto;display:flex;gap:26px;flex:none}
+.head .tally div{text-align:right}
+.head .tally b{display:block;font-family:var(--font-display);font-size:1.7rem;
+  color:#fff;font-weight:700;line-height:1}
+.head .tally span{font-size:11px;color:var(--dim);text-transform:uppercase;
+  letter-spacing:.12em}
+
+/* ---- section bands ---- */
+.band{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:34px 0 0;
+  padding-bottom:10px;border-bottom:2px solid var(--red)}
+.band h2{font-size:1.25rem;color:#fff;font-weight:700}
+.band .sub{font-size:12.5px;color:var(--dim);max-width:58ch}
+.band .tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+.note{border-radius:9px;padding:11px 15px;margin:16px 0 0;font-size:14px;
+  border:1px solid transparent}
+.note.ok{background:var(--goodbg);border-color:#1e5c45;color:#b6f0d6}
+.note.err{background:var(--badbg);border-color:#5c2630;color:#ffc4c4}
+
+/* ---- buttons ---- */
 .btn{display:inline-block;background:var(--red);color:#fff;border:0;
-  border-radius:8px;padding:9px 16px;font:600 13.5px/1 inherit;cursor:pointer}
-.btn:hover{filter:brightness(1.09)}
-.btn.small{padding:7px 12px;font-size:12.5px}
-.btn.danger{background:transparent;border:1px solid #5c2630;color:var(--bad)}
-input,textarea,select{background:var(--black);color:var(--ink);
-  border:1px solid var(--line);border-radius:8px;padding:9px 11px;
-  font:14px/1.4 inherit;width:100%}
-input:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  border-radius:8px;padding:9px 17px;font:700 12.5px/1 var(--font-body);
+  letter-spacing:.03em;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--red-dark)}
+.btn.small{padding:7px 13px;font-size:11.5px}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--mut)}
+.btn.ghost:hover{background:var(--card-2);color:#fff;border-color:var(--cyan)}
+.btn.danger{background:none;border:1px solid #5c2630;color:var(--bad)}
+.btn.danger:hover{background:var(--badbg)}
+.btn:disabled{opacity:.4;cursor:default;background:var(--card-2);color:var(--mut)}
+
+input[type=text],input[type=email],input:not([type]),textarea{
+  background:var(--black);color:var(--ink);border:1px solid var(--line);
+  border-radius:8px;padding:10px 12px;font-size:14px;width:100%}
+input:focus,textarea:focus{outline:none;border-color:var(--cyan);
+  box-shadow:0 0 0 3px rgba(43,176,232,.18)}
+textarea{min-height:70px;resize:vertical}
+
+/* ---- group pills: the tick boxes, made scannable ----
+   Twenty-two sections times six groups is a hundred and thirty tick boxes. As
+   squares they are a wall; as pills that light up, the answer to "who can see
+   this" is readable at a glance. */
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{position:relative;cursor:pointer;user-select:none}
+.pill input{position:absolute;opacity:0;width:0;height:0}
+.pill span{display:inline-block;border:1px solid var(--line);border-radius:999px;
+  padding:5px 12px;font-size:11.5px;font-weight:600;color:var(--dim);
+  background:var(--card-2);transition:background .12s,color .12s,border-color .12s}
+.pill:hover span{color:var(--ink);border-color:var(--cyan)}
+.pill input:checked + span{background:var(--navy);border-color:var(--cyan);
+  color:#fff}
+.pill input:focus-visible + span{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* ---- state tag ---- */
+.state{flex:none;font:700 10px/1.8 var(--font-body);letter-spacing:.08em;
+  text-transform:uppercase;border-radius:4px;padding:1px 8px;border:1px solid}
+.state.open{color:var(--green);border-color:#1e5c45;background:#0f2a20}
+.state.shut{color:var(--amber);border-color:#5c4a20;background:#2b2412}
+
+/* ---- cards ---- */
+.card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);
+  border-radius:12px;padding:14px 16px 12px;margin:14px 0 0;box-shadow:var(--shadow);
+  transition:border-color .16s}
+.card:hover{border-top-color:var(--cyan)}
+.card.restricted{border-top-color:var(--amber)}
+.card.hide{display:none}
+.card .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.card .label{flex:1;min-width:190px;font-family:var(--font-display);
+  font-size:1.08rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  color:#fff}
+
+.kids{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.kids summary{cursor:pointer;color:var(--cyan);font-size:12.5px;font-weight:600;
+  padding:3px 0;list-style:none}
+.kids summary::-webkit-details-marker{display:none}
+/* No backslashes in here. ACCESS_CSS is an ordinary Python string, so a CSS
+   escape like the one for a small right arrow is read as an OCTAL escape
+   first and the browser is handed the leftovers. The characters themselves
+   cannot be misread. */
+.kids summary::before{content:"▸ ";display:inline-block;transition:transform .15s}
+.kids[open] summary::before{transform:rotate(90deg)}
+.kid{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--card-2);border-radius:8px;padding:8px 12px;margin-top:6px}
+.kid.hide{display:none}
+.kid .label{flex:1;min-width:190px;font-size:13px;color:var(--steel);
+  font-family:var(--font-body);text-transform:none;letter-spacing:0;font-weight:400}
+
+.save{margin-top:11px;display:flex;align-items:center;gap:12px}
+.save .hint{font-size:11.5px;color:var(--dim)}
+.card.dirty{border-top-color:var(--cyan)}
+.card.dirty .save .hint{color:var(--cyan-light)}
+
+/* ---- people ---- */
+.person{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:9px 13px;margin-top:8px}
+.person .who{flex:1;min-width:210px;font-size:13.5px;display:flex;
+  align-items:center;gap:9px}
+.person .who .av{width:27px;height:27px;border-radius:50%;flex:none;display:grid;
+  place-items:center;font:700 10.5px/1 var(--font-body);color:#fff;
+  background:linear-gradient(135deg,var(--navy),var(--cyan))}
+
+/* ---- group chips ---- */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:7px;background:var(--card);
+  border:1px solid var(--line);border-radius:999px;padding:6px 13px;
+  font-size:12.5px;color:var(--steel)}
+.chip button{background:none;border:0;color:var(--dim);cursor:pointer;
+  font-size:15px;line-height:1;padding:0 0 0 2px}
+.chip button:hover{color:var(--red)}
+.chip.locked{color:var(--dim);border-style:dashed}
+
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:16px 18px;margin-top:14px}
+.box .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.muted{color:var(--mut);font-size:13.5px}
+.empty{color:var(--dim);font-size:13.5px;font-style:italic;margin-top:12px}
+
+#filter{max-width:260px}
+.count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+
+@media (max-width:760px){
+  .head .tally{margin-left:0;width:100%}
+  .bar{gap:12px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 """
 
 
@@ -769,17 +918,29 @@ def admin_only(fn):
     return go
 
 
-def _ticks(key, groups, chosen):
-    """One group tick box per group, for one item."""
-    out = []
-    for g in groups:
-        out.append(
-            '<label class=tick><input type=checkbox name="rule:%s" value="%s"%s>'
-            '<span>%s</span></label>' % (
-                html_mod.escape(key), html_mod.escape(g["name"]),
-                " checked" if g["name"] in chosen else "",
-                html_mod.escape(g["label"])))
-    return "".join(out)
+def _pills(key, groups, chosen):
+    """One pill per group, for one item.
+
+    A hidden checkbox inside a label: the form posts exactly what it did when
+    these were tick boxes, so nothing on the server side changes - but a
+    hundred and thirty squares become something you can read.
+    """
+    return "".join(
+        '<label class=pill><input type=checkbox name="rule:%s" value="%s"%s>'
+        '<span>%s</span></label>' % (
+            html_mod.escape(key), html_mod.escape(g["name"]),
+            " checked" if g["name"] in chosen else "",
+            html_mod.escape(g["label"]))
+        for g in groups)
+
+
+def _state(shut):
+    return ('<span class="state shut">Restricted</span>' if shut
+            else '<span class="state open">Everyone</span>')
+
+
+def _avatar(email):
+    return html_mod.escape((email or "?")[:2].upper())
 
 
 @app.get("/access")
@@ -797,14 +958,15 @@ def access_screen():
     for email in sorted(members):
         mine = members[email]
         people.append(
-            '<form method=post action="/access/person" class=row>'
+            '<form method=post action="/access/person" class=person>'
             '<input type=hidden name=email value="%s">'
-            '<span class=who>%s</span><span class=ticks>%s</span>'
+            '<span class=who><span class=av>%s</span>%s</span>'
+            '<span class=pills>%s</span>'
             '<button class="btn small">Save</button>'
             '<button class="btn small danger" formaction="/access/person/remove"'
             ' name=email value="%s">Remove</button></form>' % (
-                html_mod.escape(email), html_mod.escape(email),
-                "".join('<label class=tick><input type=checkbox name=groups '
+                html_mod.escape(email), _avatar(email), html_mod.escape(email),
+                "".join('<label class=pill><input type=checkbox name=groups '
                         'value="%s"%s><span>%s</span></label>' % (
                             html_mod.escape(g["name"]),
                             " checked" if g["name"] in mine else "",
@@ -812,61 +974,88 @@ def access_screen():
                 html_mod.escape(email)))
 
     # -- what each item shows ---------------------------------------------
-    sections, last_kind = [], None
+    KINDS = {"rail": ("The left rail", "Groups of links down the side of the page."),
+             "department": ("Departments", "One card each, and the documents in it."),
+             "yard": ("Yard Locations", "Same again, per yard."),
+             "tool": ("Tools", "Things that do something rather than open a file."),
+             "folder": ("Folders", "SharePoint folders listed at the bottom of the page.")}
+    sections, last_kind, restricted = [], None, 0
     for item in intranet_access.inventory(cfg):
         if item["kind"] != last_kind:
-            sections.append('<h3 class=kind>%s</h3>'
-                            % html_mod.escape(item["kind"].title() + "s"))
+            head, blurb = KINDS.get(item["kind"], (item["kind"].title(), ""))
+            sections.append(
+                '<div class=band><h2>%s</h2><span class=sub>%s</span></div>'
+                % (html_mod.escape(head), html_mod.escape(blurb)))
             last_kind = item["kind"]
+
         keys = [item["key"]] + [ch["key"] for ch in item["children"]]
-        open_now = any(k in rules for k in keys)
+        shut_here = [k for k in keys if k in rules]
+        restricted += len(shut_here)
+        card_shut = item["key"] in rules
+
         kids = ""
         if item["children"]:
-            kids = (
-                '<details class=kids%s><summary>%d document%s</summary>%s</details>'
-                % (" open" if open_now else "", len(item["children"]),
-                   "" if len(item["children"]) == 1 else "s",
-                   "".join(
-                       '<div class="row kid"><span class=who>%s</span>'
-                       '<span class=ticks>%s</span>%s</div>' % (
-                           html_mod.escape(ch["label"]),
-                           _ticks(ch["key"], groups, rules.get(ch["key"], set())),
-                           '<span class=state>%s</span>' % (
-                               "restricted" if ch["key"] in rules else "everyone"))
-                       for ch in item["children"])))
+            inner = "".join(
+                '<div class=kid data-name="%s"><span class=label>%s</span>'
+                '<span class=pills>%s</span>%s</div>' % (
+                    html_mod.escape(ch["label"].lower()),
+                    html_mod.escape(ch["label"]),
+                    _pills(ch["key"], groups, rules.get(ch["key"], set())),
+                    _state(ch["key"] in rules))
+                for ch in item["children"])
+            n = len(item["children"])
+            shut_kids = sum(1 for ch in item["children"] if ch["key"] in rules)
+            kids = ('<details class=kids%s><summary>%d document%s%s</summary>%s'
+                    '</details>' % (
+                        " open" if shut_kids else "", n, "" if n == 1 else "s",
+                        (" \u00b7 %d restricted" % shut_kids) if shut_kids else "",
+                        inner))
+
         sections.append(
-            '<form method=post action="/access/rules" class=item>'
+            '<form method=post action="/access/rules" class="card%s" '
+            'data-name="%s">'
             '<input type=hidden name=keys value="%s">'
-            '<div class=row><b class=who>%s</b><span class=ticks>%s</span>'
-            '<span class=state>%s</span></div>%s'
-            '<div class=save><button class="btn small">Save this section</button>'
-            '</div></form>' % (
+            '<div class=top><span class=label>%s</span>'
+            '<span class=pills>%s</span>%s</div>%s'
+            '<div class=save><button class="btn small">Save</button>'
+            '<span class=hint>Tick nobody for everyone.</span></div></form>' % (
+                " restricted" if card_shut else "",
+                html_mod.escape(item["label"].lower()),
                 html_mod.escape("\n".join(keys)),
                 html_mod.escape(item["label"]),
-                _ticks(item["key"], groups, rules.get(item["key"], set())),
-                "restricted" if item["key"] in rules else "everyone",
-                kids))
+                _pills(item["key"], groups, rules.get(item["key"], set())),
+                _state(card_shut), kids))
+
+    chips = "".join(
+        ('<span class="chip locked">%s<span title="This one cannot be deleted">'
+         '\U0001F512</span></span>' % html_mod.escape(g["label"]))
+        if g["name"] == intranet_access.ADMIN_GROUP else
+        ('<form method=post action="/access/group/remove" class=chip>%s'
+         '<input type=hidden name=name value="%s">'
+         '<button title="Delete this group">&times;</button></form>' % (
+             html_mod.escape(g["label"]), html_mod.escape(g["name"])))
+        for g in groups)
+
+    notice = ""
+    if request.args.get("ok"):
+        notice = '<p class="note ok">%s</p>' % html_mod.escape(request.args["ok"])
+    elif request.args.get("err"):
+        notice = '<p class="note err">%s</p>' % html_mod.escape(request.args["err"])
 
     return _html(ACCESS_HTML % {
         "css": ACCESS_CSS,
         "icon": _brand_bit("icon"),
         "who": html_mod.escape(session.get("email") or ""),
+        "av": _avatar(session.get("email")),
         "people": "".join(people) or
-                  '<p class=muted>Nobody has been given a group yet. Everyone '
-                  'signing in sees whatever is not restricted.</p>',
-        "groups": "".join(
-            '<form method=post action="/access/group/remove" class=chip>%s'
-            '<input type=hidden name=name value="%s">'
-            '%s</form>' % (
-                html_mod.escape(g["label"]), html_mod.escape(g["name"]),
-                "" if g["name"] == intranet_access.ADMIN_GROUP
-                else '<button title="Delete this group">&times;</button>')
-            for g in groups),
+                  '<p class=empty>Nobody has been given a group yet &mdash; so '
+                  'everybody signing in sees whatever has not been restricted.</p>',
+        "groups": chips,
         "sections": "".join(sections),
-        "notice": ('<p class="note ok">%s</p>' % html_mod.escape(request.args["ok"]))
-                  if request.args.get("ok") else
-                  ('<p class="note err">%s</p>' % html_mod.escape(request.args["err"]))
-                  if request.args.get("err") else "",
+        "notice": notice,
+        "n_groups": len(groups),
+        "n_people": len(members),
+        "n_rules": restricted,
     })
 
 
@@ -949,109 +1138,159 @@ def access_group_remove():
 
 
 ACCESS_HTML = """<!doctype html><meta charset=utf-8>
-<title>Intranet access</title>
+<title>Access &mdash; Titan Enterprises Intranet</title>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href="%(icon)s">
+<link rel=preconnect href="https://fonts.googleapis.com">
+<link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel=stylesheet>
 <style>
 %(css)s
- .wrap{max-width:1100px;margin:0 auto;padding:20px 22px 70px}
- h2{margin:34px 0 4px;font-size:18px}
- h3.kind{margin:22px 0 6px;font-size:12px;text-transform:uppercase;
-   letter-spacing:.14em;color:var(--mut)}
- .lede{color:var(--mut);font-size:13.5px;margin:0 0 6px;max-width:74ch}
- .note{border-radius:9px;padding:10px 14px;margin:14px 0;font-size:14px}
- .note.ok{background:var(--goodbg);color:#b6f0d6}
- .note.err{background:var(--badbg);color:#ffc4c4}
- .item{background:var(--card);border:1px solid var(--line);border-radius:11px;
-   padding:10px 14px;margin:0 0 9px}
- .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-   background:var(--card);border:1px solid var(--line);border-radius:10px;
-   padding:8px 12px;margin:0 0 7px}
- .item>.row{background:none;border:0;padding:0;margin:0}
- .who{flex:1;min-width:220px;font-size:14px}
- .ticks{display:flex;gap:10px;flex-wrap:wrap}
- .tick{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--mut);
-   white-space:nowrap;cursor:pointer}
- .tick input{accent-color:var(--accent);cursor:pointer}
- .state{font-size:11px;color:var(--mut);min-width:66px;text-align:right}
- .kids{margin:8px 0 0;border-top:1px solid var(--line);padding-top:8px}
- .kids summary{cursor:pointer;color:var(--info);font-size:12.5px;padding:2px 0}
- .kid{background:var(--card-2);margin-top:6px}
- .kid .who{font-size:13px;color:var(--mut)}
- .save{margin-top:9px}
- .chip{display:inline-flex;align-items:center;gap:6px;background:var(--card-2);
-   border:1px solid var(--line);border-radius:20px;padding:4px 10px;
-   font-size:12.5px;margin:0 6px 6px 0}
- .chip button{background:none;border:0;color:var(--mut);cursor:pointer;font-size:14px}
- .chip button:hover{color:var(--bad)}
- .addbox{background:var(--card);border:1px solid var(--line);border-radius:11px;
-   padding:14px 16px;margin:10px 0 0}
- textarea{min-height:64px}
- .muted{color:var(--mut);font-size:13.5px}
 </style>
+
 <div class=bar>
-  <span class=plate><i></i></span>
-  <span class=brand><b>Intranet access</b><span>Titan Enterprises</span></span>
+  <img class=logo src="/images/titan-enterprises-logo.png" alt="Titan Enterprises">
+  <span class=divider></span>
+  <span>
+    <span class=kicker>Intranet</span>
+    <span class=name>Access</span>
+  </span>
   <span class=sp></span>
-  <span class=hr-who>%(who)s</span>
+  <span class=who><span class=av>%(av)s</span>%(who)s</span>
   <a class=back href="/">&larr; Back to the intranet</a>
 </div>
+
 <div class=wrap>
+  <div class=head>
+    <div>
+      <h1>Who sees what</h1>
+      <div class=rule></div>
+      <p>Everyone with a Titan account gets the intranet. Groups decide how much
+      of it. Anything you have not restricted is visible to everybody &mdash;
+      that is the default, and it is why a new starter is useful on day one.</p>
+    </div>
+    <div class=tally>
+      <div><b>%(n_groups)s</b><span>Groups</span></div>
+      <div><b>%(n_people)s</b><span>People</span></div>
+      <div><b>%(n_rules)s</b><span>Restrictions</span></div>
+    </div>
+  </div>
+
   %(notice)s
 
-  <h2>Groups</h2>
-  <p class=lede>People go in groups; groups are what sections are opened to.</p>
-  <div>%(groups)s</div>
-  <form method=post action="/access/group" class=addbox>
-    <div class=row style="background:none;border:0;padding:0">
-      <input name=label placeholder="Yard Managers" style="max-width:240px">
-      <input name=name placeholder="yard-managers" style="max-width:240px">
+  <div class=band>
+    <h2>Groups</h2>
+    <span class=sub>People go in groups; groups are what sections are opened to.</span>
+  </div>
+  <div class=chips>%(groups)s</div>
+  <form method=post action="/access/group" class=box>
+    <div class=row>
+      <input name=label placeholder="Yard Managers" style="max-width:250px">
+      <input name=name placeholder="yard-managers (optional)" style="max-width:250px">
       <button class="btn small">Add group</button>
     </div>
-    <p class=muted style="margin:8px 0 0">The second box is the short name used
-    in the database. Leave it and it will be made from the first.</p>
+    <p class=muted style="margin-top:10px">The second box is the short name used
+    in the database. Leave it blank and it is made from the first.</p>
   </form>
 
-  <h2>People</h2>
-  <p class=lede>Anybody signing in with a Titan account gets the intranet.
-  Groups decide how much of it. Somebody who is in no group still sees
-  everything that has not been restricted.</p>
+  <div class=band>
+    <h2>People</h2>
+    <span class=sub>Somebody in no group still sees everything unrestricted.</span>
+  </div>
   %(people)s
-  <form method=post action="/access/people/add" class=addbox>
-    <textarea name=emails placeholder="paste addresses, one per line or comma separated"></textarea>
-    <div class=row style="background:none;border:0;padding:8px 0 0">
-      <span class=muted>Put them in:</span>
-      <span class=ticks id=addgroups></span>
+  <form method=post action="/access/people/add" class=box>
+    <textarea name=emails placeholder="paste addresses &mdash; one per line, or comma separated"></textarea>
+    <div class=row>
+      <span class=muted>Put them all in:</span>
+      <span class="pills" id=addgroups></span>
       <button class="btn small">Add people</button>
     </div>
   </form>
 
-  <h2>What each section shows</h2>
-  <p class=lede>Tick nothing and a section is open to everyone &mdash; that is
-  the default, and it is why a new starter is useful on day one. Tick a group
-  and only that group sees it. A section that is shut hides its documents too,
-  so to give everybody a few rows out of a restricted area, leave the section
-  open and restrict the rows instead.</p>
+  <div class=band>
+    <h2>What each section shows</h2>
+    <span class=sub>Tick nobody and it is open to everyone. Tick a group and only
+    that group sees it. Shutting a card hides its documents too &mdash; so to give
+    everybody a few rows out of a restricted area, leave the card open and
+    restrict the rows.</span>
+    <span class=tools>
+      <input id=filter placeholder="Filter&hellip;" autocomplete=off>
+      <button class="btn small ghost" type=button id=expand>Expand all</button>
+    </span>
+  </div>
   %(sections)s
 </div>
+
 <script>
-/* The add-people form needs the same group boxes as the rows above it, and
-   building them here rather than server-side keeps one copy of the list. */
 (function(){
-  var first = document.querySelector('form[action="/access/person"] .ticks');
+  /* -- the add-people form needs the same pills as the rows above it, and
+        building them here keeps one copy of the group list. -- */
+  var first = document.querySelector('form.person .pills');
   var into  = document.getElementById('addgroups');
-  if (first && into){
-    into.innerHTML = first.innerHTML.replace(/ checked/g, '');
-  } else if (into) {
-    var boxes = document.querySelectorAll('.chip');
-    var out = '';
-    for (var i = 0; i < boxes.length; i++){
-      var name = boxes[i].querySelector('input[name=name]').value;
-      out += '<label class=tick><input type=checkbox name=groups value="' +
-             name + '"><span>' + boxes[i].childNodes[0].nodeValue.trim() +
-             '</span></label>';
+  if (into){
+    if (first){
+      into.innerHTML = first.innerHTML.replace(/ checked/g, '');
+    } else {
+      var out = '';
+      document.querySelectorAll('.chip').forEach(function(ch){
+        var hidden = ch.querySelector('input[name=name]');
+        var label = ch.childNodes[0].nodeValue.trim();
+        var name = hidden ? hidden.value
+                          : label.toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+        out += '<label class=pill><input type=checkbox name=groups value="' +
+               name + '"><span>' + label + '</span></label>';
+      });
+      into.innerHTML = out;
     }
-    into.innerHTML = out;
+  }
+
+  /* -- Save only matters once something has changed. Saying so stops the
+        other twenty-one Save buttons looking like work you still owe. -- */
+  document.querySelectorAll('form.card').forEach(function(card){
+    var hint = card.querySelector('.save .hint');
+    var was  = hint ? hint.textContent : '';
+    card.addEventListener('change', function(){
+      card.classList.add('dirty');
+      if (hint) hint.textContent = 'Not saved yet.';
+    });
+  });
+
+  /* -- filter: twenty-two sections and a hundred and forty-nine documents is
+        more than anybody wants to scroll. Matching a document opens the card
+        it lives in. -- */
+  var box = document.getElementById('filter');
+  if (box){
+    box.addEventListener('input', function(){
+      var q = box.value.trim().toLowerCase();
+      document.querySelectorAll('form.card').forEach(function(card){
+        var hitCard = !q || (card.dataset.name || '').indexOf(q) !== -1;
+        var kidHit = false;
+        card.querySelectorAll('.kid').forEach(function(kid){
+          var hit = !q || hitCard || (kid.dataset.name || '').indexOf(q) !== -1;
+          kid.classList.toggle('hide', !hit);
+          if (hit && q && !hitCard) kidHit = true;
+        });
+        card.classList.toggle('hide', !(hitCard || kidHit));
+        var det = card.querySelector('details');
+        if (det && q && kidHit) det.open = true;
+      });
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === '/' && document.activeElement !== box &&
+          document.activeElement.tagName !== 'INPUT' &&
+          document.activeElement.tagName !== 'TEXTAREA'){
+        e.preventDefault(); box.focus();
+      }
+    });
+  }
+
+  var expand = document.getElementById('expand');
+  if (expand){
+    expand.addEventListener('click', function(){
+      var any = document.querySelector('details.kids:not([open])');
+      document.querySelectorAll('details.kids').forEach(function(d){ d.open = !!any; });
+      expand.textContent = any ? 'Collapse all' : 'Expand all';
+    });
   }
 })();
 </script>
