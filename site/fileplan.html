@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titan Enterprises | Filing System Plan</title>
+<meta name="robots" content="noindex, nofollow">
+
+<script>
+/* ==================================================================
+   The plan is not in this file.
+
+   fileplan.py holds the structure - one transcription of Section 5 of
+   TGC-SYS-EFILE-2026-01 - and the server writes it in below. Every
+   number this page shows is counted from that tree rather than quoted
+   from the document's prose, so a page claiming 742 folders while
+   drawing 732 of them is not a thing that can happen here.
+
+   Opening this file off the disk shows a note instead of the plan,
+   because nothing has filled it in. Use the real address.
+   ================================================================== */
+/* TITAN-PLAN-START */
+var PLAN = null;
+/* TITAN-PLAN-END */
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
+/* ============================================================
+   Same palette and type as the intranet and the public site, so
+   this reads as one product rather than an attachment.
+   ============================================================ */
+:root{
+  --navy:#1e2a78; --navy-dark:#141c52;
+  --red:#d21f2c;  --red-dark:#a91723;
+  --cyan:#2bb0e8; --cyan-light:#7fd2f5;
+  --green:#3ecf8e; --amber:#f0b64b; --violet:#9a8cf0;
+  --black:#0f1115; --steel:#c9ced8;
+  --surface:#1b1e24; --surface-light:#262a33; --surface-2:#2e333e;
+  --border-dark:#3a3f4b;
+  --text:#e8eaef; --text-light:#a6acb8; --text-dim:#7d848f;
+  --font-display:"Barlow Condensed","Arial Narrow","Segoe UI",sans-serif;
+  --font-body:"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --shadow-sm:0 3px 10px rgba(0,0,0,.35);
+  --shadow-md:0 10px 26px rgba(0,0,0,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);background:var(--surface);color:var(--text);
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan);text-decoration:none}
+a:hover{color:var(--cyan-light)}
+h1,h2,h3,h4{font-family:var(--font-display);text-transform:uppercase;
+  letter-spacing:.6px;line-height:1.1}
+button,input,select{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--font-mono);font-size:12px}
+
+/* ---------- masthead ---------- */
+.bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:20px;
+  padding:12px 26px;background:rgba(27,30,36,.98);backdrop-filter:blur(8px);
+  border-bottom:4px solid var(--red);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.bar .logo{height:38px;width:auto;background:#fff;padding:5px 11px;border-radius:8px}
+.bar .divider{width:1px;height:34px;background:var(--border-dark)}
+.bar .kicker{display:block;font-family:var(--font-display);font-size:.7rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.bar .name{display:block;font-family:var(--font-display);font-size:1.35rem;
+  font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff}
+.bar .sp{flex:1}
+.bar .back{font-size:13px;font-weight:600;white-space:nowrap}
+
+.wrap{max-width:1500px;margin:0 auto;padding:0 22px 80px}
+
+/* ---------- draft banner ---------- */
+.draft{display:flex;gap:14px;align-items:flex-start;margin:18px 0 0;
+  background:#2b2412;border:1px solid #5c4a20;border-left:4px solid var(--amber);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:#f3e3c4}
+.draft b{color:var(--amber);font-weight:700}
+
+/* ---------- page head ---------- */
+.head{padding:24px 0 18px;display:flex;align-items:flex-end;gap:28px;flex-wrap:wrap}
+.head .eyebrow{font-family:var(--font-display);font-size:.72rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--cyan);font-weight:600}
+.head h1{font-size:clamp(1.7rem,3vw,2.4rem);color:#fff;font-weight:700;margin-top:4px}
+.head .rule{width:80px;height:4px;border-radius:2px;margin:12px 0;
+  background:linear-gradient(90deg,var(--red),var(--cyan))}
+.head p{color:var(--text-light);font-size:14px;max-width:70ch}
+.tally{margin-left:auto;display:flex;gap:26px;flex:none}
+.tally div{text-align:right}
+.tally b{display:block;font-family:var(--font-display);font-size:1.8rem;color:#fff;
+  font-weight:700;line-height:1}
+.tally span{font-size:11px;color:var(--text-dim);text-transform:uppercase;
+  letter-spacing:.12em}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--border-dark);margin-top:6px;
+  flex-wrap:wrap}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;
+  color:var(--text-dim);font:600 12.5px/1 var(--font-body);letter-spacing:.06em;
+  text-transform:uppercase;padding:12px 16px;cursor:pointer;margin-bottom:-2px}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-selected=true]{color:#fff;border-bottom-color:var(--red)}
+.panel[hidden]{display:none}
+
+/* ---------- toolbar ---------- */
+.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0 0}
+.search{position:relative;flex:1;min-width:240px;max-width:460px}
+.search input{width:100%;background:var(--black);color:var(--text);
+  border:1px solid var(--border-dark);border-radius:9px;padding:10px 40px 10px 38px;
+  font-size:14px}
+.search input:focus{outline:none;border-color:var(--cyan);
+  box-shadow:0 0 0 3px rgba(43,176,232,.18)}
+.search .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);
+  color:var(--text-dim);font-size:13px;pointer-events:none}
+.search .kbd{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  border:1px solid var(--border-dark);border-radius:5px;padding:1px 7px;
+  font-size:11px;color:var(--text-dim);background:var(--surface-light)}
+.btn{background:none;border:1px solid var(--border-dark);color:var(--text-light);
+  border-radius:8px;padding:9px 15px;font:600 12px/1 var(--font-body);cursor:pointer;
+  white-space:nowrap}
+.btn:hover{background:var(--surface-2);color:#fff;border-color:var(--cyan)}
+
+/* ---------- explorer ---------- */
+.explorer{display:grid;grid-template-columns:274px minmax(0,1fr) 340px;gap:16px;
+  margin-top:16px;align-items:start}
+.pane{background:var(--surface-light);border:1px solid var(--border-dark);
+  border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.pane > h3{font-size:.78rem;letter-spacing:.18em;color:var(--text-dim);
+  padding:12px 15px 10px;border-bottom:1px solid var(--border-dark);
+  background:#191c22}
+.scroll{max-height:min(64vh,720px);overflow:auto}
+.scroll::-webkit-scrollbar{width:9px}
+.scroll::-webkit-scrollbar-thumb{background:var(--border-dark);border-radius:5px}
+
+/* master list */
+.master{width:100%;display:flex;align-items:center;gap:10px;background:none;
+  border:0;border-left:3px solid transparent;color:var(--text-light);
+  text-align:left;padding:9px 13px;cursor:pointer;font-size:13px;
+  border-bottom:1px solid #1e2128}
+.master:last-child{border-bottom:0}
+.master:hover{background:#171a20;color:#fff;border-left-color:var(--red)}
+.master.on{background:#171a20;color:#fff;border-left-color:var(--cyan);font-weight:600}
+.master .num{font-family:var(--font-display);font-size:.95rem;font-weight:700;
+  color:var(--cyan);min-width:30px;text-align:right;font-variant-numeric:tabular-nums}
+.master .lbl{flex:1;line-height:1.3}
+.master .ct{font-size:11px;color:var(--text-dim);font-variant-numeric:tabular-nums}
+
+/* breadcrumb */
+.crumbs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:11px 15px;
+  background:#191c22;border-bottom:1px solid var(--border-dark);font-size:12.5px}
+.crumbs button{background:none;border:0;color:var(--cyan);cursor:pointer;
+  font-size:12.5px;padding:2px 3px}
+.crumbs button:hover{color:var(--cyan-light);text-decoration:underline}
+.crumbs .sep{color:var(--text-dim)}
+.crumbs .here{color:var(--text);font-weight:600}
+
+/* rows */
+.row{width:100%;display:flex;align-items:center;gap:11px;background:none;border:0;
+  border-bottom:1px solid #1e2128;color:var(--text);text-align:left;
+  padding:10px 15px;cursor:pointer;font-size:13.5px}
+.row:last-child{border-bottom:0}
+.row:hover{background:#171a20}
+.row.on{background:#1d222b;box-shadow:inset 3px 0 0 var(--cyan)}
+.row .ic{width:19px;flex:none;color:var(--cyan);font-size:15px;line-height:1}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-weight:500;color:var(--text)}
+.row .nm small{display:block;font-family:var(--font-mono);font-size:10.5px;
+  color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .go{color:var(--text-dim);font-size:12px;flex:none}
+.row.leaf .ic{color:var(--text-dim)}
+.empty{padding:28px 18px;color:var(--text-dim);font-size:13.5px;font-style:italic}
+
+/* badges */
+.tag{flex:none;font:700 9.5px/1.7 var(--font-body);letter-spacing:.09em;
+  text-transform:uppercase;border-radius:4px;padding:1px 7px;border:1px solid}
+.tag.wall{color:var(--amber);border-color:#5c4a20;background:#2b2412}
+.tag.inherit{color:#8d7a4e;border-color:#3d3524;background:#23201a}
+.tag.tmpl{color:var(--violet);border-color:#463d75;background:#221f33}
+.tag.lvl{color:var(--text-dim);border-color:var(--border-dark);background:var(--surface-2)}
+
+/* detail */
+.detail{padding:16px 17px}
+.detail .kick{font-family:var(--font-display);font-size:.72rem;letter-spacing:.2em;
+  color:var(--cyan);text-transform:uppercase;font-weight:600}
+.detail h2{font-size:1.2rem;color:#fff;margin:5px 0 10px;font-weight:700}
+.detail .path{font-family:var(--font-mono);font-size:11px;color:var(--text-light);
+  background:var(--black);border:1px solid var(--border-dark);border-radius:8px;
+  padding:9px 11px;word-break:break-all;line-height:1.5}
+.detail .meta{display:flex;gap:7px;flex-wrap:wrap;margin:11px 0}
+.detail dl{margin-top:14px;border-top:1px solid var(--border-dark);padding-top:12px}
+.detail dt{font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--text-dim);margin-top:12px}
+.detail dt:first-child{margin-top:0}
+.detail dd{font-size:13px;color:var(--text-light);margin-top:3px}
+.why{background:#2b2412;border:1px solid #5c4a20;border-radius:9px;padding:10px 12px;
+  font-size:12.5px;color:#f3e3c4;margin-top:12px}
+.why b{color:var(--amber)}
+.tmplnote{background:#221f33;border:1px solid #463d75;border-radius:9px;
+  padding:10px 12px;font-size:12.5px;color:#ddd6ff;margin-top:12px}
+.tmplnote b{color:var(--violet)}
+.access{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.acc{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border-dark);
+  border-radius:999px;padding:3px 9px 3px 4px;font-size:11.5px;color:var(--text-light);
+  background:var(--surface-2)}
+.acc i{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;
+  font:700 9.5px/1 var(--font-body);font-style:normal;color:#0f1115}
+.acc i.F{background:var(--green)} .acc i.E{background:var(--cyan)}
+.acc i.R{background:var(--steel)} .acc i.N{background:#3a3f4b;color:#7d848f}
+.bars{margin-top:8px;height:6px;border-radius:3px;background:var(--surface-2);
+  overflow:hidden;display:flex}
+.bars i{display:block;height:100%}
+
+/* search results */
+.hits .row .nm b em{font-style:normal;background:rgba(43,176,232,.22);
+  color:#fff;border-radius:3px}
+.hitnote{padding:10px 15px;font-size:12px;color:var(--text-dim);
+  border-bottom:1px solid var(--border-dark);background:#191c22}
+
+/* ---------- outline ---------- */
+.outline{margin-top:18px}
+.outline details{background:var(--surface-light);border:1px solid var(--border-dark);
+  border-top:3px solid var(--red);border-radius:11px;margin-top:12px;overflow:hidden}
+.outline summary{cursor:pointer;padding:12px 16px;list-style:none;display:flex;
+  gap:12px;align-items:center;font-family:var(--font-display);font-size:1.05rem;
+  text-transform:uppercase;letter-spacing:.5px;font-weight:700;color:#fff}
+.outline summary::-webkit-details-marker{display:none}
+.outline summary:hover{background:#171a20}
+.outline summary .num{color:var(--cyan);font-variant-numeric:tabular-nums}
+.outline summary .ct{margin-left:auto;font:400 11.5px/1 var(--font-body);
+  color:var(--text-dim);text-transform:none;letter-spacing:0}
+.outline pre{margin:0;padding:6px 16px 16px;font-family:var(--font-mono);
+  font-size:11.5px;line-height:1.85;color:var(--text-light);overflow-x:auto;
+  border-top:1px solid var(--border-dark)}
+.outline pre b{color:#fff;font-weight:500}
+.outline pre u{color:var(--amber);text-decoration:none}
+.outline pre s{color:var(--violet);text-decoration:none}
+
+/* ---------- reference ---------- */
+.band{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:34px 0 0;
+  padding-bottom:10px;border-bottom:2px solid var(--red)}
+.band h2{font-size:1.25rem;color:#fff;font-weight:700}
+.band .sub{font-size:12.5px;color:var(--text-dim);max-width:62ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;
+  margin-top:14px}
+.cardy{background:var(--surface-light);border:1px solid var(--border-dark);
+  border-top:3px solid var(--cyan);border-radius:11px;padding:14px 16px}
+.cardy h4{font-size:1rem;color:#fff;margin-bottom:6px}
+.cardy p{font-size:13px;color:var(--text-light)}
+.cardy.warn{border-top-color:var(--amber)}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border-dark);
+  vertical-align:top}
+th{font-family:var(--font-display);font-size:.75rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-dim);white-space:nowrap}
+tbody tr:hover{background:#171a20}
+td.code{font-family:var(--font-mono);font-size:11.5px;color:var(--cyan);
+  white-space:nowrap}
+.scrollx{overflow-x:auto}
+.matrix td{text-align:center;font-weight:700;font-size:12px}
+.matrix td:first-child,.matrix td:last-child{text-align:left;font-weight:400}
+.matrix th{text-align:center}
+.matrix th:first-child,.matrix th:last-child{text-align:left}
+.matrix .F{color:var(--green)} .matrix .E{color:var(--cyan)}
+.matrix .R{color:var(--steel)} .matrix .N{color:#4e545e}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12px;
+  color:var(--text-dim)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+ul.plain{list-style:none;margin-top:10px}
+ul.plain li{position:relative;padding-left:18px;font-size:13.5px;
+  color:var(--text-light);margin-top:7px}
+ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;
+  border-radius:50%;background:var(--red)}
+.samples{background:var(--black);border:1px solid var(--border-dark);
+  border-radius:10px;padding:12px 14px;margin-top:12px}
+.samples code{display:block;font-family:var(--font-mono);font-size:11.5px;
+  color:var(--cyan-light);padding:3px 0;word-break:break-all}
+.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--border-dark);
+  font-size:12px;color:var(--text-dim);display:flex;gap:18px;flex-wrap:wrap}
+
+.nojs{background:#3d1b22;border:1px solid #5c2630;border-radius:10px;
+  padding:14px 18px;margin:18px 0;color:#ffc4c4;font-size:14px}
+
+@media (max-width:1180px){
+  .explorer{grid-template-columns:230px minmax(0,1fr)}
+  .explorer .side{grid-column:1/-1}
+}
+@media (max-width:760px){
+  .explorer{grid-template-columns:1fr}
+  .tally{margin-left:0;width:100%;gap:18px}
+  .scroll{max-height:none}
+}
+@media print{
+  .bar,.tabs,.tools,.draft,.foot{display:none}
+  body{background:#fff;color:#000}
+  .outline pre,.outline pre b{color:#000}
+  .outline details{border-color:#bbb;break-inside:avoid}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <img class="logo" src="/images/titan-enterprises-logo.png" alt="Titan Enterprises">
+  <span class="divider"></span>
+  <span>
+    <span class="kicker">Intranet</span>
+    <span class="name">Filing System</span>
+  </span>
+  <span class="sp"></span>
+  <a class="back" href="/">&larr; Back to the intranet</a>
+</div>
+
+<div class="wrap">
+
+  <noscript>
+    <div class="nojs"><strong>This page needs JavaScript.</strong> The whole
+    structure is drawn from a data block the server writes into the page.</div>
+  </noscript>
+
+  <div class="draft">
+    <span>
+      <b>A proposal, not the live system.</b> Nothing in here exists in
+      SharePoint yet and no document is filed in any of it. This is
+      <span id="docref">the Master File Plan</span> made walkable, so it can be
+      argued with before it gets built &mdash; a folder is far cheaper to move
+      now than after four thousand documents are sitting in it.
+    </span>
+  </div>
+
+  <div class="head">
+    <div>
+      <span class="eyebrow">Electronic Filing System &mdash; Master File Plan</span>
+      <h1>How everything would be filed</h1>
+      <div class="rule"></div>
+      <p>Eighteen numbered master folders, organised by what the business does
+      rather than by which company did it. Click through it exactly as you
+      would in SharePoint. Anything walled off is marked, and the panel on the
+      right says who would be able to open it.</p>
+    </div>
+    <div class="tally" id="tally"></div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="explorer">Browse the structure</button>
+    <button role="tab" aria-selected="false" data-tab="outline">Full outline</button>
+    <button role="tab" aria-selected="false" data-tab="reference">Rules &amp; reference</button>
+  </div>
+
+  <!-- ============================ EXPLORER ============================ -->
+  <section class="panel" id="panel-explorer">
+    <div class="tools">
+      <div class="search">
+        <span class="ico">&#9906;</span>
+        <input id="q" type="search" placeholder="Search all 732 folders…" autocomplete="off">
+        <span class="kbd">/</span>
+      </div>
+      <button class="btn" id="btnwalls">Show the walled-off folders</button>
+      <button class="btn" id="btnreset">Start again</button>
+    </div>
+
+    <div class="explorer">
+      <div class="pane">
+        <h3>Master folders</h3>
+        <div class="scroll" id="masters"></div>
+      </div>
+
+      <div class="pane">
+        <div class="crumbs" id="crumbs"></div>
+        <div class="scroll" id="list"></div>
+      </div>
+
+      <div class="pane side">
+        <h3>Detail</h3>
+        <div class="detail" id="detail"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ OUTLINE ============================= -->
+  <section class="panel" id="panel-outline" hidden>
+    <div class="tools">
+      <button class="btn" id="openall">Open every folder</button>
+      <button class="btn" id="shutall">Close them all</button>
+      <button class="btn" onclick="window.print()">Print this</button>
+    </div>
+    <div class="outline" id="outline"></div>
+  </section>
+
+  <!-- =========================== REFERENCE ============================ -->
+  <section class="panel" id="panel-reference" hidden>
+    <div class="band">
+      <h2>Why it is shaped like this</h2>
+      <span class="sub">Six decisions the structure rests on.</span>
+    </div>
+    <div class="cards" id="principles"></div>
+
+    <div class="band">
+      <h2>Who can open what</h2>
+      <span class="sub">Master folder by role. The walled-off folders inside
+      them are narrower still &mdash; those are on the Browse tab.</span>
+    </div>
+    <div class="scrollx"><table class="matrix" id="matrix"></table></div>
+    <div class="legend">
+      <span><i style="background:#3ecf8e"></i> F &mdash; full: read, write, delete</span>
+      <span><i style="background:#2bb0e8"></i> E &mdash; edit: read and write</span>
+      <span><i style="background:#c9ced8"></i> R &mdash; read only</span>
+      <span><i style="background:#3a3f4b"></i> &ndash; &mdash; no access</span>
+    </div>
+
+    <div class="band">
+      <h2>Naming</h2>
+      <span class="sub">One pattern, used every time, even for a one-page memo.</span>
+    </div>
+    <div class="samples" id="naming"></div>
+    <ul class="plain" id="namingrules"></ul>
+    <div class="scrollx"><table id="records"></table></div>
+
+    <div class="band">
+      <h2>Document type codes</h2>
+      <span class="sub">The DOCTYPE field in the middle of every filename.</span>
+    </div>
+    <div class="scrollx"><table id="codes"></table></div>
+
+    <div class="band">
+      <h2>Entities</h2>
+      <span class="sub">The entity code is the second field of every filename.</span>
+    </div>
+    <div class="scrollx"><table id="entities"></table></div>
+    <p style="margin-top:14px;font-size:13px;color:var(--text-light)">
+      Yards get codes too, used the same way: <span id="yards"></span></p>
+
+    <div class="band">
+      <h2>Paper in, file out</h2>
+      <span class="sub">Master folder 05 is a conveyor belt, not a storage
+      place. Nothing stays in it longer than five working days.</span>
+    </div>
+    <div class="scrollx"><table id="workflow"></table></div>
+
+    <div class="band">
+      <h2>Decisions still open</h2>
+      <span class="sub">Problems the plan surfaces rather than solves. Each one
+      needs an answer before go-live.</span>
+    </div>
+    <div class="cards" id="risks"></div>
+  </section>
+
+  <div class="foot" id="foot"></div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+
+if (!PLAN){
+  document.querySelector(".wrap").innerHTML =
+    '<div class="nojs"><strong>The plan did not load.</strong> This page is ' +
+    'filled in by the server from fileplan.py. Opening the file straight off ' +
+    'the disk shows this note instead.</div>';
+  return;
+}
+
+/* ------------------------------------------------------------------
+   The tree arrives as names only. Titles and paths are rebuilt here -
+   both are derivable, and sending them would have doubled the weight
+   of the page for nothing.
+   ------------------------------------------------------------------ */
+var WALLS = {restricted:"Restricted", segregated:"Segregated",
+             partitioned:"Partitioned"};
+
+/* A copy of _title() in fileplan.py, and the tests run both over every folder
+   in the tree and compare. Not every hyphen is a word separator: one between
+   two numbers (396-17) or after a single capital (I-9, W-2, E-Verify) stays,
+   because "I 9 Files" is not what that folder is called. */
+function titleOf(name){
+  var body = name.indexOf("_") > -1 ? name.slice(name.indexOf("_") + 1) : name;
+  body = body.replace(/_(RESTRICTED|SEGREGATED|PARTITIONED)$/, "");
+  var parts = body.split("-"), out = parts[0];
+  for (var i = 1; i < parts.length; i++){
+    var prev = parts[i - 1], next = parts[i];
+    var keep = (/[0-9]$/.test(prev) && /^[0-9]/.test(next)) ||
+               /^[A-Z]$/.test(prev);
+    out += (keep ? "-" : " ") + next;
+  }
+  return out;
+}
+function numOf(name){
+  var head = name.split("_")[0];
+  return /^[0-9][0-9-]*$/.test(head) ? head : "";
+}
+
+var ALL = [];                       /* every node, flat, for searching */
+function hydrate(node, parent){
+  node.parent = parent || null;
+  node.depth  = parent ? parent.depth + 1 : 1;
+  node.path   = (parent ? parent.path : PLAN.root) + "/" + node.n;
+  node.title  = titleOf(node.n);
+  node.num    = numOf(node.n);
+  node.master = parent ? parent.master : node;
+  node.kids   = node.k || [];
+  ALL.push(node);
+  for (var i = 0; i < node.kids.length; i++) hydrate(node.kids[i], node);
+  return node;
+}
+PLAN.tree.forEach(function(m){ hydrate(m, null); });
+
+var MASTER_BY_NUM = {};
+PLAN.masters.forEach(function(m){ MASTER_BY_NUM[m.num] = m; });
+
+function countUnder(node){
+  var n = 0;
+  (function go(x){ x.kids.forEach(function(k){ n++; go(k); }); })(node);
+  return n;
+}
+
+/* ================================================================
+   Tallies and the footer
+   ================================================================ */
+var S = PLAN.stats;
+$("tally").innerHTML =
+  '<div><b>' + S.folders + '</b><span>Folders</span></div>' +
+  '<div><b>' + S.masters + '</b><span>Master folders</span></div>' +
+  '<div><b>' + S.depth + '</b><span>Levels deep</span></div>' +
+  '<div><b>' + S.own_walls + '</b><span>Walled off</span></div>';
+
+$("docref").textContent = PLAN.doc + " v" + PLAN.version;
+$("q").placeholder = "Search all " + S.folders + " folders…";
+
+$("foot").innerHTML =
+  '<span>' + esc(PLAN.doc) + ' v' + esc(PLAN.version) + '</span>' +
+  '<span>Owner: ' + esc(PLAN.owner) + '</span>' +
+  '<span>Approved by: ' + esc(PLAN.approver) + '</span>' +
+  '<span>Longest path ' + S.longest + ' of the 400 characters SharePoint ' +
+  'allows, leaving ' + (400 - S.longest) + ' for the filename</span>';
+
+/* ================================================================
+   Tabs
+   ================================================================ */
+var tabs = document.querySelectorAll(".tabs button");
+tabs.forEach(function(b){
+  b.addEventListener("click", function(){
+    tabs.forEach(function(x){
+      var on = x === b;
+      x.setAttribute("aria-selected", on ? "true" : "false");
+      $("panel-" + x.dataset.tab).hidden = !on;
+    });
+    if (b.dataset.tab === "outline") buildOutline();
+    if (b.dataset.tab === "reference") buildReference();
+  });
+});
+
+/* ================================================================
+   Explorer
+   ================================================================ */
+var here = null;        /* the folder being listed */
+var picked = null;      /* the folder shown in the detail panel */
+
+function tagsFor(node){
+  var out = "";
+  if (node.w && node.o)
+    out += '<span class="tag wall">' + WALLS[node.w] + '</span>';
+  else if (node.w)
+    out += '<span class="tag inherit">Inside ' + WALLS[node.w].toLowerCase() +
+           '</span>';
+  if (node.tm || (node.L && node.parent && node.parent.tm))
+    out += '<span class="tag tmpl">Template</span>';
+  else if (node.L)
+    out += '<span class="tag tmpl">Lettered</span>';
+  return out;
+}
+
+function renderMasters(){
+  $("masters").innerHTML = PLAN.tree.map(function(m){
+    return '<button class="master" data-path="' + esc(m.path) + '">' +
+           '<span class="num">' + esc(m.num) + '</span>' +
+           '<span class="lbl">' + esc(m.title) + '</span>' +
+           '<span class="ct">' + countUnder(m) + '</span></button>';
+  }).join("");
+}
+
+function renderCrumbs(){
+  if (!here){ $("crumbs").innerHTML =
+    '<span class="here">' + esc(PLAN.root) + '</span>'; return; }
+  var chain = [], n = here;
+  while (n){ chain.unshift(n); n = n.parent; }
+  var html = '<button data-path="">' + esc(PLAN.root) + '</button>';
+  chain.forEach(function(x, i){
+    html += '<span class="sep">&rsaquo;</span>';
+    html += (i === chain.length - 1)
+      ? '<span class="here">' + esc(x.title) + '</span>'
+      : '<button data-path="' + esc(x.path) + '">' + esc(x.title) + '</button>';
+  });
+  $("crumbs").innerHTML = html;
+}
+
+function rowFor(node, showPath){
+  var kids = node.kids.length;
+  return '<button class="row' + (kids ? '' : ' leaf') +
+    (picked === node ? ' on' : '') + '" data-path="' + esc(node.path) + '">' +
+    '<span class="ic">' + (kids ? '&#128193;' : '&#9634;') + '</span>' +
+    '<span class="nm"><b>' + esc(node.title) + '</b>' +
+    '<small>' + esc(showPath ? node.path.replace(PLAN.root + "/", "") : node.n) +
+    '</small></span>' +
+    tagsFor(node) +
+    '<span class="go">' + (kids ? kids + ' &rsaquo;' : 'documents') + '</span>' +
+    '</button>';
+}
+
+function renderList(){
+  var kids = here ? here.kids : PLAN.tree;
+  if (!kids.length){
+    $("list").innerHTML =
+      '<div class="empty">Nothing below this one. Documents are filed ' +
+      'straight into it.</div>';
+    return;
+  }
+  $("list").innerHTML = kids.map(function(k){ return rowFor(k, false); }).join("");
+}
+
+function accessChips(master){
+  return PLAN.roles.map(function(r){
+    var v = master.access[r] || "-";
+    var cls = (v === "-" ? "N" : v);
+    return '<span class="acc"><i class="' + cls + '">' +
+           (v === "-" ? "&ndash;" : v) + '</i>' + esc(r) + '</span>';
+  }).join("");
+}
+
+function renderDetail(){
+  var node = picked;
+  if (!node){
+    $("detail").innerHTML =
+      '<p style="color:var(--text-dim);font-size:13.5px">Pick a folder and ' +
+      'this panel says where it sits, how long its path is, who owns it and ' +
+      'who would be able to open it.</p>';
+    return;
+  }
+  var m = MASTER_BY_NUM[node.master.num] || {};
+  var html = '';
+  html += '<div class="kick">Level ' + node.depth + ' of ' + S.depth + '</div>';
+  html += '<h2>' + esc(node.title) + '</h2>';
+  html += '<div class="meta">' + tagsFor(node) +
+          '<span class="tag lvl">' + node.path.length + ' characters</span>' +
+          '<span class="tag lvl">' +
+          (node.kids.length ? node.kids.length + ' subfolders' : 'no subfolders') +
+          '</span></div>';
+  html += '<div class="path">' + esc(node.path) + '</div>';
+
+  if (node.why){
+    html += '<div class="why"><b>' + WALLS[node.w] + ' &mdash; ' +
+            esc(node.why.who) + '.</b> ' + esc(node.why.text) +
+            ' Permission inheritance is broken here before the first document ' +
+            'goes in.</div>';
+  } else if (node.w && !node.o){
+    html += '<div class="why"><b>Inside a ' + WALLS[node.w].toLowerCase() +
+            ' folder.</b> It inherits the wall from ' +
+            esc(nearestWall(node)) + ', so the same short list of people can ' +
+            'open it.</div>';
+  }
+
+  if (node.tm){
+    html += '<div class="tmplnote"><b>A record template.</b> The lettered ' +
+            'folders below are not one set &mdash; they are the shape that ' +
+            'gets copied for ' + esc(node.tm) + '. Copy it, rename it, and ' +
+            'every file looks like every other file of its kind.</div>';
+  } else if (node.L && node.parent && node.parent.tm){
+    html += '<div class="tmplnote"><b>Part of a record template.</b> This ' +
+            'folder is reproduced inside the folder for ' +
+            esc(node.parent.tm) + ' rather than existing once.</div>';
+  } else if (node.L){
+    html += '<div class="tmplnote"><b>A lettered subdivision.</b> The same ' +
+            'set of letters appears inside ' +
+            esc(node.rp || (node.parent && node.parent.rp) ||
+                "each folder of this kind") +
+            ', so the shape is identical wherever you look &mdash; but each ' +
+            'of those folders exists in its own right rather than being ' +
+            'made from a template.</div>';
+  } else if (node.kids.length && node.kids[0].L && !node.tm){
+    html += '<div class="tmplnote"><b>Lettered inside.</b> The folders below ' +
+            'are a fixed breakdown rather than a template. Every sibling of ' +
+            'this folder carries the same letters.</div>';
+  }
+
+  html += '<dl>';
+  html += '<dt>Master folder</dt><dd>' + esc(m.num || "") + ' &mdash; ' +
+          esc(m.title || "") + '</dd>';
+  if (m.about) html += '<dt>What belongs here</dt><dd>' + esc(m.about) + '</dd>';
+  if (m.owner) html += '<dt>Owner</dt><dd>' + esc(m.owner) + '</dd>';
+  html += '<dt>Who can open it</dt><dd><div class="access">' +
+          accessChips(m) + '</div></dd>';
+  if (m.external && m.external !== "none")
+    html += '<dt>Outside Titan</dt><dd>' + esc(m.external) +
+            '. Never the live folder &mdash; a copy is staged and the grant ' +
+            'is logged.</dd>';
+  html += '</dl>';
+
+  $("detail").innerHTML = html;
+}
+
+function nearestWall(node){
+  var n = node;
+  while (n && !n.o) n = n.parent;
+  return n ? n.title : "the folder above";
+}
+
+function find(path){
+  for (var i = 0; i < ALL.length; i++) if (ALL[i].path === path) return ALL[i];
+  return null;
+}
+
+function goTo(node, alsoPick){
+  here = node;
+  if (alsoPick !== false) picked = node;
+  $("q").value = "";
+  renderCrumbs(); renderList(); renderDetail(); markMaster();
+}
+
+function markMaster(){
+  var num = here ? here.master.num : null;
+  document.querySelectorAll(".master").forEach(function(b){
+    b.classList.toggle("on", !!num && b.dataset.path.indexOf("/" + num + "_") > -1);
+  });
+}
+
+/* --- clicks --- */
+$("masters").addEventListener("click", function(e){
+  var b = e.target.closest(".master"); if (!b) return;
+  goTo(find(b.dataset.path));
+});
+$("crumbs").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return;
+  goTo(b.dataset.path ? find(b.dataset.path) : null);
+});
+$("list").addEventListener("click", function(e){
+  var b = e.target.closest(".row"); if (!b) return;
+  var node = find(b.dataset.path);
+  if (!node) return;
+  if (node.kids.length) goTo(node);
+  else { picked = node; renderList(); renderDetail(); }
+});
+
+/* --- search --- */
+function search(term){
+  term = term.trim().toLowerCase();
+  if (!term){ renderCrumbs(); renderList(); return; }
+  var hits = ALL.filter(function(n){
+    return n.title.toLowerCase().indexOf(term) > -1 ||
+           n.n.toLowerCase().indexOf(term) > -1;
+  }).slice(0, 220);
+
+  $("crumbs").innerHTML = '<span class="here">' + hits.length +
+    (hits.length === 220 ? '+' : '') + ' folder' +
+    (hits.length === 1 ? '' : 's') + ' matching &ldquo;' + esc(term) +
+    '&rdquo;</span>';
+
+  $("list").innerHTML = hits.length
+    ? '<div class="hitnote">Click one to open it where it lives.</div>' +
+      hits.map(function(n){ return rowFor(n, true); }).join("")
+    : '<div class="empty">Nothing matches that.</div>';
+}
+var typing = null;
+$("q").addEventListener("input", function(){
+  clearTimeout(typing);
+  var v = this.value;
+  typing = setTimeout(function(){ search(v); }, 90);
+});
+document.addEventListener("keydown", function(e){
+  if (e.key === "/" && document.activeElement !== $("q") &&
+      !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)){
+    e.preventDefault(); $("q").focus();
+  }
+  if (e.key === "Escape" && document.activeElement === $("q")){
+    $("q").value = ""; search("");
+  }
+});
+
+$("btnwalls").addEventListener("click", function(){
+  var walls = ALL.filter(function(n){ return n.o; });
+  here = null; picked = null;
+  $("q").value = "";
+  $("crumbs").innerHTML = '<span class="here">' + walls.length +
+    ' folders whose permissions are broken before first use</span>';
+  $("list").innerHTML =
+    '<div class="hitnote">Everything below one of these inherits it &mdash; ' +
+    S.walled + ' folders in total sit behind a wall.</div>' +
+    walls.map(function(n){ return rowFor(n, true); }).join("");
+  markMaster();
+});
+$("btnreset").addEventListener("click", function(){ goTo(null); });
+
+renderMasters();
+goTo(null);
+
+/* ================================================================
+   Outline
+   ================================================================ */
+var outlineBuilt = false;
+function buildOutline(){
+  if (outlineBuilt) return;
+  outlineBuilt = true;
+
+  $("outline").innerHTML = PLAN.tree.map(function(m){
+    var lines = [];
+    (function go(node, indent){
+      node.kids.forEach(function(k){
+        var name = esc(k.n);
+        if (k.o)      name = "<u>" + name + "</u>";
+        else if (k.L) name = "<s>" + name + "</s>";
+        lines.push(indent + name + "/");
+        go(k, indent + "    ");
+      });
+    })(m, "    ");
+    return '<details><summary><span class="num">' + esc(m.num) + '</span>' +
+      esc(m.title) + '<span class="ct">' + countUnder(m) + ' folders</span>' +
+      '</summary><pre><b>' + esc(m.n) + '/</b>\n' + lines.join("\n") +
+      '</pre></details>';
+  }).join("");
+}
+$("openall").addEventListener("click", function(){
+  buildOutline();
+  $("outline").querySelectorAll("details").forEach(function(d){ d.open = true; });
+});
+$("shutall").addEventListener("click", function(){
+  $("outline").querySelectorAll("details").forEach(function(d){ d.open = false; });
+});
+
+/* ================================================================
+   Reference
+   ================================================================ */
+var refBuilt = false;
+function buildReference(){
+  if (refBuilt) return;
+  refBuilt = true;
+
+  $("principles").innerHTML = PLAN.principles.map(function(p){
+    return '<div class="cardy"><h4>' + esc(p.head) + '</h4><p>' +
+           esc(p.text) + '</p></div>';
+  }).join("");
+
+  var head = '<thead><tr><th>Master folder</th>' +
+    PLAN.roles.map(function(r){ return '<th>' + esc(r) + '</th>'; }).join("") +
+    '<th>Outside Titan</th></tr></thead>';
+  $("matrix").innerHTML = head + '<tbody>' + PLAN.masters.map(function(m){
+    return '<tr><td>' + esc(m.num) + ' &nbsp;' + esc(m.title) + '</td>' +
+      PLAN.roles.map(function(r){
+        var v = m.access[r] || "-";
+        return '<td class="' + (v === "-" ? "N" : v) + '">' +
+               (v === "-" ? "&ndash;" : v) + '</td>';
+      }).join("") +
+      '<td>' + esc(m.external === "none" ? "—" : m.external) + '</td></tr>';
+  }).join("") + '</tbody>';
+
+  $("naming").innerHTML =
+    '<code style="color:#fff">' + esc(PLAN.naming.pattern) + '</code>' +
+    PLAN.naming.examples.map(function(x){
+      return '<code>' + esc(x) + '</code>';
+    }).join("");
+
+  $("namingrules").innerHTML = PLAN.naming.rules.map(function(r){
+    return '<li>' + esc(r) + '</li>';
+  }).join("");
+
+  $("records").innerHTML =
+    '<thead><tr><th>Record</th><th>Folder is named</th><th>Files inside are named</th></tr></thead><tbody>' +
+    PLAN.naming.records.map(function(r){
+      return '<tr><td>' + esc(r[0]) + '</td><td class="code">' + esc(r[1]) +
+             '</td><td class="code">' + esc(r[2]) + '</td></tr>';
+    }).join("") + '</tbody>';
+
+  var half = Math.ceil(PLAN.naming.codes.length / 2);
+  $("codes").innerHTML =
+    '<thead><tr><th>Code</th><th>Meaning</th><th>Code</th><th>Meaning</th></tr></thead><tbody>' +
+    PLAN.naming.codes.slice(0, half).map(function(c, i){
+      var d = PLAN.naming.codes[half + i];
+      return '<tr><td class="code">' + esc(c[0]) + '</td><td>' + esc(c[1]) +
+             '</td><td class="code">' + esc(d ? d[0] : "") + '</td><td>' +
+             esc(d ? d[1] : "") + '</td></tr>';
+    }).join("") + '</tbody>';
+
+  $("entities").innerHTML =
+    '<thead><tr><th>Code</th><th>Entity</th><th>Status</th></tr></thead><tbody>' +
+    PLAN.entities.map(function(e){
+      return '<tr><td class="code">' + esc(e.code) + '</td><td>' +
+             esc(e.name) + '</td><td>' + esc(e.status) + '</td></tr>';
+    }).join("") + '</tbody>';
+
+  $("yards").innerHTML = PLAN.yards.map(function(y){
+    return '<span class="acc" style="padding:3px 10px"><b style="color:var(--cyan);' +
+           'font-family:var(--font-mono);font-size:11px">' + esc(y.code) +
+           '</b> ' + esc(y.name) + '</span>';
+  }).join(" ");
+
+  $("workflow").innerHTML =
+    '<thead><tr><th>Stage</th><th>Who</th><th>What happens</th></tr></thead><tbody>' +
+    PLAN.workflow.map(function(w){
+      return '<tr><td class="code">' + esc(w.folder) + '</td><td>' +
+             esc(w.owner) + '</td><td>' + esc(w.what) + '</td></tr>';
+    }).join("") + '</tbody>';
+
+  $("risks").innerHTML = PLAN.risks.map(function(r){
+    return '<div class="cardy warn"><h4>' + esc(r.head) + '</h4><p>' +
+           esc(r.text) + '</p></div>';
+  }).join("");
+}
+
+})();
+</script>
+</body>
+</html>

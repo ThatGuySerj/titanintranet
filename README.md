@@ -9,14 +9,17 @@ Intranet/
 ├─ app.py                  the whole site
 ├─ intranet_access.py      who sees what
 ├─ orientation.py          reads the packet folder, merges the PDFs
+├─ fileplan.py             the proposed filing structure, as data
 ├─ titan_auth.py           COPY of the shared sign-in module
 ├─ db.py                   a connection to the shared database
 ├─ site/
 │  ├─ index.html           the page — no content of its own
+│  ├─ fileplan.html        /fileplan — no content of its own either
 │  ├─ config.json          WHAT IS ON THE INTRANET. Edit this.
 │  └─ images/
 ├─ test_intranet_access.py 28 tests
 ├─ test_orientation.py     33 tests
+├─ test_fileplan.py        31 tests
 └─ .github/workflows/main_titanintranet.yml
 ```
 
@@ -45,6 +48,13 @@ documents, rail links, alerts, the SharePoint folders. Push and it deploys.
 **Who sees what** → the **Access** screen at `/access`, signed in as an
 administrator. No deploy: it is database rows.
 
+**The filing system plan** → `fileplan.py`. `/fileplan` is the proposed
+SharePoint structure made walkable, for arguing with before it is built. Every
+number the page shows is counted from the tree in that file rather than quoted
+from the document's prose, so the page cannot claim one thing and draw another.
+It is gated on the rail link's own key, so hiding **Filing System Plan** on the
+Access screen shuts the page itself rather than only the link to it.
+
 **How it looks** → `site/index.html`. It carries no content; the server writes
 the configuration into it between two markers, filtered to whoever is signed in.
 
@@ -67,7 +77,7 @@ python app.py               http://localhost:8001
 Tests need neither a database nor the network:
 
 ```
-python -m pytest -q          # 61 passed
+python -m pytest -q          # 92 passed
 ```
 
 ## Settings

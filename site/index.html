@@ -915,9 +915,10 @@ function railLink(item){
     return '<li><span class="dead" title="Link not set yet"><span class="dot"></span>' +
            esc(item.n) + '</span></li>';
   }
-  /* an in-page target (a popup, a card) is not an outside link, so it
-     does not get the ↗ arrow */
-  var cls = /^#/.test(u) ? 'inpage' : 'ext';
+  /* an in-page target (a popup, a card) is not an outside link, and neither
+     is another page on this same site, so neither gets the ↗ arrow — that
+     arrow means "this leaves the intranet" */
+  var cls = /^[#/]/.test(u) ? 'inpage' : 'ext';
   return '<li><a class="' + cls + '" href="' + esc(u) + '"><span class="dot"></span>' +
          esc(item.n) + '</a></li>';
 }

@@ -277,6 +277,17 @@ def _allowed(rules, key, groups, admin):
     return bool(need & (groups or set()))
 
 
+def allows(rules, key, groups, admin=False):
+    """May somebody in these groups see this item? The public form of _allowed.
+
+    A page of its own, rather than a card on the noticeboard, still has to ask
+    the same question - and has to ask it on the server. Hiding the rail link
+    and serving the page to anybody who guesses the address is the curtain
+    this module exists to replace.
+    """
+    return _allowed(rules, key, groups, admin)
+
+
 def filter_config(cfg, rules, groups, admin=False):
     """A copy of the config holding only what this person may see.
 

@@ -11,6 +11,7 @@ What it serves:
 
     /                 the intranet, built per person
     /images/<name>    the logos
+    /fileplan         the proposed filing structure, walkable
     /access           who sees what - administrators only
     /api/orientation  the packet folders and their files
     /api/print-packets    the chosen packets, merged into one PDF
@@ -888,6 +889,82 @@ def image(name):
         abort(404)
     return Response(body, mimetype=_IMAGE_TYPES[ext],
                     headers={"Cache-Control": "private, max-age=86400"})
+
+
+# ---------------------------------------------------------------------------
+#  The filing system plan
+# ---------------------------------------------------------------------------
+#
+# The proposed SharePoint structure, walkable, before any of it is built. It is
+# its own page rather than a card on the noticeboard because it is a document
+# somebody reads once and argues with, not a link they use every day - and
+# because it wants the width.
+#
+# Gated on the rail link's own key, so hiding "Filing System Plan" on the
+# Access screen also shuts the page. One switch, not two: a hidden link over an
+# open page is exactly the curtain intranet_access was written to replace.
+
+PLAN_PAGE = "fileplan.html"
+PLAN_START = "/* TITAN-PLAN-START */"
+PLAN_END = "/* TITAN-PLAN-END */"
+PLAN_KEY = "link:homepage::Filing System Plan"
+
+_PLAN = {"json": None}
+
+
+def _rules():
+    """The restriction rules, or none at all if the database cannot be reached.
+
+    all_rules already fails open - a noticeboard that goes blank because
+    Postgres hiccupped is worse than one showing a card it should not - but
+    conn() raises before all_rules gets the chance to, so the same posture has
+    to be taken one step earlier.
+    """
+    try:
+        return intranet_access.all_rules(conn())
+    except Exception as e:
+        app.logger.warning("no rules available (%s)", e)
+        return {}
+
+
+def _plan_json():
+    """The plan, serialised once. It is the same for everybody who may see it."""
+    if _PLAN["json"] is None:
+        import fileplan
+        _PLAN["json"] = fileplan.as_json()
+    return _PLAN["json"]
+
+
+@app.get("/fileplan")
+@protected
+def fileplan_page():
+    email, groups = _who_and_groups()
+    if not intranet_access.allows(
+            _rules(), PLAN_KEY, groups,
+            intranet_access.is_admin(email, groups)):
+        app.logger.info("file plan refused for %s", email or "?")
+        abort(403)
+
+    path = os.path.join(SITE_DIR, PLAN_PAGE)
+    try:
+        with open(path, encoding="utf-8") as f:
+            page = f.read()
+    except OSError:
+        app.logger.error("file plan page not found at %s", path)
+        abort(404)
+
+    a, b = page.find(PLAN_START), page.find(PLAN_END)
+    if a == -1 or b == -1:
+        app.logger.error("the file plan page has no markers")
+        abort(500)
+    page = (page[:a + len(PLAN_START)]
+            + "\nvar PLAN = "
+            + _plan_json().replace("</", "<\\/")
+            + ";\n"
+            + page[b:])
+    return Response(page, mimetype="text/html",
+                    headers={"Cache-Control": "no-store, private",
+                             "Vary": "Cookie"})
 
 
 # ---------------------------------------------------------------------------
