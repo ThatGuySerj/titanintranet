@@ -59,9 +59,60 @@ jobs:
         with:
           name: intranet
 
+      # Two attempts, because one of these is not a failure worth a red tick.
+      #
+      # OneDeploy answers 503 when the app's deployment endpoint is busy or
+      # restarting - which on a Basic plan with two sites on it happens on its
+      # own now and then, and happened on the 16th. Nothing was wrong with the
+      # package: the same commit deployed on the next push. So the first
+      # attempt is allowed to fail, and a second one goes a minute later.
+      #
+      # A full package deploy is idempotent, so a retry cannot half-apply
+      # anything the first attempt started.
       - name: 'Deploy to Azure Web App'
+        id: deploy
+        continue-on-error: true
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'titanintranet'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TITANINTRANET }}
+
+      - name: Wait for the app to settle
+        if: steps.deploy.outcome == 'failure'
+        run: |
+          echo "The first attempt failed. Waiting a minute and trying once more."
+          sleep 60
+
+      - name: 'Deploy to Azure Web App (second attempt)'
+        if: steps.deploy.outcome == 'failure'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'titanintranet'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_TITANINTRANET }}
+
+      # And then ask the site itself, because "deployment succeeded" and "the
+      # site is answering" are different claims and only the second one
+      # matters. /healthz needs no sign-in and says which of config, database
+      # and auth is unhappy.
+      #
+      # An app that has just restarted takes a few seconds to answer the first
+      # request, so this waits rather than judging on one try. 503 is the app
+      # up and something behind it down - that is printed and allowed, because
+      # a database blip is not a reason to call the deploy broken.
+      - name: Check the site came back
+        run: |
+          URL=https://titanintranet-b7bghzcdcxewgjd7.canadacentral-01.azurewebsites.net/healthz
+          for i in $(seq 1 24); do
+            CODE=$(curl -s -o /tmp/health.json -w '%{http_code}' --max-time 20 "$URL") || CODE=000
+            echo "attempt $i: HTTP $CODE"
+            case "$CODE" in
+              200) echo "--- /healthz ---"; cat /tmp/health.json; echo; exit 0 ;;
+              503) echo "::warning::The app is up but /healthz is unhappy:";
+                   cat /tmp/health.json; echo; exit 0 ;;
+            esac
+            sleep 15
+          done
+          echo "::error::The site did not answer for six minutes after the deploy."
+          exit 1

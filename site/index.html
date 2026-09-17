@@ -421,6 +421,8 @@ span.doc{color:#666c75;cursor:default}
   font-size:13.2px;color:var(--steel)}
 .pp-item:hover{background:var(--surface-2)}
 .pp-item input{width:15px;height:15px;flex:none;accent-color:var(--cyan);cursor:pointer}
+.pp-item .pos{flex:none;width:17px;text-align:right;font-size:11px;color:var(--text-dim);
+  font-variant-numeric:tabular-nums}
 .pp-item label{flex:1;min-width:0;cursor:pointer;display:flex;align-items:center;gap:8px}
 .pp-item .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pp-item .mb{flex:none;font-size:11px;color:var(--text-dim);font-variant-numeric:tabular-nums}
@@ -1145,7 +1147,11 @@ function initPrintPanel(){
       var notPdf = (f.mergeable != null) ? !f.mergeable : !/\.pdf$/i.test(f.name);
       var url    = folderUrl(current) ? folderUrl(current) + '/' + encPath(f.name) : '';
       var nice   = f.name.replace(/\.[a-z0-9]+$/i, '');
+      /* The number is the order these come off the printer. The server sets
+         that order, not the alphabet — so showing it is what makes a wrong
+         one visible here rather than in a stapled pile. */
       return '<div class="pp-item' + (notPdf ? ' notpdf' : '') + '">' +
+        '<span class="pos" title="Prints in this order">' + (i + 1) + '</span>' +
         '<input type="checkbox" id="pp' + i + '" data-f="' + esc(f.name) + '" ' +
           'data-size="' + (f.size || 0) + '"' + (notPdf ? '' : ' checked') + '>' +
         '<label for="pp' + i + '">' +

@@ -100,10 +100,10 @@ def test_no_folder_asked_for_gives_the_first(lib):
     assert len(out["files"]) == 4
 
 
-def test_files_come_back_in_name_order(lib):
-    # Print order is folder order, so the order this returns is the order that
-    # comes out of the printer. If it ever stops being sorted, HR gets a
-    # shuffled packet and no error.
+def test_files_come_back_in_name_order_when_no_order_is_set(lib):
+    # Print order is listing order, so the order this returns is the order that
+    # comes out of the printer. With no configured order, alphabetical is the
+    # floor - a folder nobody has sequenced yet still prints predictably.
     names = [f["name"] for f in orientation.listing(lib, "Energy")["files"]]
     assert names == sorted(names, key=str.lower)
 
@@ -375,3 +375,146 @@ def test_not_configured_is_an_orientation_error(monkeypatch):
     # If the class hierarchy changes, an unconfigured server starts answering
     # 500 and reads like a crash.
     assert issubclass(orientation.NotConfigured, orientation.OrientationError)
+
+
+# ---------------------------------------------------------------------------
+#  Print order
+# ---------------------------------------------------------------------------
+#
+# Alphabetical was never the order orientation happens in. The sequence below
+# is the one HR walks a new hire through, and it is in site/config.json rather
+# than in the code so HR can change it.
+
+ENERGY = [
+    "ADP Packet.pdf",
+    "Billing Packet - Titan Energy.pdf",
+    "Contacts.pdf",
+    "Holiday Pay Packet - Titan Energy.pdf",
+    "Insurance Folder - Left Side.pdf",
+    "Insurance Folder - Right Side.pdf",
+    "Light Duty Packet - Titan Energy.pdf",
+    "Principal Booklet - Weekly.pdf",
+    "Safe Driving Packet.pdf",
+    "Scheduling - Titan Energy.pdf",
+    "SSE Packet.pdf",
+]
+
+WANTED = [
+    "Contacts.pdf",
+    "ADP Packet.pdf",
+    "Holiday Pay Packet - Titan Energy.pdf",
+    "Insurance Folder - Left Side.pdf",
+    "Insurance Folder - Right Side.pdf",
+    "Principal Booklet - Weekly.pdf",
+    "Billing Packet - Titan Energy.pdf",
+    "Scheduling - Titan Energy.pdf",
+    "Light Duty Packet - Titan Energy.pdf",
+    "SSE Packet.pdf",
+    "Safe Driving Packet.pdf",
+]
+
+
+@pytest.fixture(scope="module")
+def energy_order():
+    """The real one, off disk. A test against a list typed out here would pass
+    while the site printed something else."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(here, "site", "config.json"), encoding="utf-8") as f:
+        cfg = json.load(f)
+    return cfg["orientation"]["order"]["Energy"]
+
+
+def files(names):
+    return [{"name": n} for n in names]
+
+
+def test_the_energy_packets_come_out_in_the_order_hr_asked_for(energy_order):
+    """The whole point. Contacts and ADP first, Safe Driving last, and the
+    insurance folder's left side before its right - which alphabetically it
+    already is, by luck rather than design."""
+    got = [f["name"] for f in orientation.in_order(files(ENERGY), energy_order)]
+    assert got == WANTED
+
+
+def test_the_order_covers_every_packet_in_the_folder(energy_order):
+    """Anything unnamed falls to the end. That is the right failure - it still
+    prints - but for the folder as it stands today nothing should be landing
+    there by accident."""
+    import re
+    pats = [re.compile(r"\b%s\b" % re.escape(k), re.I) for k in energy_order]
+    for name in ENERGY:
+        assert any(p.search(name) for p in pats), name
+
+
+def test_no_two_entries_claim_the_same_packet(energy_order):
+    """Two keys matching one file means one of them is doing nothing, and the
+    packet it was meant to place is somewhere else entirely."""
+    import re
+    for name in ENERGY:
+        hits = [k for k in energy_order
+                if re.search(r"\b%s\b" % re.escape(k), name, re.I)]
+        assert len(hits) == 1, (name, hits)
+
+
+def test_a_packet_nobody_sequenced_prints_last_rather_than_vanishing(energy_order):
+    got = [f["name"] for f in
+           orientation.in_order(files(ENERGY + ["Brand New Packet.pdf"]),
+                                energy_order)]
+    assert got[-1] == "Brand New Packet.pdf"
+    assert got[:-1] == WANTED
+
+
+def test_a_renamed_packet_keeps_its_place(energy_order):
+    """Matching is on words inside the name, so a year or a tidy-up does not
+    silently drop a packet to the bottom of the pile."""
+    renamed = [n.replace("Insurance Folder - Left Side.pdf",
+                         "Insurance Folder - Left Side 2026.pdf")
+               for n in ENERGY]
+    got = [f["name"] for f in orientation.in_order(files(renamed), energy_order)]
+    assert got[3] == "Insurance Folder - Left Side 2026.pdf"
+
+
+def test_sse_does_not_match_assessment(energy_order):
+    """Whole words, not substrings. A substring match would have put a drug
+    assessment in the SSE packet's place and nobody would have looked."""
+    got = [f["name"] for f in
+           orientation.in_order(files(["Drug Assessment.pdf", "SSE Packet.pdf"]),
+                                energy_order)]
+    assert got == ["SSE Packet.pdf", "Drug Assessment.pdf"]
+
+
+def test_no_order_leaves_it_alphabetical():
+    got = [f["name"] for f in orientation.in_order(files(ENERGY), None)]
+    assert got == sorted(ENERGY, key=str.lower)
+
+
+def test_the_merge_reorders_what_the_page_sent(energy_order):
+    """A tab left open since before the order was set would post the names in
+    the old sequence. The pile it produces has to be right anyway."""
+    lib = FakeLibrary({"Energy": [(n, a_pdf(1, n), 1000) for n in ENERGY]})
+    orientation.build(lib, "Energy", list(reversed(ENERGY)),
+                      order=energy_order)
+    assert lib.downloaded == WANTED
+
+
+def test_the_merge_keeps_the_order_for_a_partial_pick(energy_order):
+    lib = FakeLibrary({"Energy": [(n, a_pdf(1, n), 1000) for n in ENERGY]})
+    picked = ["Safe Driving Packet.pdf", "Contacts.pdf",
+              "Insurance Folder - Right Side.pdf"]
+    orientation.build(lib, "Energy", picked, order=energy_order)
+    assert lib.downloaded == ["Contacts.pdf",
+                              "Insurance Folder - Right Side.pdf",
+                              "Safe Driving Packet.pdf"]
+
+
+def test_the_routes_hand_the_configured_order_to_both_of_them():
+    """The listing and the merge have to read the same list. If only the
+    listing did, the page would show one order and print another."""
+    pytest.importorskip("flask")
+    pytest.importorskip("psycopg")
+    import app as appmod
+
+    order = appmod._packet_order("Energy")
+    assert order and order[0] == "Contacts"
+    assert appmod._packet_order("Kimberley") == []
+    assert appmod._packet_order("") == []

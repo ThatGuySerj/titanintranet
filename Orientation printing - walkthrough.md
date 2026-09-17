@@ -11,7 +11,7 @@ Three files do the work:
 |------|------------|
 | `orientation.py` | reads the SharePoint folder, merges the PDFs |
 | `app.py` | `GET /api/orientation`, `POST /api/print-packets` |
-| `test_orientation.py` | 33 tests, no network needed |
+| `test_orientation.py` | 41 tests, no network needed |
 
 Merging uses PyMuPDF. The ticket site already installs it for OCR; here it is
 in `requirements.txt` for the packet merge alone.
@@ -270,6 +270,42 @@ That last check earns its keep on the ordinary case too: if a packet is renamed
 in SharePoint between the popup listing it and Print being pressed, HR gets
 told which file went missing rather than a set that is quietly one packet short.
 
+### The order they print in
+
+Alphabetical was never the order orientation happens in. Energy prints in the
+order HR hands the packets over:
+
+> Contacts · ADP · Holiday Pay · Insurance Folder left · Insurance Folder right
+> · Principal Booklet · Billing · Scheduling · Light Duty · SSE · Safe Driving
+
+That list lives in `site/config.json`, under `orientation.order`, keyed by the
+company folder — **not** in the code, because the order is HR's to change:
+
+```json
+"order": {
+  "Energy": ["Contacts", "ADP", "Holiday", "Insurance Folder - Left", …]
+}
+```
+
+Each entry is matched against the filename on **whole words**, case
+insensitively, so `Insurance Folder - Left` still finds
+`Insurance Folder - Left Side 2026.pdf` after somebody tidies it up, and `SSE`
+does not accidentally claim a future `Drug Assessment.pdf`. A folder with no
+entry — Kimberley, Trucking — stays alphabetical.
+
+**A packet the list does not mention still prints.** It goes last, where it is
+noticed, rather than disappearing because nobody updated the list. Drop a new
+form into the folder and it is in the pile that afternoon; move it up the order
+when you get to it.
+
+The order is applied twice: once when the popup lists the folder, and again on
+the server when the merge runs. The second one is the one that matters — a tab
+left open since before the order changed would otherwise post the names in the
+old sequence and produce a wrongly stapled pile with no error anywhere.
+
+The popup numbers each row, so the sequence is visible before printing rather
+than after.
+
 ### Front and back
 
 These get printed double-sided, so every packet has to start on the front of a
@@ -324,15 +360,16 @@ redirect and re-issues it clean, using a **private opener**. An
 ## Tests
 
 ```
-cd webapp
-python -m pytest test_orientation.py -q        # 25 passed
+python -m pytest test_orientation.py -q        # 41 passed
 ```
 
 No network and no SharePoint: the Graph client is replaced with a folder tree
 in memory. The PDFs in the fixtures are real, built with PyMuPDF, so the merge
 is a genuine merge and the page-count assertions mean something.
 
-What they actually pin down: that print order follows folder order, that a
+What they actually pin down: that the Energy packets come out in the order
+HR asked for however the page sent them, that an unsequenced packet prints last
+rather than vanishing, that a
 renamed file is an error rather than a short set, that twelve copies produces
 three pages and not thirty-six, that a path is refused instead of normalised,
 and that `NotConfigured` stays a subclass of `OrientationError` — if that ever

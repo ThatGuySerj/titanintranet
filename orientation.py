@@ -37,6 +37,7 @@ stdlib plus fitz. Graph endpoints involved:
 """
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -352,7 +353,39 @@ def from_env():
     )
 
 
-def listing(lib, company=""):
+def in_order(files, order):
+    """The folder's files in the order they are meant to be handed over.
+
+    Alphabetical is not the order anybody orientates in. Energy starts with
+    Contacts and ADP and ends with the Safe Driving packet, and the middle is
+    the sequence HR walks a new hire through - the insurance folder's left side
+    before its right side, which alphabetically is the wrong way round only by
+    luck.
+
+    Matching is on whole words inside the filename, case-insensitively, rather
+    than on the filename itself: "Insurance Folder - Left Side.pdf" gaining a
+    year or losing a hyphen should not silently drop it to the bottom of the
+    pile. Whole words and not substrings because "SSE" would otherwise match a
+    future "Drug Assessment.pdf".
+
+    Anything the order does not mention goes last, alphabetically. A packet
+    added to SharePoint this morning therefore still prints - at the end, where
+    it is noticed - rather than disappearing because nobody updated a list.
+    """
+    keys = [k.strip() for k in (order or []) if str(k).strip()]
+    pats = [re.compile(r"\b%s\b" % re.escape(k), re.I) for k in keys]
+
+    def rank(f):
+        name = f["name"] if isinstance(f, dict) else str(f)
+        for i, pat in enumerate(pats):
+            if pat.search(name):
+                return (i, name.lower())
+        return (len(pats), name.lower())
+
+    return sorted(files, key=rank)
+
+
+def listing(lib, company="", order=None):
     """What GET /api/orientation answers with."""
     company = _clean_segment(company)
     companies = lib.companies()
@@ -362,7 +395,7 @@ def listing(lib, company=""):
             % (company, ", ".join(companies) or "nothing yet"))
     if not company:
         company = companies[0] if companies else ""
-    files = lib.files(company) if company else []
+    files = in_order(lib.files(company), order) if company else []
     return {
         "folders": companies,
         "folder": company,
@@ -371,13 +404,19 @@ def listing(lib, company=""):
     }
 
 
-def build(lib, company, names, copies=1, duplex=True, info=None):
+def build(lib, company, names, copies=1, duplex=True, info=None, order=None):
     """What POST /api/print-packets answers with: one PDF, as bytes.
 
     Every name is checked against what the folder actually holds, rather than
     trusted and passed to Graph. A name the folder does not have is an error,
     not an empty page - if HR ticks nine things they should get nine things or
     be told which one is missing.
+
+    The order is applied here as well as in the listing. The page sends the
+    names in the order it drew them, so the two normally agree - but the print
+    order is a property of the packet and not of a browser tab that might have
+    been open since before the order was set, and getting it wrong means a
+    stapled pile in the wrong sequence rather than an error anybody sees.
     """
     company = _clean_segment(company)
     wanted = [_clean_segment(n) for n in (names or []) if _clean_segment(n)]
@@ -397,4 +436,10 @@ def build(lib, company, names, copies=1, duplex=True, info=None):
             "Cannot be turned into PDF pages: %s. Save a PDF copy into the "
             "folder and print that instead." % ", ".join(cannot[:5]))
 
+    # Only when there is an order to apply. With none configured the caller's
+    # order is the order - that is what the page's tick boxes mean, and
+    # re-sorting it alphabetically here would quietly override a folder nobody
+    # has sequenced yet.
+    if order:
+        wanted = [f["name"] for f in in_order([have[n] for n in wanted], order)]
     return merge([lib.pdf(have[n]) for n in wanted], copies, duplex, info)

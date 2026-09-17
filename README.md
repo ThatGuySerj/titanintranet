@@ -18,7 +18,7 @@ Intranet/
 │  ├─ config.json          WHAT IS ON THE INTRANET. Edit this.
 │  └─ images/
 ├─ test_intranet_access.py 28 tests
-├─ test_orientation.py     33 tests
+├─ test_orientation.py     41 tests
 ├─ test_fileplan.py        31 tests
 └─ .github/workflows/main_titanintranet.yml
 ```
@@ -77,7 +77,7 @@ python app.py               http://localhost:8001
 Tests need neither a database nor the network:
 
 ```
-python -m pytest -q          # 92 passed
+python -m pytest -q          # 102 passed
 ```
 
 ## Settings

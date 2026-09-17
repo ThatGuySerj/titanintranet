@@ -39,12 +39,16 @@
     "api": "/api/orientation",
     "print": "/api/print-packets",
     "seed": {
-      "captured": "4 September 2026",
+      "captured": "17 September 2026",
       "folders": {
         "Energy": [
           {
-            "name": "Billing Packet - Titan Energy.pdf",
-            "size": 1909542
+            "name": "Contacts.pdf",
+            "size": 35789
+          },
+          {
+            "name": "ADP Packet.pdf",
+            "size": 617391
           },
           {
             "name": "Holiday Pay Packet - Titan Energy.pdf",
@@ -52,34 +56,53 @@
           },
           {
             "name": "Insurance Folder - Left Side.pdf",
-            "size": 3227784
+            "size": 3031820
           },
           {
             "name": "Insurance Folder - Right Side.pdf",
             "size": 5274135
           },
           {
-            "name": "Light Duty Packet - Titan Energy.pdf",
-            "size": 1518989
-          },
-          {
             "name": "Principal Booklet - Weekly.pdf",
-            "size": 19074106
+            "size": 19040435
           },
           {
-            "name": "Safe Driving Packet.pdf",
-            "size": 961705
+            "name": "Billing Packet - Titan Energy.pdf",
+            "size": 1909542
           },
           {
             "name": "Scheduling - Titan Energy.pdf",
             "size": 68129
           },
           {
+            "name": "Light Duty Packet - Titan Energy.pdf",
+            "size": 1518989
+          },
+          {
             "name": "SSE Packet.pdf",
             "size": 3859028
+          },
+          {
+            "name": "Safe Driving Packet.pdf",
+            "size": 961705
           }
         ]
       }
+    },
+    "order": {
+      "Energy": [
+        "Contacts",
+        "ADP",
+        "Holiday",
+        "Insurance Folder - Left",
+        "Insurance Folder - Right",
+        "Principal",
+        "Billing",
+        "Scheduling",
+        "Light Duty",
+        "SSE",
+        "Safe Driving"
+      ]
     }
   },
   "site": {

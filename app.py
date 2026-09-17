@@ -1454,6 +1454,19 @@ _ORIENT = {"lib": None}
 _ORIENT_LOCK = threading.Lock()
 
 
+def _packet_order(folder):
+    """The print order for one company's packets, out of config.json.
+
+    In the config rather than in this file, because the order is HR's to
+    change: they are the ones who know that Contacts and ADP come first and the
+    Safe Driving packet comes last. Editing a list and pushing is a smaller ask
+    than editing Python, and no folder without an entry is affected.
+    """
+    cfg = site_config() or {}
+    orders = (cfg.get("orientation") or {}).get("order") or {}
+    return orders.get(folder) or orders.get("*") or []
+
+
 def _orientation_lib():
     import orientation
     with _ORIENT_LOCK:
@@ -1473,9 +1486,10 @@ def orientation_list():
     packet replaced ten minutes ago is the one that prints.
     """
     import orientation
+    folder = request.args.get("folder") or ""
     try:
         lib = _orientation_lib()
-        return jsonify(orientation.listing(lib, request.args.get("folder") or ""))
+        return jsonify(orientation.listing(lib, folder, _packet_order(folder)))
     except orientation.NotConfigured as e:
         return jsonify(ok=False, error=str(e)), 501
     except orientation.OrientationError as e:
@@ -1508,7 +1522,8 @@ def orientation_print():
                                 body.get("packets") or [],
                                 body.get("copies") or 1,
                                 duplex=body.get("duplex", True) is not False,
-                                info=info)
+                                info=info,
+                                order=_packet_order(body.get("folder") or ""))
     except orientation.NotConfigured as e:
         return jsonify(ok=False, error=str(e)), 501
     except orientation.OrientationError as e:
