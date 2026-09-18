@@ -149,6 +149,10 @@
       "u": "#printpackets"
     },
     {
+      "n": "New Front Page (preview)",
+      "u": "/welcome"
+    },
+    {
       "n": "Filing System Plan",
       "u": "/fileplan"
     },

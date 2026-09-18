@@ -11,6 +11,7 @@ What it serves:
 
     /                 the intranet, built per person
     /images/<name>    the logos
+    /welcome          a mockup of a new front page
     /fileplan         the proposed filing structure, walkable
     /access           who sees what - administrators only
     /api/orientation  the packet folders and their files
@@ -960,6 +961,67 @@ def fileplan_page():
     page = (page[:a + len(PLAN_START)]
             + "\nvar PLAN = "
             + _plan_json().replace("</", "<\\/")
+            + ";\n"
+            + page[b:])
+    return Response(page, mimetype="text/html",
+                    headers={"Cache-Control": "no-store, private",
+                             "Vary": "Cookie"})
+
+
+# ---------------------------------------------------------------------------
+#  The proposed new front page
+# ---------------------------------------------------------------------------
+#
+# A mockup, at /welcome, reachable from the rail. The intranet's front page is
+# a filing cabinet; this is the other thing - the company talking to its people
+# first, with the files starting once you scroll.
+#
+# It is built from the SAME filtered config the intranet itself is built from,
+# so it cannot show somebody a department or a document the intranet would hide
+# from them. A mockup that quietly ignored the permissions would be a mockup of
+# something we could not ship.
+
+WELCOME_PAGE = "welcome.html"
+WELCOME_START = "/* TITAN-WELCOME-START */"
+WELCOME_END = "/* TITAN-WELCOME-END */"
+
+
+@app.get("/welcome")
+@protected
+def welcome_page():
+    import welcome
+
+    if not welcome.enabled():
+        abort(404)
+
+    cfg = site_config()
+    if cfg is None:
+        abort(404)
+
+    email, groups = _who_and_groups()
+    filtered, _ = intranet_access.filter_config(
+        cfg, _rules(), groups, admin=intranet_access.is_admin(email, groups))
+
+    data = welcome.payload(filtered, viewer={
+        "email": email,
+        "name": welcome.first_name(email, ""),
+    })
+
+    path = os.path.join(SITE_DIR, WELCOME_PAGE)
+    try:
+        with open(path, encoding="utf-8") as f:
+            page = f.read()
+    except OSError:
+        app.logger.error("welcome page not found at %s", path)
+        abort(404)
+
+    a, b = page.find(WELCOME_START), page.find(WELCOME_END)
+    if a == -1 or b == -1:
+        app.logger.error("the welcome page has no markers")
+        abort(500)
+    page = (page[:a + len(WELCOME_START)]
+            + "\nvar HELLO = "
+            + json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
             + ";\n"
             + page[b:])
     return Response(page, mimetype="text/html",

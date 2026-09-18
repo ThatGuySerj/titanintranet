@@ -11,17 +11,20 @@ Intranet/
 ├─ orientation.py          reads the packet folder, merges the PDFs
 ├─ fileplan.py             the proposed filing structure, as data
 ├─ sitemap.py              reads AND WRITES the Site Mapping folder
+├─ welcome.py              the proposed new front page, as data
 ├─ titan_auth.py           COPY of the shared sign-in module
 ├─ db.py                   a connection to the shared database
 ├─ site/
 │  ├─ index.html           the page — no content of its own
 │  ├─ fileplan.html        /fileplan — no content of its own either
+│  ├─ welcome.html         /welcome — the new front page, a mockup
 │  ├─ config.json          WHAT IS ON THE INTRANET. Edit this.
 │  └─ images/
 ├─ test_intranet_access.py 28 tests
 ├─ test_orientation.py     41 tests
 ├─ test_fileplan.py        31 tests
 ├─ test_sitemap.py         76 tests
+├─ test_welcome.py         22 tests
 └─ .github/workflows/main_titanintranet.yml
 ```
 
@@ -81,6 +84,14 @@ documents, rail links, alerts, the SharePoint folders. Push and it deploys.
 **Who sees what** → the **Access** screen at `/access`, signed in as an
 administrator. No deploy: it is database rows.
 
+**The proposed new front page** → `/welcome`, linked from the rail. A mockup:
+the company first — the owner's message, employee of the month, the safety
+counter — and the files below it in four sections. The words live in
+`welcome.py` and can be overridden by a `welcome` block in `config.json`. The
+departments and documents on it are real and filtered to whoever is signed in;
+"most opened" and "recently opened" are samples, because nothing records opens
+yet. `WELCOME_PAGE=0` turns the whole page off without a deploy.
+
 **The filing system** → `/fileplan`, the **folders** tab. That is the real
 `Site Mapping` folder in SharePoint: new folders, renames, moves, uploads and
 deletes all land there. `sitemap.py` does the talking and confines every path
@@ -135,6 +146,7 @@ This site's own:
 | `SP_SITE_PATH` | `sites/CompanyDocuments` | the SharePoint site |
 | `SP_LIBRARY` | `All Company Documents` | the library's URL name |
 | `MAP_ROOT` | `Site Mapping` | the folder the filing system editor may change |
+| `WELCOME_PAGE` | `1` | `0` hides the new front page mockup at `/welcome` |
 
 `MAIL_*`, `OCR_*` and `RUN_WORKER` belong to the ticket site. Nothing here
 reads them — there is no worker in this app to turn off.

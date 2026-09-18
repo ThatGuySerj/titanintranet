@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titan Enterprises | Welcome</title>
+<meta name="robots" content="noindex, nofollow">
+
+<script>
+/* ==================================================================
+   A MOCKUP of a new front page. The server fills this in from
+   welcome.py and the person's own filtered copy of config.json - so
+   the departments and documents below are the ones this person is
+   allowed to see, and nobody else's.
+
+   The words in the welcome cards are placeholders. The two counted
+   lists are samples: nothing records opens yet.
+   ================================================================== */
+/* TITAN-WELCOME-START */
+var HELLO = null;
+/* TITAN-WELCOME-END */
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<style>
+:root{
+  --navy:#1e2a78; --navy-dark:#141c52;
+  --red:#d21f2c;  --red-dark:#a91723;
+  --cyan:#2bb0e8; --cyan-light:#7fd2f5;
+  --green:#3ecf8e; --amber:#f0b64b; --violet:#9a8cf0;
+  --black:#0f1115; --steel:#c9ced8;
+  --surface:#1b1e24; --surface-light:#262a33; --surface-2:#2e333e;
+  --border-dark:#3a3f4b;
+  --text:#e8eaef; --text-light:#a6acb8; --text-dim:#7d848f;
+  --font-display:"Barlow Condensed","Arial Narrow","Segoe UI",sans-serif;
+  --font-body:"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --shadow-sm:0 3px 10px rgba(0,0,0,.35);
+  --shadow-md:0 10px 26px rgba(0,0,0,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--surface);color:var(--text);
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan);text-decoration:none}
+a:hover{color:var(--cyan-light)}
+h1,h2,h3,h4{font-family:var(--font-display);text-transform:uppercase;
+  letter-spacing:.6px;line-height:1.1}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:4px}
+
+/* ---------- masthead ---------- */
+.bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:20px;
+  padding:12px 26px;background:rgba(27,30,36,.98);backdrop-filter:blur(8px);
+  border-bottom:4px solid var(--red);box-shadow:var(--shadow-sm);flex-wrap:wrap}
+.bar .logo{height:38px;width:auto;background:#fff;padding:5px 11px;border-radius:8px}
+.bar .divider{width:1px;height:34px;background:var(--border-dark)}
+.bar .kicker{display:block;font-family:var(--font-display);font-size:.7rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.bar .name{display:block;font-family:var(--font-display);font-size:1.35rem;
+  font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#fff}
+.bar .sp{flex:1}
+.bar .back{font-size:13px;font-weight:600;white-space:nowrap}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px 90px}
+
+/* ---------- the mockup notice ---------- */
+.mock{display:flex;gap:13px;align-items:flex-start;margin:18px 0 0;
+  background:#2b2412;border:1px solid #5c4a20;border-left:4px solid var(--amber);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:#f3e3c4}
+.mock b{color:var(--amber)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;margin-top:18px;border-radius:16px;
+  border:1px solid var(--border-dark);border-top:4px solid var(--red);
+  background:
+    radial-gradient(1100px 380px at 88% -30%, rgba(43,176,232,.20), transparent 60%),
+    radial-gradient(760px 320px at 4% 120%, rgba(30,42,120,.55), transparent 62%),
+    linear-gradient(180deg,#20242c,#191c22);
+  padding:40px 34px 34px;box-shadow:var(--shadow-md)}
+.hero .helmet{position:absolute;right:-10px;bottom:-34px;width:250px;opacity:.10;
+  pointer-events:none;filter:grayscale(1) brightness(2)}
+.hero .eyebrow{font-family:var(--font-display);font-size:.78rem;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--cyan);font-weight:600}
+.hero h1{font-size:clamp(2rem,5vw,3.3rem);color:#fff;font-weight:700;margin-top:8px}
+.hero .strap{color:var(--text-light);font-size:15.5px;max-width:58ch;margin-top:10px}
+.hero .stamp{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;
+  color:var(--text-dim)}
+.hero .stamp span{border:1px solid var(--border-dark);border-radius:999px;
+  padding:5px 13px;background:rgba(15,17,21,.5)}
+
+/* ---------- alerts ---------- */
+.alerts{display:grid;gap:10px;margin-top:16px}
+.alert{display:flex;gap:13px;align-items:flex-start;border-radius:11px;
+  padding:12px 16px;border:1px solid var(--border-dark);background:var(--surface-light);
+  border-left:4px solid var(--text-dim);font-size:13.5px}
+.alert.urgent{border-left-color:var(--red);background:#2a1a1e}
+.alert.notice{border-left-color:var(--cyan)}
+.alert.reminder{border-left-color:var(--amber)}
+.alert b{color:#fff;display:block;font-size:14px}
+/* display:block, because .who below is a flex row for the people cards and
+   without this the byline inherits it and lays itself out sideways */
+.alert .who{display:block;color:var(--text-dim);font-size:12px;margin-top:3px}
+
+/* ---------- card grid ---------- */
+.grid{display:grid;gap:15px;margin-top:16px;
+  grid-template-columns:repeat(auto-fit,minmax(272px,1fr))}
+.card{background:var(--surface-light);border:1px solid var(--border-dark);
+  border-top:3px solid var(--cyan);border-radius:13px;padding:17px 19px;
+  box-shadow:var(--shadow-sm)}
+.card h3{font-size:.74rem;color:var(--cyan);letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600}
+.card h4{font-size:1.15rem;color:#fff;margin-top:7px;font-weight:700}
+.card p{font-size:13.5px;color:var(--text-light);margin-top:8px}
+.card.wide{grid-column:span 2}
+.card.owner{border-top-color:var(--red)}
+.card.person{border-top-color:var(--violet)}
+.card.safety{border-top-color:var(--green)}
+@media (max-width:700px){.card.wide{grid-column:auto}}
+
+.who{display:flex;gap:14px;align-items:center;margin-top:12px}
+.who .pic{width:58px;height:58px;border-radius:50%;flex:none;display:grid;
+  place-items:center;font:700 19px/1 var(--font-body);color:#fff;
+  background:linear-gradient(135deg,var(--navy),var(--cyan));
+  background-size:cover;background-position:center}
+.who .nm b{display:block;color:#fff;font-size:14.5px}
+.who .nm span{color:var(--text-dim);font-size:12.5px}
+
+.big{font-family:var(--font-display);font-size:3.6rem;font-weight:700;color:#fff;
+  line-height:1;margin-top:6px}
+.tick{list-style:none;margin-top:10px}
+.tick li{position:relative;padding-left:19px;font-size:13.5px;color:var(--text-light);
+  margin-top:7px}
+.tick li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;
+  border-radius:50%;background:var(--cyan)}
+.dates{list-style:none;margin-top:10px}
+.dates li{display:flex;gap:12px;font-size:13.5px;color:var(--text-light);
+  padding:7px 0;border-bottom:1px solid #2a2f38}
+.dates li:last-child{border-bottom:0}
+.dates .when{flex:none;width:76px;color:var(--cyan);font-weight:600;font-size:12.5px}
+.nums{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}
+.nums div b{display:block;font-family:var(--font-display);font-size:1.9rem;color:#fff;
+  line-height:1;font-weight:700}
+.nums div span{font-size:11.5px;color:var(--text-dim);text-transform:uppercase;
+  letter-spacing:.1em}
+
+/* ---------- the fold ---------- */
+.fold{margin-top:46px;display:flex;align-items:center;gap:18px}
+.fold h2{font-size:1.5rem;color:#fff;font-weight:700;white-space:nowrap}
+.fold .line{flex:1;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
+.fold p{color:var(--text-dim);font-size:13px}
+
+/* ---------- departments ---------- */
+.depts{display:grid;gap:10px;margin-top:16px;
+  grid-template-columns:repeat(auto-fill,minmax(214px,1fr))}
+.dept{display:flex;align-items:center;gap:11px;background:var(--surface-light);
+  border:1px solid var(--border-dark);border-radius:11px;padding:12px 14px;
+  color:var(--text);transition:border-color .14s,background .14s,transform .14s}
+.dept:hover{border-color:var(--cyan);background:var(--surface-2);color:#fff;
+  transform:translateY(-1px)}
+.dept .ic{width:32px;height:32px;flex:none;border-radius:9px;display:grid;
+  place-items:center;background:var(--black);color:var(--cyan);
+  font:700 14px/1 var(--font-display);border:1px solid var(--border-dark)}
+.dept .nm{flex:1;min-width:0}
+.dept .nm b{display:block;font-size:13.5px;font-weight:600;line-height:1.3}
+.dept .nm span{font-size:11.5px;color:var(--text-dim)}
+.dept .go{color:var(--text-dim);font-size:12px}
+.dept.dead{opacity:.55;cursor:default}
+.dept.dead:hover{border-color:var(--border-dark);background:var(--surface-light);
+  transform:none;color:var(--text)}
+
+/* ---------- the four sections ---------- */
+.sections{display:grid;gap:15px;margin-top:20px;
+  grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.sec{background:var(--surface-light);border:1px solid var(--border-dark);
+  border-top:3px solid var(--red);border-radius:13px;padding:15px 17px 12px;
+  box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+.sec.most{border-top-color:var(--cyan)}
+.sec.recent{border-top-color:var(--violet)}
+.sec.fav{border-top-color:var(--amber)}
+.sec .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec h3{font-size:1.05rem;color:#fff;font-weight:700}
+.sec .note{font-size:11.5px;color:var(--text-dim);flex:1;min-width:120px}
+.chip{flex:none;font:700 9.5px/1.8 var(--font-body);letter-spacing:.1em;
+  text-transform:uppercase;border-radius:4px;padding:1px 7px;border:1px solid #5c4a20;
+  background:#2b2412;color:var(--amber)}
+.sec ul{list-style:none;margin-top:10px;flex:1}
+.sec li a,.sec li span.dead{display:flex;align-items:center;gap:10px;padding:8px 9px;
+  border-radius:8px;color:var(--text);font-size:13.5px}
+.sec li a:hover{background:var(--surface-2);color:#fff}
+.sec li span.dead{color:var(--text-dim);cursor:default}
+.sec li .t{flex:none;width:34px;text-align:center;font:700 9px/1.9 var(--font-body);
+  letter-spacing:.06em;text-transform:uppercase;border-radius:4px;
+  border:1px solid var(--border-dark);color:var(--text-dim);background:var(--black)}
+.sec li .t.pdf{color:#ff9b9b;border-color:#5c2630}
+.sec li .t.form{color:var(--cyan);border-color:#1d4a63}
+.sec li .t.xlsx{color:#8ee0b4;border-color:#1e5c45}
+.sec li .t.docx{color:#b9c6ff;border-color:#2d3870}
+.sec li .t.folder{color:var(--amber);border-color:#5c4a20}
+.sec li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* .from and not .dept: .dept is the department tile above, a flex row with a
+   border, and a span in here wearing that class would quietly inherit all of
+   it. Two things that are not the same thing do not share a class. */
+.sec li .from{flex:none;font-size:11px;color:var(--text-dim)}
+.sec li.hide{display:none}
+.sec .more{display:flex;gap:8px;margin-top:10px;padding-top:10px;
+  border-top:1px solid var(--border-dark)}
+.sec .more button,.sec .more a{background:none;border:1px solid var(--border-dark);
+  color:var(--text-light);border-radius:8px;padding:7px 13px;font:600 11.5px/1 var(--font-body);
+  cursor:pointer;text-align:center}
+.sec .more button:hover,.sec .more a:hover{background:var(--surface-2);color:#fff;
+  border-color:var(--cyan)}
+.sec .empty{color:var(--text-dim);font-size:13px;font-style:italic;padding:14px 4px}
+
+.foot{margin-top:44px;padding-top:16px;border-top:1px solid var(--border-dark);
+  font-size:12px;color:var(--text-dim);display:flex;gap:18px;flex-wrap:wrap}
+.nojs{background:#3d1b22;border:1px solid #5c2630;border-radius:10px;
+  padding:14px 18px;margin:18px 0;color:#ffc4c4;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <img class="logo" src="/images/titan-enterprises-logo.png" alt="Titan Enterprises">
+  <span class="divider"></span>
+  <span>
+    <span class="kicker">Intranet</span>
+    <span class="name">Welcome</span>
+  </span>
+  <span class="sp"></span>
+  <a class="back" href="/">&larr; Back to the intranet</a>
+</div>
+
+<div class="wrap">
+
+  <noscript>
+    <div class="nojs"><strong>This page needs JavaScript.</strong> Everything on
+    it is built from a block the server writes into the page.</div>
+  </noscript>
+
+  <div class="mock">
+    <span>
+      <b>A mockup.</b> This is what the front of the intranet could be: the
+      company first, the filing cabinet below it. The departments, folders and
+      document counts are <b>real and filtered to you</b>. The words in the
+      cards are placeholders, and the two counted lists are samples &mdash;
+      nothing records what people open yet. Say what you want changed and it
+      changes; nothing here is the live front page until you say so.
+    </span>
+  </div>
+
+  <section class="hero">
+    <img class="helmet" src="/images/titan-energy-helmet.png" alt="" aria-hidden="true">
+    <span class="eyebrow" id="eyebrow">Employees only</span>
+    <h1 id="hello">Welcome</h1>
+    <p class="strap" id="strap"></p>
+    <div class="stamp" id="stamp"></div>
+  </section>
+
+  <div class="alerts" id="alerts"></div>
+
+  <div class="grid" id="cards"></div>
+
+  <div class="fold">
+    <h2>Your files</h2>
+    <div class="line"></div>
+    <p id="foldnote"></p>
+  </div>
+
+  <div class="depts" id="depts"></div>
+
+  <div class="sections" id="sections"></div>
+
+  <div class="foot" id="foot"></div>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function safeUrl(u){
+  return /^(https?:|mailto:|tel:|\/|#)/i.test(u || "") ? u : "";
+}
+
+if (!HELLO){
+  document.querySelector(".wrap").innerHTML =
+    '<div class="nojs"><strong>Nothing loaded.</strong> The server fills this ' +
+    'page in from welcome.py. Opening the file off the disk shows this note.</div>';
+  return;
+}
+
+/* config.json is edited by hand, so the page assumes nothing about the shape
+   of what it is given. A stray string where a block belongs should cost that
+   one card, not the whole front page. */
+function obj(x){
+  return (x && typeof x === "object" && !Array.isArray(x)) ? x : {};
+}
+function arr(x){ return Array.isArray(x) ? x : []; }
+
+var W = obj(HELLO.welcome);
+W.owner = obj(W.owner);
+W.employee = obj(W.employee);
+W.safety = obj(W.safety);
+W.shoutouts = obj(W.shoutouts);
+W.dates = obj(W.dates);
+W.numbers = obj(W.numbers);
+W.didyouknow = obj(W.didyouknow);
+
+/* ---------------- the hero ---------------- */
+function partOfDay(){
+  var h = new Date().getHours();
+  if (h < 12) return "Good morning";
+  if (h < 17) return "Good afternoon";
+  return "Good evening";
+}
+var name = (HELLO.viewer && HELLO.viewer.name) || "";
+$("hello").textContent = partOfDay() + (name ? ", " + name : "");
+$("strap").textContent = W.strap || "";
+$("eyebrow").textContent = W.greeting || "Titan Enterprises";
+
+var today = new Date();
+$("stamp").innerHTML =
+  '<span>' + esc(today.toLocaleDateString(undefined,
+    {weekday:"long", day:"numeric", month:"long", year:"numeric"})) + '</span>' +
+  (HELLO.site && HELLO.site.dispatch
+    ? '<span>Dispatch ' + esc(HELLO.site.dispatch) + '</span>' : '') +
+  '<span>' + (HELLO.departments || []).length + ' departments</span>' +
+  '<span>' + (HELLO.yards || []).length + ' yards</span>';
+
+/* ---------------- alerts ---------------- */
+$("alerts").innerHTML = (HELLO.alerts || []).map(function(a){
+  var meta = [a.by, a.date].filter(Boolean).join(" · ");
+  var body = '<span><b>' + esc(a.title || "") + '</b>' + esc(a.body || "") +
+    (meta ? '<span class="who">' + esc(meta) + '</span>' : '') + '</span>';
+  var cls = "alert " + esc(a.level || "notice");
+  var u = safeUrl(a.url);
+  return u ? '<a class="' + cls + '" href="' + esc(u) + '">' + body + '</a>'
+           : '<div class="' + cls + '">' + body + '</div>';
+}).join("");
+
+/* ---------------- the welcome cards ---------------- */
+function initials(s){
+  return String(s || "?").replace(/[^A-Za-z ]/g, "").split(" ")
+    .filter(Boolean).slice(0, 2).map(function(w){ return w[0].toUpperCase(); })
+    .join("") || "T";
+}
+function pic(url, fallbackName){
+  /* This goes inside a style attribute, where a stray ) or ; would end the
+     declaration and start another one. The photo path comes out of
+     config.json, which is hand-edited, so it is checked rather than trusted:
+     an http(s) or same-site URL with nothing in it that can close the url().
+     Anything else falls back to initials. */
+  var ok = safeUrl(url) && !/[()'"\\;]/.test(url) ? url : "";
+  var style = ok ? ' style="background-image:url(' + esc(ok) + ')"' : '';
+  return '<span class="pic"' + style + '>' +
+         (ok ? '' : esc(initials(fallbackName))) + '</span>';
+}
+
+var cards = [];
+
+cards.push('<div class="card owner wide"><h3>' + esc(W.owner.heading) + '</h3>' +
+  '<div class="who">' + pic(W.owner.photo, W.owner.name) +
+  '<span class="nm"><b>' + esc(W.owner.name) + '</b><span>' +
+  esc(W.owner.title) + '</span></span></div>' +
+  '<p>' + esc(W.owner.body) + '</p></div>');
+
+cards.push('<div class="card person"><h3>' + esc(W.employee.heading) + '</h3>' +
+  '<div class="who">' + pic(W.employee.photo, W.employee.name) +
+  '<span class="nm"><b>' + esc(W.employee.name) + '</b><span>' +
+  esc([W.employee.role, W.employee.yard].filter(Boolean).join(" · ")) +
+  '</span></span></div><p>' + esc(W.employee.body) + '</p></div>');
+
+cards.push('<div class="card safety"><h3>' + esc(W.safety.heading) + '</h3>' +
+  '<div class="big">' + esc(W.safety.days) + '</div>' +
+  '<p>' + esc(W.safety.note) + '</p></div>');
+
+cards.push('<div class="card"><h3>' + esc(W.shoutouts.heading) + '</h3><ul class="tick">' +
+  arr(W.shoutouts.items).map(function(x){
+    return '<li>' + esc(x) + '</li>';
+  }).join("") + '</ul></div>');
+
+cards.push('<div class="card"><h3>' + esc(W.dates.heading) + '</h3><ul class="dates">' +
+  arr(W.dates.items).map(function(d){
+    d = obj(d);
+    return '<li><span class="when">' + esc(d.when) + '</span><span>' +
+           esc(d.what) + '</span></li>';
+  }).join("") + '</ul></div>');
+
+cards.push('<div class="card"><h3>' + esc(W.numbers.heading) + '</h3><div class="nums">' +
+  arr(W.numbers.items).map(function(n){
+    n = obj(n);
+    return '<div><b>' + esc(n.n) + '</b><span>' + esc(n.what) + '</span></div>';
+  }).join("") + '</div></div>');
+
+cards.push('<div class="card"><h3>' + esc(W.didyouknow.heading) + '</h3>' +
+  '<p>' + esc(W.didyouknow.body) + '</p></div>');
+
+$("cards").innerHTML = cards.join("");
+
+/* ---------------- departments ---------------- */
+var depts = HELLO.departments || [];
+$("foldnote").textContent = depts.length
+  ? "Everything below is filtered to what you are allowed to see."
+  : "";
+
+$("depts").innerHTML = depts.map(function(d){
+  var inner =
+    '<span class="ic">' + esc(d.icon || initials(d.name)) + '</span>' +
+    '<span class="nm"><b>' + esc(d.name) + '</b><span>' +
+    (d.docs ? d.docs + " document" + (d.docs === 1 ? "" : "s") : "no documents yet") +
+    '</span></span>' +
+    '<span class="go">' + (d.url ? '&#8599;' : '') + '</span>';
+  var u = safeUrl(d.url);
+  return u
+    ? '<a class="dept" href="' + esc(u) + '" target="_blank" rel="noopener" ' +
+      'title="Open this department’s folder in SharePoint">' + inner + '</a>'
+    : '<span class="dept dead" title="No folder set for this department yet">' +
+      inner + '</span>';
+}).join("");
+
+/* ---------------- the four sections ---------------- */
+var SHOW = obj(HELLO.show);
+SHOW.first = SHOW.first || 4;
+SHOW.more = SHOW.more || 12;
+var LINKS = obj(HELLO.links);
+LINKS.files = LINKS.files || "/";
+LINKS.plan = LINKS.plan || "/fileplan";
+
+function row(item){
+  var u = safeUrl(item.url);
+  var t = String(item.t || "").toLowerCase();
+  var inner = '<span class="t ' + esc(t) + '">' + esc(t || "doc") + '</span>' +
+    '<span class="nm">' + esc(item.n) + '</span>' +
+    '<span class="from">' + esc(item.dept || "") + '</span>';
+  return '<li>' + (u
+    ? '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + inner + '</a>'
+    : '<span class="dead" title="No link set yet">' + inner + '</span>') + '</li>';
+}
+
+function section(key, s){
+  s = obj(s);
+  var items = arr(s.items);
+  var lis = items.map(function(it, i){
+    return row(it).replace("<li>", i < SHOW.first ? "<li>" : '<li class="hide">');
+  }).join("");
+
+  var buttons = "";
+  if (items.length > SHOW.first){
+    buttons += '<button data-more="' + esc(key) + '">Show more</button>';
+  }
+  buttons += '<a href="' + esc(LINKS.files) + '">Show all</a>';
+
+  return '<div class="sec ' + esc(key) + '" id="sec-' + esc(key) + '">' +
+    '<div class="head"><h3>' + esc(s.title) + '</h3>' +
+    (s.sample ? '<span class="chip">sample</span>' : '') +
+    '<span class="note">' + esc(s.note) + '</span></div>' +
+    (items.length ? '<ul>' + lis + '</ul>'
+                  : '<div class="empty">Nothing here yet.</div>') +
+    '<div class="more">' + buttons + '</div></div>';
+}
+
+var secs = HELLO.sections || {};
+$("sections").innerHTML =
+  section("static", secs.static) +
+  section("most", secs.most) +
+  section("recent", secs.recent) +
+  section("fav", secs.favourites);
+
+$("sections").addEventListener("click", function(e){
+  var b = e.target.closest("[data-more]");
+  if (!b) return;
+  var box = $("sec-" + b.dataset.more);
+  var hidden = box.querySelectorAll("li.hide");
+  if (!hidden.length) return;
+
+  var show = Math.min(hidden.length, SHOW.more - SHOW.first);
+  for (var i = 0; i < show; i++) hidden[i].classList.remove("hide");
+  if (box.querySelectorAll("li.hide").length === 0) b.remove();
+});
+
+/* ---------------- footer ---------------- */
+$("foot").innerHTML =
+  '<span>A mockup of a new front page &mdash; not live</span>' +
+  '<span><a href="' + esc(LINKS.files) + '">The intranet as it is today</a></span>' +
+  '<span><a href="' + esc(LINKS.plan) + '">The filing system</a></span>';
+
+})();
+</script>
+</body>
+</html>
