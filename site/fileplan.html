@@ -229,8 +229,24 @@ label.btn{display:inline-block;cursor:pointer}
 #dropzone.over{outline:2px dashed var(--cyan);outline-offset:-6px}
 #dropzone.over::after{content:"Drop to upload here";position:absolute}
 
-.row .acts{flex:none;display:flex;gap:2px;opacity:0;transition:opacity .12s}
+/* The live rows read like the plan's do: the name a person uses, with the
+   name SharePoint actually holds underneath it. The numbering is what sorts
+   the folder; it is not what anybody wants to read. */
+#llist .row{padding:12px 15px;gap:13px;align-items:flex-start}
+#llist .row .ic{font-size:17px;line-height:1.35}
+#llist .row .nm{padding-right:6px}
+#llist .row .nm b{font-size:14.5px;font-weight:600;color:#fff;line-height:1.35;
+  white-space:normal}
+#llist .row .nm small{font-family:var(--font-mono);font-size:11px;
+  color:var(--text-dim);letter-spacing:.1px;margin-top:2px}
+#llist .row:hover .nm small{color:var(--steel)}
+#llist .row .meta{align-self:center;text-align:right;line-height:1.6}
+
+.row .acts{flex:none;display:flex;gap:2px;opacity:0;transition:opacity .12s;
+  align-self:center}
 .row:hover .acts,.row.on .acts{opacity:1}
+/* on a touch screen there is no hover, so they are simply always there */
+@media (hover:none){.row .acts{opacity:1}}
 .row .acts button{background:none;border:1px solid transparent;border-radius:6px;
   color:var(--text-dim);cursor:pointer;font-size:11px;padding:3px 7px;line-height:1.4}
 .row .acts button:hover{background:var(--surface-2);color:#fff;border-color:var(--border-dark)}
@@ -257,11 +273,32 @@ label.btn{display:inline-block;cursor:pointer}
 .logrow .when{color:var(--text-dim);font-size:11px}
 .logrow .what{color:var(--cyan)}
 
-.flash{border-radius:9px;padding:10px 14px;margin:12px 0 0;font-size:13.5px;
-  border:1px solid transparent}
-.flash.ok{background:#123a2c;border-color:#1e5c45;color:#b6f0d6}
-.flash.err{background:#3d1b22;border-color:#5c2630;color:#ffc4c4}
-.flash.busy{background:var(--surface-2);border-color:var(--border-dark);color:var(--text-light)}
+/* ---- waiting, without anything moving ----
+   The old version put a message above the explorer, which pushed the whole
+   page down and then pulled it back up on every single click. Now: the list
+   dims where it stands, a two-pixel bar runs along the top edge of the pane,
+   and anything that needs words is a toast pinned to the corner. Nothing in
+   the layout changes size at any point. */
+.pane{position:relative}
+.loadbar{position:absolute;top:0;left:0;right:0;height:2px;overflow:hidden;
+  background:transparent;pointer-events:none;z-index:5}
+.loadbar i{display:block;height:100%;width:38%;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--cyan-light),transparent);
+  transform:translateX(-100%);animation:slide 1.05s ease-in-out infinite}
+@keyframes slide{
+  0%{transform:translateX(-100%)} 100%{transform:translateX(320%)}
+}
+.scroll{transition:opacity .16s}
+.scroll.waiting{opacity:.42}
+
+.toast{position:fixed;right:22px;bottom:22px;z-index:90;max-width:min(420px,calc(100vw - 44px));
+  border-radius:10px;padding:11px 15px;font-size:13.5px;border:1px solid transparent;
+  box-shadow:var(--shadow-md);opacity:0;transform:translateY(8px);
+  transition:opacity .18s,transform .18s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+.toast.ok{background:#123a2c;border-color:#1e5c45;color:#b6f0d6}
+.toast.err{background:#3d1b22;border-color:#5c2630;color:#ffc4c4}
+.toast.busy{background:var(--surface-2);border-color:var(--border-dark);color:var(--text-light)}
 
 dialog.ask{border:1px solid var(--border-dark);border-top:4px solid var(--red);
   border-radius:12px;background:var(--surface-light);color:var(--text);
@@ -427,8 +464,6 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
       <span class="count" id="lcount"></span>
     </div>
 
-    <p class="flash" id="lflash" hidden aria-live="polite"></p>
-
     <div class="explorer">
       <div class="pane">
         <h3 id="rootName">Site Mapping</h3>
@@ -438,6 +473,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
       </div>
 
       <div class="pane" id="dropzone">
+        <div class="loadbar" id="lbar" hidden><i></i></div>
         <div class="crumbs" id="lcrumbs"></div>
         <div class="scroll" id="llist"></div>
       </div>
@@ -553,6 +589,8 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
 
 </div>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <dialog class="ask" id="ask">
   <form method="dialog">
     <div class="body">
@@ -599,9 +637,7 @@ var WALLS = {restricted:"Restricted", segregated:"Segregated",
    in the tree and compare. Not every hyphen is a word separator: one between
    two numbers (396-17) or after a single capital (I-9, W-2, E-Verify) stays,
    because "I 9 Files" is not what that folder is called. */
-function titleOf(name){
-  var body = name.indexOf("_") > -1 ? name.slice(name.indexOf("_") + 1) : name;
-  body = body.replace(/_(RESTRICTED|SEGREGATED|PARTITIONED)$/, "");
+function unhyphen(body){
   var parts = body.split("-"), out = parts[0];
   for (var i = 1; i < parts.length; i++){
     var prev = parts[i - 1], next = parts[i];
@@ -610,6 +646,23 @@ function titleOf(name){
     out += (keep ? "-" : " ") + next;
   }
   return out;
+}
+function titleOf(name){
+  var body = name.indexOf("_") > -1 ? name.slice(name.indexOf("_") + 1) : name;
+  body = body.replace(/_(RESTRICTED|SEGREGATED|PARTITIONED)$/, "");
+  return unhyphen(body);
+}
+
+/* A file keeps every field of its name - the convention puts the date, the
+   entity and the document type in there and dropping one would be lying about
+   what the file is. So underscores become spaces and the extension goes; the
+   real name is still printed underneath, which is the point of showing both. */
+function prettyFile(name){
+  var base = name.replace(/\.[A-Za-z0-9]{1,8}$/, "");
+  return base.split("_").map(unhyphen).join(" ");
+}
+function pretty(r){
+  return r.folder ? titleOf(r.name) : prettyFile(r.name);
 }
 function numOf(name){
   var head = name.split("_")[0];
@@ -960,12 +1013,29 @@ function jpost(url, body){
   });
 }
 
-function flash(msg, kind){
-  var el = $("lflash");
-  if (!msg){ el.hidden = true; el.innerHTML = ""; return; }
-  el.className = "flash " + (kind || "busy");
+/* ---- waiting, without moving anything ----
+   Two separate jobs that used to be one. `busy` dims the list and runs a
+   two-pixel bar along the top edge of the pane: no element changes size, so
+   nothing under the pointer shifts while a folder loads. `toast` is for the
+   things that need words, and it sits over the corner rather than in the
+   layout. Walking into ten folders in a row should feel like nothing is
+   happening except the folders changing. */
+var toastTimer = null;
+
+function busy(on){
+  $("lbar").hidden = !on;
+  $("llist").classList.toggle("waiting", !!on);
+}
+
+function toast(msg, kind, hold){
+  var el = $("toast");
+  clearTimeout(toastTimer);
+  if (!msg){ el.classList.remove("on"); return; }
+  el.className = "toast " + (kind || "busy") + " on";
   el.innerHTML = msg;
-  el.hidden = false;
+  if (hold !== true)
+    toastTimer = setTimeout(function(){ el.classList.remove("on"); },
+                            kind === "err" ? 9000 : 3800);
 }
 
 /* ---- a dialog, rather than window.prompt, which browsers throttle ---- */
@@ -1049,12 +1119,12 @@ function liveRows(){
       (SEL && SEL.id === r.id ? ' on' : '') + (cut ? ' cut' : '') +
       '" role="button" tabindex="0" data-name="' + esc(r.name) + '">' +
       '<span class="ic">' + (r.folder ? '&#128193;' : '&#128196;') + '</span>' +
-      '<span class="nm"><b>' + esc(r.name) + '</b>' +
-      '<small>' + (r.folder
-        ? (r.children ? r.children + ' inside' : 'empty')
+      '<span class="nm"><b>' + esc(pretty(r)) + '</b>' +
+      '<small>' + esc(r.name) + '</small></span>' +
+      '<span class="meta">' + (r.folder
+        ? (r.children ? r.children + ' item' + (r.children === 1 ? '' : 's') : 'empty')
         : kb(r.size)) +
-      (r.modified ? ' &middot; ' + esc(when(r.modified)) : '') +
-      (r.by ? ' &middot; ' + esc(r.by) : '') + '</small></span>' +
+      (r.modified ? '<br>' + esc(when(r.modified)) : '') + '</span>' +
       '<span class="acts">' +
         (r.folder ? '<button data-act="open">open</button>'
                   : '<button data-act="view">open</button>') +
@@ -1077,7 +1147,9 @@ function liveDetail(){
   var path = join(HERE, SEL.name);
   el.innerHTML =
     '<div class="kick">' + (SEL.folder ? 'Folder' : 'File') + '</div>' +
-    '<h2>' + esc(SEL.name) + '</h2>' +
+    '<h2>' + esc(pretty(SEL)) + '</h2>' +
+    '<p class="mono" style="color:var(--text-dim);margin:-4px 0 4px">' +
+      esc(SEL.name) + '</p>' +
     '<div class="meta">' +
       '<span class="tag lvl">' + (SEL.folder
         ? (SEL.children ? SEL.children + ' inside' : 'empty')
@@ -1103,7 +1175,8 @@ function liveTops(){
   $("tops").innerHTML = TOPS.length
     ? TOPS.map(function(t){
         return '<button class="master" data-go="' + esc(t.name) + '">' +
-          '<span class="lbl">' + esc(t.name) + '</span>' +
+          '<span class="num">' + esc(numOf(t.name)) + '</span>' +
+          '<span class="lbl">' + esc(titleOf(t.name)) + '</span>' +
           '<span class="ct">' + (t.children || "") + '</span></button>';
       }).join("")
     : '<div class="empty" style="padding:14px">Nothing here yet.</div>';
@@ -1145,8 +1218,8 @@ function liveLog(){
 }
 
 /* ---- loading ---- */
-function openFolder(path, quiet){
-  if (!quiet) flash("Reading the folder…", "busy");
+function openFolder(path){
+  busy(true);
   HERE = path || "";
   SEL = null;
   return jfetch("/api/map?path=" + encodeURIComponent(HERE))
@@ -1161,19 +1234,18 @@ function openFolder(path, quiet){
         liveTops(); liveSeeds();
       }
       liveCrumbs(); liveRows(); liveDetail();
-      /* only clear what this call put up. A quiet reload is the one that
-         follows a change, and it must not wipe the "Made X" that sent it. */
-      if (!quiet) flash("");
+      busy(false);
     })
     .catch(function(e){
       ROWS = [];
       liveCrumbs(); liveRows(); liveDetail();
-      flash(esc(e.message), "err");
+      busy(false);
+      toast(esc(e.message), "err");
     });
 }
 
 function refreshAll(){
-  return openFolder(HERE, true).then(function(){
+  return openFolder(HERE).then(function(){
     if (HERE) return jfetch("/api/map").then(function(j){
       TOPS = (j.items || []).filter(function(r){ return r.folder; });
       liveTops(); liveSeeds();
@@ -1183,18 +1255,17 @@ function refreshAll(){
 
 /* ---- the actions ---- */
 function afterChange(msg){
-  flash(msg, "ok");
-  setTimeout(function(){ flash(""); }, 4000);
+  toast(msg, "ok");
   return refreshAll();
 }
-function failed(e){ flash(esc(e.message), "err"); }
+function failed(e){ busy(false); toast(esc(e.message), "err"); }
 
 function newFolder(){
   ask({title: "New folder", input: true, ok: "Create",
        text: "Inside " + (HERE || ROOTNAME || "the top") + "."},
     function(name){
       if (!name) return;
-      flash("Creating…", "busy");
+      busy(true);
       jpost("/api/map/folder", {path: HERE, name: name})
         .then(function(){ return afterChange("Made <b>" + esc(name) + "</b>."); })
         .catch(failed);
@@ -1207,7 +1278,7 @@ function renameRow(r){
              "name follows it."},
     function(name){
       if (!name || name === r.name) return;
-      flash("Renaming…", "busy");
+      busy(true);
       jpost("/api/map/rename", {path: join(HERE, r.name), name: name})
         .then(function(){ return afterChange("Renamed to <b>" + esc(name) + "</b>."); })
         .catch(failed);
@@ -1218,15 +1289,15 @@ function cutRow(r){
   CUT = {path: join(HERE, r.name), name: r.name, folder: r.folder};
   $("paste").hidden = false;
   $("paste").textContent = "Paste “" + r.name + "” here";
-  flash("Now open the folder it should go into, and press " +
-        "<b>Paste</b>.", "busy");
+  toast("Now open the folder it should go into, and press <b>Paste</b>.",
+        "busy", true);
   liveRows();
 }
 
 function pasteHere(){
   if (!CUT) return;
   var it = CUT;
-  flash("Moving…", "busy");
+  busy(true);
   jpost("/api/map/move", {path: it.path, to: HERE})
     .then(function(){
       CUT = null; $("paste").hidden = true;
@@ -1246,7 +1317,7 @@ function deleteRow(r){
        warn: (inside ? inside + " " : "") +
              "Your name goes on this in the intranet's activity log."},
     function(){
-      flash("Deleting…", "busy");
+      busy(true);
       jpost("/api/map/delete", {path: join(HERE, r.name)})
         .then(function(){
           return afterChange("Deleted <b>" + esc(r.name) +
@@ -1261,7 +1332,8 @@ function uploadFile(file){
   var body = new FormData();
   body.append("path", HERE);
   body.append("file", file);
-  flash("Uploading " + esc(file.name) + "…", "busy");
+  busy(true);
+  toast("Uploading " + esc(file.name) + "…", "busy", true);
   jfetch("/api/map/upload", {method: "POST", body: body})
     .then(function(){ return afterChange("Uploaded <b>" + esc(file.name) + "</b>."); })
     .catch(failed);
@@ -1287,8 +1359,9 @@ function runSeed(which){
                          " from the plan.");
     }
     var name = list[i++];
-    flash("Building <b>" + esc(titleOf(name)) + "</b> — " + i + " of " +
-          list.length + "…", "busy");
+    busy(true);
+    toast("Building <b>" + esc(titleOf(name)) + "</b> — " + i + " of " +
+          list.length + "…", "busy", true);
     return seedOne(name).then(function(j){
       made += j.made || 0;
       return next();

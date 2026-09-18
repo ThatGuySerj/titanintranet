@@ -85,6 +85,23 @@ Access screen already has an administrators group.
 
 ## Part C — how it behaves
 
+**Names on screen are not the names on disk.** SharePoint holds
+`00-09-01_Letterhead-and-Brand-Assets`, because the numbering is what sorts the
+folder and the convention says no spaces. The intranet shows **Letterhead and
+Brand Assets**, with the real name underneath it in small type. Nothing is
+hidden and nothing is renamed — you get the readable one to work with and the
+literal one to quote in an email.
+
+The list is also sorted by those numbers **as numbers**. SharePoint sorts them
+as text, which puts 100 between 10 and 110; every numbered filing system hits
+that eventually and everybody blames the numbering rather than the sort.
+
+**Nothing moves while a folder loads.** The list dims where it stands and a
+two-pixel bar runs along the top edge of the pane. No element changes size, so
+walking into ten folders in a row does not shuffle the page under the pointer.
+Anything that needs words — "Made X", an error — appears as a small panel in
+the bottom corner, over the layout rather than in it.
+
 **Browsing.** The middle pane is the current folder, folders first. Clicking a
 folder opens it; clicking a file opens it in SharePoint in a new tab. The
 breadcrumb walks back up. The filter box narrows the folder you are in — it is
@@ -162,7 +179,7 @@ orientation printing and already has.
 ## Tests
 
 ```
-python -m pytest test_sitemap.py -q        # 71 passed
+python -m pytest test_sitemap.py -q        # 76 passed
 ```
 
 No network and no SharePoint. Most of them are about the fence: every escape

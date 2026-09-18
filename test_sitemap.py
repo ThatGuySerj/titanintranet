@@ -338,3 +338,47 @@ def test_the_editor_is_shut_by_the_same_switch_as_the_page(client, monkeypatch):
     assert client.get("/api/map").status_code == 403
     assert client.post("/api/map/folder",
                        json={"path": "", "name": "x"}).status_code == 403
+
+
+# ---------------------------------------------------------------------------
+#  The order the folders come back in
+# ---------------------------------------------------------------------------
+
+def test_the_numbering_sorts_as_numbers_and_not_as_text():
+    """SharePoint puts 100 between 10 and 110, because it compares "100" with
+    "10_" and '0' sorts before '_'. Every numbered filing system hits this and
+    everybody blames the numbering."""
+    names = ["100_SALES", "10_CORPORATE", "110_VENDORS", "00_FILE-PLAN",
+             "05_SCAN", "160_ARCHIVE", "20_FINANCE", "90_OPERATIONS"]
+    assert sorted(names, key=sitemap.sort_key) == [
+        "00_FILE-PLAN", "05_SCAN", "10_CORPORATE", "20_FINANCE",
+        "90_OPERATIONS", "100_SALES", "110_VENDORS", "160_ARCHIVE"]
+
+
+def test_the_whole_plan_comes_out_in_plan_order():
+    import fileplan
+    names = [n["name"] for n in fileplan.tree()["kids"]]
+    assert sorted(names, key=sitemap.sort_key) == names
+
+
+def test_unnumbered_names_still_sort_sensibly():
+    names = ["zebra.pdf", "Apple.docx", "mango"]
+    assert sorted(names, key=sitemap.sort_key) == ["Apple.docx", "mango",
+                                                   "zebra.pdf"]
+
+
+def test_deeper_numbering_sorts_too():
+    names = ["10-10_Late", "10-2_Early", "10-1_First"]
+    assert sorted(names, key=sitemap.sort_key) == ["10-1_First", "10-2_Early",
+                                                   "10-10_Late"]
+
+
+def test_folders_come_before_files_whatever_they_are_called():
+    tree = sitemap.Tree(tenant="t", client_id="c", client_secret="s",
+                        host="h", site_path="s", library="l",
+                        root="Site Mapping", drive_id="D")
+    rows = [{"name": "a-file.pdf", "size": 1, "webUrl": ""},
+            {"name": "z-folder", "folder": {"childCount": 2}, "webUrl": ""}]
+    items = [tree._row(r) for r in rows]
+    items.sort(key=lambda i: (not i["folder"], sitemap.sort_key(i["name"])))
+    assert [i["name"] for i in items] == ["z-folder", "a-file.pdf"]

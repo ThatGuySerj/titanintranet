@@ -38,6 +38,7 @@ Graph endpoints beyond the ones orientation.py already uses:
 """
 import json
 import os
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -96,6 +97,26 @@ def clean_name(name):
     if stem in RESERVED or name.lower() in RESERVED:
         raise MapError("%r is a name Windows reserves. Pick another." % name)
     return name
+
+
+_DIGITS = re.compile(r"(\d+)")
+
+
+def sort_key(name):
+    """Sort a folder list the way the numbering means it, not the way ASCII does.
+
+    The plan's numbers are what put the structure in order, and SharePoint
+    sorts them as text: 100_SALES lands between 10_CORPORATE and 110_VENDORS,
+    because "100" and "10_" differ at the third character and '0' comes before
+    '_'. Every numbered structure hits this eventually and everybody blames the
+    numbering rather than the sort.
+
+    Splitting the digits out and comparing them as numbers puts 00, 05, 10, 20
+    ... 100, 110, 160 where they belong. SharePoint still shows what SharePoint
+    shows - this is the intranet's own list.
+    """
+    parts = _DIGITS.split(name or "")
+    return [int(p) if p.isdigit() else p.lower() for p in parts]
 
 
 def _norm(rel):
@@ -210,7 +231,7 @@ class Tree(orientation.Library):
             pages += 1
 
         items = [self._row(r) for r in rows]
-        items.sort(key=lambda i: (not i["folder"], i["name"].lower()))
+        items.sort(key=lambda i: (not i["folder"], sort_key(i["name"])))
         return {"path": rel.strip("/"), "root": self.root, "items": items}
 
     @staticmethod

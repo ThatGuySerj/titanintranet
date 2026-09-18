@@ -21,7 +21,7 @@ Intranet/
 ├─ test_intranet_access.py 28 tests
 ├─ test_orientation.py     41 tests
 ├─ test_fileplan.py        31 tests
-├─ test_sitemap.py         71 tests
+├─ test_sitemap.py         76 tests
 └─ .github/workflows/main_titanintranet.yml
 ```
 
@@ -116,7 +116,7 @@ python app.py               http://localhost:8001
 Tests need neither a database nor the network:
 
 ```
-python -m pytest -q          # 173 passed
+python -m pytest -q          # 178 passed
 ```
 
 ## Settings
