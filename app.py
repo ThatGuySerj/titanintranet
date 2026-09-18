@@ -968,6 +968,287 @@ def fileplan_page():
 
 
 # ---------------------------------------------------------------------------
+#  The filing system, live: reading and writing one SharePoint folder
+# ---------------------------------------------------------------------------
+#
+# The plan stopped being a drawing. These routes browse and change the real
+# `Site Mapping` folder, so what the page shows is what SharePoint holds.
+#
+# Three things are worth knowing about how this is allowed to work, because
+# they were decisions and not accidents:
+#
+# 1. The app registration holds Sites.ReadWrite.All, so Microsoft will let it
+#    write ANYWHERE in the tenant. What keeps it inside one folder is
+#    sitemap._full(), which resolves every path from the browser against
+#    MAP_ROOT and refuses anything that lands outside. That function is the
+#    whole fence; it has tests of its own.
+#
+# 2. Anybody signed in may edit. That was asked for and it is what this does.
+#    It also means the ordinary protection - "only a few people can break it" -
+#    is not there, so the replacement is that everything is written down.
+#
+# 3. Graph writes are made with the APP's identity, so SharePoint's own version
+#    history will say the app changed a folder and not who asked it to. That is
+#    why intranet_map_log exists: it is the only place that knows a person was
+#    behind a delete. A delete that cannot be written to the log is refused
+#    rather than performed unattributably. The gentler operations - new folder,
+#    rename, move, upload - go ahead and log a warning, because none of them
+#    loses anything.
+
+MAP_LOG_SCHEMA = """
+CREATE TABLE IF NOT EXISTS intranet_map_log (
+    id     bigserial PRIMARY KEY,
+    at     timestamptz NOT NULL DEFAULT now(),
+    email  text NOT NULL,
+    action text NOT NULL,
+    path   text NOT NULL,
+    detail text
+);
+CREATE INDEX IF NOT EXISTS intranet_map_log_at ON intranet_map_log (at DESC);
+"""
+
+_MAP = {"tree": None}
+_MAP_LOCK = threading.Lock()
+
+
+def _map_tree():
+    """One Tree per process - the token and the resolved drive id are reused."""
+    import sitemap
+    with _MAP_LOCK:
+        tree = _MAP.get("tree")
+        if tree is None:
+            tree = sitemap.from_env()        # raises if unconfigured
+            _MAP["tree"] = tree
+        return tree
+
+
+def _map_log(action, path, detail=""):
+    """Who did what, where. Raises if it could not be written."""
+    email = (session.get("email") or "").strip().lower() or "?"
+    with conn().cursor() as cur:
+        cur.execute("INSERT INTO intranet_map_log (email, action, path, detail) "
+                    "VALUES (%s, %s, %s, %s)",
+                    (email, action, path, detail or None))
+    conn().commit()
+    app.logger.info("map %s by %s: %s %s", action, email, path, detail or "")
+
+
+def _map_note(action, path, detail=""):
+    """The same, for the operations that must not fail over a logging fault."""
+    try:
+        _map_log(action, path, detail)
+    except Exception as e:
+        app.logger.error("could not record %s of %s: %s", action, path, e)
+
+
+def _map_answer(fn):
+    """Runs a map operation and turns its complaints into the right status.
+
+    400 is something the person can fix - a name SharePoint will not take.
+    403 is a path outside the folder this is allowed to touch, which is not a
+    mistake anybody makes by accident. 501 is nobody has configured it, and
+    502 is SharePoint saying no.
+    """
+    import sitemap
+    try:
+        return jsonify(ok=True, **(fn() or {}))
+    except sitemap.OutsideRoot as e:
+        app.logger.warning("map refused a path from %s: %s",
+                           session.get("email") or "?", e)
+        return jsonify(ok=False, error=str(e)), 403
+    except sitemap.MapError as e:
+        return jsonify(ok=False, error=str(e)), 400
+    except orientation_module().NotConfigured as e:
+        return jsonify(ok=False, error=str(e)), 501
+    except orientation_module().OrientationError as e:
+        return jsonify(ok=False, error=str(e)), 502
+    except Exception as e:
+        app.logger.exception("map operation failed")
+        return jsonify(ok=False, error="That did not work: %s" % str(e)[:200]), 500
+
+
+def orientation_module():
+    import orientation
+    return orientation
+
+
+def _map_check(path=None, name=None, *more_paths):
+    """Refuse a bad path or name before SharePoint is troubled at all.
+
+    Worth its own step rather than leaving it to the Tree: neither check needs
+    a token, a drive lookup or a round trip, and a server that has not been
+    configured yet should still be able to say "that name has a colon in it"
+    rather than "packet printing needs TENANT_ID".
+    """
+    import sitemap
+    for p in (path,) + more_paths:
+        if p is not None:
+            sitemap._norm(p)
+    if name is not None:
+        sitemap.clean_name(name)
+
+
+def map_allowed(fn):
+    """Signed in, and allowed to see the filing system at all.
+
+    The same key as the page itself, so there is one switch on the Access
+    screen and not two - and no way to reach the folder through the API that
+    the page's own gate does not cover.
+    """
+    @functools.wraps(fn)
+    @protected
+    def go(*a, **kw):
+        email, groups = _who_and_groups()
+        if not intranet_access.allows(_rules(), PLAN_KEY, groups,
+                                      intranet_access.is_admin(email, groups)):
+            return jsonify(ok=False, error="You do not have the filing "
+                           "system on your intranet."), 403
+        return fn(*a, **kw)
+    return go
+
+
+@app.get("/api/map")
+@map_allowed
+def map_list():
+    """One folder's contents, straight from SharePoint."""
+    path = request.args.get("path") or ""
+    def go():
+        _map_check(path)
+        return _map_tree().listing(path)
+    return _map_answer(go)
+
+
+@app.post("/api/map/folder")
+@map_allowed
+def map_new_folder():
+    body = request.get_json(silent=True) or {}
+    path, name = body.get("path") or "", body.get("name") or ""
+
+    def go():
+        _map_check(path, name)
+        out = _map_tree().create_folder(path, name)
+        _map_note("new folder", (path + "/" + name).strip("/"))
+        return {"item": out.get("name")}
+    return _map_answer(go)
+
+
+@app.post("/api/map/rename")
+@map_allowed
+def map_rename():
+    body = request.get_json(silent=True) or {}
+    path, name = body.get("path") or "", body.get("name") or ""
+
+    def go():
+        _map_check(path, name)
+        out = _map_tree().rename(path, name)
+        _map_note("rename", path, "to " + (out.get("name") or name))
+        return {"item": out.get("name")}
+    return _map_answer(go)
+
+
+@app.post("/api/map/move")
+@map_allowed
+def map_move():
+    body = request.get_json(silent=True) or {}
+    path, to = body.get("path") or "", body.get("to") or ""
+
+    def go():
+        _map_check(path, None, to)
+        _map_tree().move(path, to)
+        _map_note("move", path, "into " + (to or "the top"))
+        return {"moved": path, "into": to}
+    return _map_answer(go)
+
+
+@app.post("/api/map/delete")
+@map_allowed
+def map_delete():
+    """To the site's recycle bin, and only once the log has taken it.
+
+    Everybody signed in can reach this, so the record of who pressed it is the
+    only thing that makes a wrong delete recoverable as a matter of fact rather
+    than of memory. If that record cannot be written, neither can the delete.
+    """
+    body = request.get_json(silent=True) or {}
+    path = body.get("path") or ""
+
+    def go():
+        _map_check(path)
+        tree = _map_tree()
+        item = tree.item(path)               # 404s here rather than after
+        inside = (" (%d inside)" % item["children"]) if item["folder"] else ""
+        try:
+            _map_log("delete", path,
+                     ("folder" if item["folder"] else "file") + inside)
+        except Exception as e:
+            app.logger.error("refusing an unrecorded delete of %s: %s", path, e)
+            raise orientation_module().OrientationError(
+                "Deleting is off while the activity log cannot be written - "
+                "it is what makes a wrong delete traceable. Try again shortly, "
+                "or delete it in SharePoint, where your own name is on it.")
+        tree.delete(path)
+        return {"deleted": path, "recycled": True}
+    return _map_answer(go)
+
+
+@app.post("/api/map/upload")
+@map_allowed
+def map_upload():
+    path = request.form.get("path") or ""
+    f = request.files.get("file")
+    if f is None:
+        return jsonify(ok=False, error="No file came with that."), 400
+    data = f.read()
+    name = os.path.basename(f.filename or "")
+
+    def go():
+        _map_check(path, name)
+        out = _map_tree().upload(path, name, data)
+        _map_note("upload", (path + "/" + name).strip("/"),
+                  "%.1f KB" % (len(data) / 1024.0))
+        return {"item": out.get("name")}
+    return _map_answer(go)
+
+
+@app.post("/api/map/seed")
+@map_allowed
+def map_seed():
+    """Create one master folder of the plan inside the root.
+
+    One at a time: 732 folders is 732 Graph calls and gunicorn cuts a request
+    off at 120 seconds. The page walks the eighteen and shows progress.
+    """
+    import sitemap
+    body = request.get_json(silent=True) or {}
+    which = body.get("master") or ""
+
+    def go():
+        out = sitemap.seed(_map_tree(), sitemap.plan_master(which))
+        _map_note("seed", out["master"],
+                  "%d made, %d already there" % (out["made"], out["kept"]))
+        return out
+    return _map_answer(go)
+
+
+@app.get("/api/map/log")
+@map_allowed
+def map_log_read():
+    """The last hundred changes. Who, what, where, when."""
+    try:
+        with conn().cursor() as cur:
+            cur.execute("SELECT at, email, action, path, detail "
+                        "FROM intranet_map_log ORDER BY at DESC LIMIT 100")
+            rows = intranet_access._rows(cur)
+    except Exception as e:
+        app.logger.warning("could not read the map log: %s", e)
+        return jsonify(ok=True, entries=[], note=str(e)[:120])
+    return jsonify(ok=True, entries=[
+        {"at": a.isoformat() if hasattr(a, "isoformat") else str(a),
+         "email": e, "action": act, "path": p, "detail": d}
+        for a, e, act, p, d in rows])
+
+
+# ---------------------------------------------------------------------------
 
 
 # ---------------------------------------------------------------------------
@@ -1586,7 +1867,7 @@ def healthz():
 
 @app.before_request
 def _boot():
-    """Make this site's three tables once per worker.
+    """Make this site's four tables once per worker.
 
     Its own tables, not the ticket site's schema, so a change here never takes
     a lock on a table reviewers are filing tickets into.
@@ -1596,6 +1877,9 @@ def _boot():
             BOOTED["last"] = time.time()
             try:
                 intranet_access.ensure(conn())
+                with conn().cursor() as cur:
+                    cur.execute(MAP_LOG_SCHEMA)
+                conn().commit()
                 BOOTED["done"] = True
             except Exception as e:
                 app.logger.error("could not prepare the access tables: %s", e)

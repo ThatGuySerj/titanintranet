@@ -219,6 +219,64 @@ button,input,select{font-family:inherit}
 .hitnote{padding:10px 15px;font-size:12px;color:var(--text-dim);
   border-bottom:1px solid var(--border-dark);background:#191c22}
 
+/* ---------- the live folder ---------- */
+.btn.go{background:var(--red);border-color:var(--red);color:#fff}
+.btn.go:hover{background:var(--red-dark);border-color:var(--red-dark)}
+.btn.warn{border-color:#5c2630;color:#ff8080}
+.btn.warn:hover{background:#3d1b22;color:#fff}
+label.btn{display:inline-block;cursor:pointer}
+
+#dropzone.over{outline:2px dashed var(--cyan);outline-offset:-6px}
+#dropzone.over::after{content:"Drop to upload here";position:absolute}
+
+.row .acts{flex:none;display:flex;gap:2px;opacity:0;transition:opacity .12s}
+.row:hover .acts,.row.on .acts{opacity:1}
+.row .acts button{background:none;border:1px solid transparent;border-radius:6px;
+  color:var(--text-dim);cursor:pointer;font-size:11px;padding:3px 7px;line-height:1.4}
+.row .acts button:hover{background:var(--surface-2);color:#fff;border-color:var(--border-dark)}
+.row .acts button.del:hover{color:#ff8080;border-color:#5c2630}
+.row.cut{opacity:.45}
+.row .meta{flex:none;font-size:11px;color:var(--text-dim);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.seed{width:100%;display:flex;align-items:center;gap:9px;background:none;border:0;
+  border-bottom:1px solid #1e2128;color:var(--text-light);text-align:left;
+  padding:8px 13px;font-size:12.5px;cursor:pointer}
+.seed:hover{background:#171a20;color:#fff}
+.seed .num{font-family:var(--font-display);font-weight:700;color:var(--cyan);
+  min-width:28px;text-align:right}
+.seed .lbl{flex:1;line-height:1.25}
+.seed .mark{flex:none;font-size:11px;color:var(--green)}
+.seed[disabled]{cursor:default;opacity:.75}
+.seed.busy .mark{color:var(--cyan)}
+
+.logrow{padding:8px 13px;border-bottom:1px solid #1e2128;font-size:12px;
+  color:var(--text-light)}
+.logrow:last-child{border-bottom:0}
+.logrow b{color:#fff;font-weight:600}
+.logrow .when{color:var(--text-dim);font-size:11px}
+.logrow .what{color:var(--cyan)}
+
+.flash{border-radius:9px;padding:10px 14px;margin:12px 0 0;font-size:13.5px;
+  border:1px solid transparent}
+.flash.ok{background:#123a2c;border-color:#1e5c45;color:#b6f0d6}
+.flash.err{background:#3d1b22;border-color:#5c2630;color:#ffc4c4}
+.flash.busy{background:var(--surface-2);border-color:var(--border-dark);color:var(--text-light)}
+
+dialog.ask{border:1px solid var(--border-dark);border-top:4px solid var(--red);
+  border-radius:12px;background:var(--surface-light);color:var(--text);
+  padding:0;max-width:440px;width:calc(100% - 40px);box-shadow:var(--shadow-md)}
+dialog.ask::backdrop{background:rgba(9,11,14,.66)}
+dialog.ask .body{padding:18px 20px}
+dialog.ask h3{font-size:1.1rem;color:#fff;margin-bottom:8px}
+dialog.ask p{font-size:13.5px;color:var(--text-light)}
+dialog.ask input{width:100%;margin-top:12px;background:var(--black);color:var(--text);
+  border:1px solid var(--border-dark);border-radius:8px;padding:10px 12px;font-size:14px}
+dialog.ask input:focus{outline:none;border-color:var(--cyan)}
+dialog.ask .btns{display:flex;gap:10px;justify-content:flex-end;padding:0 20px 18px}
+dialog.ask .warnline{margin-top:12px;background:#2b2412;border:1px solid #5c4a20;
+  border-radius:8px;padding:9px 12px;font-size:12.5px;color:#f3e3c4}
+
 /* ---------- outline ---------- */
 .outline{margin-top:18px}
 .outline details{background:var(--surface-light);border:1px solid var(--border-dark);
@@ -324,11 +382,13 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
 
   <div class="draft">
     <span>
-      <b>A proposal, not the live system.</b> Nothing in here exists in
-      SharePoint yet and no document is filed in any of it. This is
-      <span id="docref">the Master File Plan</span> made walkable, so it can be
-      argued with before it gets built &mdash; a folder is far cheaper to move
-      now than after four thousand documents are sitting in it.
+      <b>Two things on one page.</b> <b>The folders</b> is real: it is the
+      <i>Site Mapping</i> folder in SharePoint, and anything changed here is
+      changed there. <b>The plan</b> is still a proposal &mdash;
+      <span id="docref">the Master File Plan</span>, walkable, so it can be
+      argued with before it is built. Build a branch of the plan into the real
+      folder from the left-hand panel. A folder is far cheaper to move now than
+      after four thousand documents are sitting in it.
     </span>
   </div>
 
@@ -346,13 +406,53 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
   </div>
 
   <div class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" data-tab="explorer">Browse the structure</button>
+    <button role="tab" aria-selected="true" data-tab="live">The folders</button>
+    <button role="tab" aria-selected="false" data-tab="explorer">The plan</button>
     <button role="tab" aria-selected="false" data-tab="outline">Full outline</button>
     <button role="tab" aria-selected="false" data-tab="reference">Rules &amp; reference</button>
   </div>
 
+  <!-- ============================== LIVE =============================== -->
+  <section class="panel" id="panel-live">
+    <div class="tools">
+      <button class="btn go" id="mkdir">New folder</button>
+      <label class="btn" for="upl">Upload a file</label>
+      <input id="upl" type="file" hidden>
+      <button class="btn" id="paste" hidden>Paste here</button>
+      <button class="btn ghost" id="refresh" title="Read the folder again">Refresh</button>
+      <div class="search">
+        <span class="ico">&#9906;</span>
+        <input id="lq" type="search" placeholder="Filter this folder…" autocomplete="off">
+      </div>
+      <span class="count" id="lcount"></span>
+    </div>
+
+    <p class="flash" id="lflash" hidden aria-live="polite"></p>
+
+    <div class="explorer">
+      <div class="pane">
+        <h3 id="rootName">Site Mapping</h3>
+        <div class="scroll" id="tops"></div>
+        <h3 style="border-top:1px solid var(--border-dark)">Build from the plan</h3>
+        <div class="scroll" id="seeds" style="max-height:min(34vh,380px)"></div>
+      </div>
+
+      <div class="pane" id="dropzone">
+        <div class="crumbs" id="lcrumbs"></div>
+        <div class="scroll" id="llist"></div>
+      </div>
+
+      <div class="pane side">
+        <h3>Detail</h3>
+        <div class="detail" id="ldetail"></div>
+        <h3 style="border-top:1px solid var(--border-dark)">Recent changes</h3>
+        <div class="scroll" id="llog" style="max-height:min(30vh,280px)"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============================ EXPLORER ============================ -->
-  <section class="panel" id="panel-explorer">
+  <section class="panel" id="panel-explorer" hidden>
     <div class="tools">
       <div class="search">
         <span class="ico">&#9906;</span>
@@ -452,6 +552,21 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
   <div class="foot" id="foot"></div>
 
 </div>
+
+<dialog class="ask" id="ask">
+  <form method="dialog">
+    <div class="body">
+      <h3 id="askTitle"></h3>
+      <p id="askText"></p>
+      <input id="askInput" autocomplete="off">
+      <div class="warnline" id="askWarn" hidden></div>
+    </div>
+    <div class="btns">
+      <button class="btn ghost" value="no" type="submit">Cancel</button>
+      <button class="btn go" value="yes" id="askOk" type="submit">OK</button>
+    </div>
+  </form>
+</dialog>
 
 <script>
 (function(){
@@ -556,6 +671,7 @@ tabs.forEach(function(b){
       x.setAttribute("aria-selected", on ? "true" : "false");
       $("panel-" + x.dataset.tab).hidden = !on;
     });
+    if (b.dataset.tab === "live") openLive();
     if (b.dataset.tab === "outline") buildOutline();
     if (b.dataset.tab === "reference") buildReference();
   });
@@ -802,6 +918,469 @@ $("btnreset").addEventListener("click", function(){ goTo(null); });
 
 renderMasters();
 goTo(null);
+
+/* ================================================================
+   The live folder - the real Site Mapping, in SharePoint
+
+   Everything below talks to /api/map. The server is the only thing
+   that knows where the root is and the only thing that decides what
+   is inside it; this code never builds an absolute path and never
+   sees one. Send it "10_CORPORATE-AND-LEGAL/10-01_Entity-Records"
+   and it either resolves inside Site Mapping or it is refused.
+   ================================================================ */
+var HERE = "";        /* where we are, relative to the root */
+var ROWS = [];        /* the last listing */
+var SEL  = null;      /* the row in the detail panel */
+var CUT  = null;      /* an item waiting to be pasted */
+var TOPS = [];        /* the folders directly under the root */
+var ROOTNAME = "";    /* what the server calls the root - it owns that, not us */
+var loadedLive = false;
+
+function join(a, b){ return (a ? a + "/" + b : b); }
+function parentOf(p){ var i = p.lastIndexOf("/"); return i < 0 ? "" : p.slice(0, i); }
+
+function jfetch(url, opts){
+  opts = opts || {};
+  opts.credentials = "same-origin";
+  return fetch(url, opts).then(function(r){
+    return r.text().then(function(t){
+      var j = {};
+      try { j = JSON.parse(t); } catch(e){}
+      if (!r.ok || j.ok === false)
+        throw new Error(j.error || ("The server answered " + r.status + "."));
+      return j;
+    });
+  });
+}
+function jpost(url, body){
+  return jfetch(url, {
+    method: "POST",
+    headers: {"Content-Type": "application/json", "X-Requested-With": "fetch"},
+    body: JSON.stringify(body || {})
+  });
+}
+
+function flash(msg, kind){
+  var el = $("lflash");
+  if (!msg){ el.hidden = true; el.innerHTML = ""; return; }
+  el.className = "flash " + (kind || "busy");
+  el.innerHTML = msg;
+  el.hidden = false;
+}
+
+/* ---- a dialog, rather than window.prompt, which browsers throttle ---- */
+function ask(opts, then){
+  var dlg = $("ask");
+  $("askTitle").textContent = opts.title || "";
+  $("askText").textContent = opts.text || "";
+  $("askOk").textContent = opts.ok || "OK";
+  $("askOk").className = "btn " + (opts.danger ? "warn" : "go");
+  var input = $("askInput");
+  input.hidden = !opts.input;
+  input.value = opts.value || "";
+  var warn = $("askWarn");
+  warn.hidden = !opts.warn;
+  warn.textContent = opts.warn || "";
+
+  function done(){
+    dlg.removeEventListener("close", done);
+    if (dlg.returnValue === "yes") then(opts.input ? input.value : true);
+  }
+  dlg.addEventListener("close", done);
+  dlg.showModal();
+  if (opts.input) setTimeout(function(){ input.focus(); input.select(); }, 30);
+}
+
+/* ---- rendering ---- */
+function kb(n){
+  if (!n) return "";
+  if (n < 1024) return n + " B";
+  if (n < 1048576) return (n / 1024).toFixed(0) + " KB";
+  return (n / 1048576).toFixed(1) + " MB";
+}
+function when(iso){
+  if (!iso) return "";
+  var d = new Date(iso);
+  if (isNaN(d)) return "";
+  var days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  if (days === 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return days + " days ago";
+  return d.toLocaleDateString();
+}
+
+function liveCrumbs(){
+  var html = '<button data-go="">' + esc(ROOTNAME || "Top") + '</button>';
+  var acc = "";
+  if (HERE) HERE.split("/").forEach(function(seg, i, all){
+    acc = join(acc, seg);
+    html += '<span class="sep">&rsaquo;</span>';
+    html += (i === all.length - 1)
+      ? '<span class="here">' + esc(seg) + '</span>'
+      : '<button data-go="' + esc(acc) + '">' + esc(seg) + '</button>';
+  });
+  $("lcrumbs").innerHTML = html;
+}
+
+function liveRows(){
+  var term = ($("lq").value || "").trim().toLowerCase();
+  var rows = ROWS.filter(function(r){
+    return !term || r.name.toLowerCase().indexOf(term) > -1;
+  });
+
+  $("lcount").textContent = ROWS.length
+    ? (term ? rows.length + " of " + ROWS.length : ROWS.length + " items")
+    : "";
+
+  if (!rows.length){
+    $("llist").innerHTML = '<div class="empty">' + (ROWS.length
+      ? "Nothing here matches that."
+      : "This folder is empty. Make a folder, upload a file, or build a " +
+        "branch of the plan from the left.") + '</div>';
+    return;
+  }
+
+  /* A DIV and not a BUTTON. The row carries buttons of its own, and a
+     button inside a button is invalid HTML - the parser lifts the inner ones
+     out, which silently removes every action on every row. */
+  $("llist").innerHTML = rows.map(function(r){
+    var cut = CUT && CUT.path === join(HERE, r.name);
+    return '<div class="row' + (r.folder ? '' : ' leaf') +
+      (SEL && SEL.id === r.id ? ' on' : '') + (cut ? ' cut' : '') +
+      '" role="button" tabindex="0" data-name="' + esc(r.name) + '">' +
+      '<span class="ic">' + (r.folder ? '&#128193;' : '&#128196;') + '</span>' +
+      '<span class="nm"><b>' + esc(r.name) + '</b>' +
+      '<small>' + (r.folder
+        ? (r.children ? r.children + ' inside' : 'empty')
+        : kb(r.size)) +
+      (r.modified ? ' &middot; ' + esc(when(r.modified)) : '') +
+      (r.by ? ' &middot; ' + esc(r.by) : '') + '</small></span>' +
+      '<span class="acts">' +
+        (r.folder ? '<button data-act="open">open</button>'
+                  : '<button data-act="view">open</button>') +
+        '<button data-act="rename">rename</button>' +
+        '<button data-act="cut">move</button>' +
+        '<button class="del" data-act="delete">delete</button>' +
+      '</span></div>';
+  }).join("");
+}
+
+function liveDetail(){
+  var el = $("ldetail");
+  if (!SEL){
+    el.innerHTML = '<p style="color:var(--text-dim);font-size:13.5px">' +
+      'Pick something and its details show here. Everything on this tab is ' +
+      'the real folder in SharePoint &mdash; a change here is a change there.' +
+      '</p>';
+    return;
+  }
+  var path = join(HERE, SEL.name);
+  el.innerHTML =
+    '<div class="kick">' + (SEL.folder ? 'Folder' : 'File') + '</div>' +
+    '<h2>' + esc(SEL.name) + '</h2>' +
+    '<div class="meta">' +
+      '<span class="tag lvl">' + (SEL.folder
+        ? (SEL.children ? SEL.children + ' inside' : 'empty')
+        : kb(SEL.size)) + '</span>' +
+      '<span class="tag lvl">' + join(ROOTNAME, path).length +
+        ' characters</span>' +
+    '</div>' +
+    '<div class="path">' + esc(join(ROOTNAME, path)) + '</div>' +
+    (SEL.url ? '<p style="margin-top:12px"><a href="' + esc(SEL.url) +
+      '" target="_blank" rel="noopener">Open in SharePoint &#8599;</a></p>' : '') +
+    '<dl>' +
+      (SEL.modified ? '<dt>Last changed</dt><dd>' + esc(when(SEL.modified)) +
+        (SEL.by ? ' by ' + esc(SEL.by) : '') + '</dd>' : '') +
+      '<dt>Actions</dt><dd style="display:flex;gap:7px;flex-wrap:wrap;margin-top:6px">' +
+        '<button class="btn small" data-d="rename">Rename</button>' +
+        '<button class="btn small" data-d="cut">Move</button>' +
+        '<button class="btn small warn" data-d="delete">Delete</button>' +
+      '</dd>' +
+    '</dl>';
+}
+
+function liveTops(){
+  $("tops").innerHTML = TOPS.length
+    ? TOPS.map(function(t){
+        return '<button class="master" data-go="' + esc(t.name) + '">' +
+          '<span class="lbl">' + esc(t.name) + '</span>' +
+          '<span class="ct">' + (t.children || "") + '</span></button>';
+      }).join("")
+    : '<div class="empty" style="padding:14px">Nothing here yet.</div>';
+}
+
+function liveSeeds(){
+  var have = {};
+  TOPS.forEach(function(t){ have[t.name] = true; });
+  var left = PLAN.tree.filter(function(m){ return !have[m.n]; }).length;
+
+  $("seeds").innerHTML =
+    '<button class="seed" data-seed="*" ' + (left ? '' : 'disabled') + '>' +
+      '<span class="num">All</span><span class="lbl">' +
+      (left ? 'Build the ' + left + ' that are missing' : 'All eighteen are there') +
+      '</span></button>' +
+    PLAN.tree.map(function(m){
+      var there = have[m.n];
+      return '<button class="seed" data-seed="' + esc(m.n) + '"' +
+        (there ? ' disabled' : '') + '>' +
+        '<span class="num">' + esc(numOf(m.n)) + '</span>' +
+        '<span class="lbl">' + esc(titleOf(m.n)) + '</span>' +
+        '<span class="mark">' + (there ? '&#10003;' : '+') + '</span></button>';
+    }).join("");
+}
+
+function liveLog(){
+  jfetch("/api/map/log").then(function(j){
+    var rows = j.entries || [];
+    $("llog").innerHTML = rows.length
+      ? rows.map(function(e){
+          return '<div class="logrow"><b>' + esc((e.email || "").split("@")[0]) +
+            '</b> <span class="what">' + esc(e.action) + '</span> ' +
+            esc(e.path) + (e.detail ? ' <span class="when">(' +
+            esc(e.detail) + ')</span>' : '') +
+            '<br><span class="when">' + esc(when(e.at)) + '</span></div>';
+        }).join("")
+      : '<div class="empty" style="padding:14px">Nothing changed yet.</div>';
+  }).catch(function(){ /* the log is a nicety, not the feature */ });
+}
+
+/* ---- loading ---- */
+function openFolder(path, quiet){
+  if (!quiet) flash("Reading the folder…", "busy");
+  HERE = path || "";
+  SEL = null;
+  return jfetch("/api/map?path=" + encodeURIComponent(HERE))
+    .then(function(j){
+      ROWS = j.items || [];
+      if (j.root != null){
+        ROOTNAME = j.root;
+        $("rootName").textContent = ROOTNAME || "The library";
+      }
+      if (!HERE){
+        TOPS = ROWS.filter(function(r){ return r.folder; });
+        liveTops(); liveSeeds();
+      }
+      liveCrumbs(); liveRows(); liveDetail();
+      /* only clear what this call put up. A quiet reload is the one that
+         follows a change, and it must not wipe the "Made X" that sent it. */
+      if (!quiet) flash("");
+    })
+    .catch(function(e){
+      ROWS = [];
+      liveCrumbs(); liveRows(); liveDetail();
+      flash(esc(e.message), "err");
+    });
+}
+
+function refreshAll(){
+  return openFolder(HERE, true).then(function(){
+    if (HERE) return jfetch("/api/map").then(function(j){
+      TOPS = (j.items || []).filter(function(r){ return r.folder; });
+      liveTops(); liveSeeds();
+    }).catch(function(){});
+  }).then(liveLog);
+}
+
+/* ---- the actions ---- */
+function afterChange(msg){
+  flash(msg, "ok");
+  setTimeout(function(){ flash(""); }, 4000);
+  return refreshAll();
+}
+function failed(e){ flash(esc(e.message), "err"); }
+
+function newFolder(){
+  ask({title: "New folder", input: true, ok: "Create",
+       text: "Inside " + (HERE || ROOTNAME || "the top") + "."},
+    function(name){
+      if (!name) return;
+      flash("Creating…", "busy");
+      jpost("/api/map/folder", {path: HERE, name: name})
+        .then(function(){ return afterChange("Made <b>" + esc(name) + "</b>."); })
+        .catch(failed);
+    });
+}
+
+function renameRow(r){
+  ask({title: "Rename", input: true, value: r.name, ok: "Rename",
+       text: "SharePoint keeps the link working; anything pointing at the old " +
+             "name follows it."},
+    function(name){
+      if (!name || name === r.name) return;
+      flash("Renaming…", "busy");
+      jpost("/api/map/rename", {path: join(HERE, r.name), name: name})
+        .then(function(){ return afterChange("Renamed to <b>" + esc(name) + "</b>."); })
+        .catch(failed);
+    });
+}
+
+function cutRow(r){
+  CUT = {path: join(HERE, r.name), name: r.name, folder: r.folder};
+  $("paste").hidden = false;
+  $("paste").textContent = "Paste “" + r.name + "” here";
+  flash("Now open the folder it should go into, and press " +
+        "<b>Paste</b>.", "busy");
+  liveRows();
+}
+
+function pasteHere(){
+  if (!CUT) return;
+  var it = CUT;
+  flash("Moving…", "busy");
+  jpost("/api/map/move", {path: it.path, to: HERE})
+    .then(function(){
+      CUT = null; $("paste").hidden = true;
+      return afterChange("Moved <b>" + esc(it.name) + "</b> here.");
+    })
+    .catch(failed);
+}
+
+function deleteRow(r){
+  var inside = r.folder && r.children
+    ? "It has " + r.children + " item" + (r.children === 1 ? "" : "s") +
+      " in it, and they go with it."
+    : "";
+  ask({title: "Delete " + r.name + "?", ok: "Delete", danger: true,
+       text: "It goes to the site's recycle bin, where SharePoint keeps it for " +
+             "93 days.",
+       warn: (inside ? inside + " " : "") +
+             "Your name goes on this in the intranet's activity log."},
+    function(){
+      flash("Deleting…", "busy");
+      jpost("/api/map/delete", {path: join(HERE, r.name)})
+        .then(function(){
+          return afterChange("Deleted <b>" + esc(r.name) +
+                             "</b> — it is in the site's recycle bin.");
+        })
+        .catch(failed);
+    });
+}
+
+function uploadFile(file){
+  if (!file) return;
+  var body = new FormData();
+  body.append("path", HERE);
+  body.append("file", file);
+  flash("Uploading " + esc(file.name) + "…", "busy");
+  jfetch("/api/map/upload", {method: "POST", body: body})
+    .then(function(){ return afterChange("Uploaded <b>" + esc(file.name) + "</b>."); })
+    .catch(failed);
+}
+
+function seedOne(name){
+  return jpost("/api/map/seed", {master: name}).then(function(j){
+    return j;
+  });
+}
+
+function runSeed(which){
+  var list = which === "*"
+    ? PLAN.tree.map(function(m){ return m.n; }).filter(function(n){
+        return !TOPS.some(function(t){ return t.name === n; });
+      })
+    : [which];
+  var made = 0, i = 0;
+
+  function next(){
+    if (i >= list.length){
+      return afterChange("Built " + made + " folder" + (made === 1 ? "" : "s") +
+                         " from the plan.");
+    }
+    var name = list[i++];
+    flash("Building <b>" + esc(titleOf(name)) + "</b> — " + i + " of " +
+          list.length + "…", "busy");
+    return seedOne(name).then(function(j){
+      made += j.made || 0;
+      return next();
+    });
+  }
+  next().catch(failed);
+}
+
+/* ---- wiring ---- */
+$("llist").addEventListener("click", function(e){
+  var row = e.target.closest(".row"); if (!row) return;
+  var r = null, name = row.dataset.name;
+  for (var i = 0; i < ROWS.length; i++) if (ROWS[i].name === name) r = ROWS[i];
+  if (!r) return;
+
+  var act = e.target.closest("[data-act]");
+  act = act && act.dataset.act;
+
+  if (act === "rename") return renameRow(r);
+  if (act === "cut")    return cutRow(r);
+  if (act === "delete") return deleteRow(r);
+  if (act === "view" || (!act && !r.folder)){
+    if (r.url) window.open(r.url, "_blank", "noopener");
+    SEL = r; liveRows(); liveDetail();
+    return;
+  }
+  if (r.folder) return openFolder(join(HERE, r.name));
+});
+
+$("llist").addEventListener("keydown", function(e){
+  /* the row is a div now, so the key handling a button gave us for free has
+     to be put back by hand */
+  if (e.key !== "Enter" && e.key !== " ") return;
+  var row = e.target.closest(".row");
+  if (!row || e.target !== row) return;
+  e.preventDefault();
+  row.click();
+});
+
+$("ldetail").addEventListener("click", function(e){
+  var b = e.target.closest("[data-d]"); if (!b || !SEL) return;
+  if (b.dataset.d === "rename") return renameRow(SEL);
+  if (b.dataset.d === "cut")    return cutRow(SEL);
+  if (b.dataset.d === "delete") return deleteRow(SEL);
+});
+
+$("lcrumbs").addEventListener("click", function(e){
+  var b = e.target.closest("[data-go]"); if (!b) return;
+  openFolder(b.dataset.go);
+});
+$("tops").addEventListener("click", function(e){
+  var b = e.target.closest("[data-go]"); if (!b) return;
+  openFolder(b.dataset.go);
+});
+$("seeds").addEventListener("click", function(e){
+  var b = e.target.closest("[data-seed]"); if (!b || b.disabled) return;
+  runSeed(b.dataset.seed);
+});
+
+$("mkdir").addEventListener("click", newFolder);
+$("paste").addEventListener("click", pasteHere);
+$("refresh").addEventListener("click", function(){ refreshAll(); });
+$("lq").addEventListener("input", liveRows);
+$("upl").addEventListener("change", function(){
+  uploadFile(this.files && this.files[0]);
+  this.value = "";
+});
+
+/* drag a file onto the middle pane */
+var zone = $("dropzone");
+["dragenter", "dragover"].forEach(function(ev){
+  zone.addEventListener(ev, function(e){
+    e.preventDefault(); zone.classList.add("over");
+  });
+});
+["dragleave", "drop"].forEach(function(ev){
+  zone.addEventListener(ev, function(e){
+    e.preventDefault(); zone.classList.remove("over");
+  });
+});
+zone.addEventListener("drop", function(e){
+  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (f) uploadFile(f);
+});
+
+function openLive(){
+  if (loadedLive) return;
+  loadedLive = true;
+  openFolder("").then(liveLog);
+}
+
+openLive();      /* it is the tab the page opens on */
 
 /* ================================================================
    Outline

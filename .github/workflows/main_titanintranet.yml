@@ -3,6 +3,36 @@
 # It used to live inside the ticket repository, and that was the wrong shape:
 # one process meant one restart, so renaming a link on the noticeboard took the
 # site people file tickets in down with it. Nothing here touches that site now.
+#
+# ---------------------------------------------------------------------------
+# WHERE THE TIME GOES, because it is not obvious and it was not the runner.
+#
+# What is uploaded to Azure is the source, about a megabyte. What takes the
+# minutes is what happens AFTERWARDS, on the web app itself: Azure sees
+# SCM_DO_BUILD_DURING_DEPLOYMENT=true and runs pip install over
+# requirements.txt on the instance. That is 110 MB of wheels - PyMuPDF alone is
+# most of it - fetched and unpacked on one core of a Basic B1 that the ticket
+# site is also using. Then the container restarts and takes a cold start to
+# answer. The deploy action waits for all of it, which is why a one-word change
+# to a link costs the same as a rewrite.
+#
+# So this file does what it can, which is stop paying for things twice:
+#
+#   - ONE job, not two. The old shape built a virtualenv on the runner to run
+#     the tests, threw it away, uploaded the source as an artifact, booted a
+#     second runner, downloaded it again, and handed it to Azure - which then
+#     built the same virtualenv a second time. The artifact round trip bought
+#     nothing here.
+#   - The test virtualenv lives in /tmp, so it cannot end up in the package.
+#   - pip is cached between runs, so the test install is a restore and not a
+#     download.
+#
+# The rest of the time is Azure's, and the only real ways to spend less of it
+# are to move the build onto the runner (deploy the virtualenv, set
+# SCM_DO_BUILD_DURING_DEPLOYMENT=false) or to stop sharing one core with the
+# ticket site. Both are decisions with a cost, and neither belongs in a comment
+# in a YAML file - the README has the argument.
+# ---------------------------------------------------------------------------
 
 name: Build and deploy - titanintranet
 
@@ -13,7 +43,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -25,39 +55,21 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
 
-      - name: Install dependencies
+      # In /tmp on purpose. A virtualenv in the workspace would be swept into
+      # the package and shipped to Azure - 110 MB of wheels that Azure is about
+      # to build for itself anyway.
+      #
+      # No database and no network needed for any of the three suites. They are
+      # the ones that would catch a permissions mistake, and a card that
+      # wrongly stays visible is a fault nobody reports.
+      - name: Install dependencies and run the tests
         run: |
-          python -m venv antenv
-          source antenv/bin/activate
-          pip install -r requirements.txt
-
-      # No database and no network needed for either suite. They are the ones
-      # that would catch a permissions mistake, and a card that wrongly stays
-      # visible is a fault nobody reports.
-      - name: Test
-        run: |
-          source antenv/bin/activate
-          pip install pytest
-          python -m pytest -q
-
-      - name: Upload artifact for deployment
-        uses: actions/upload-artifact@v4
-        with:
-          name: intranet
-          path: |
-            .
-            !antenv/
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: intranet
+          python -m venv /tmp/testenv
+          /tmp/testenv/bin/pip install --quiet --upgrade pip
+          /tmp/testenv/bin/pip install --quiet -r requirements.txt pytest
+          SECRET_KEY=ci /tmp/testenv/bin/python -m pytest -q
 
       # Two attempts, because one of these is not a failure worth a red tick.
       #
