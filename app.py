@@ -49,6 +49,7 @@ import psycopg                   # noqa: E402  (for _end_transaction)
 import titan_auth as auth        # noqa: E402  (a copy - see the note above)
 import db                        # noqa: E402
 import intranet_access           # noqa: E402
+import systems_access            # noqa: E402
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or "dev-only-not-for-azure"
@@ -752,6 +753,13 @@ textarea{min-height:70px;resize:vertical}
 .box .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .muted{color:var(--mut);font-size:13.5px}
 .empty{color:var(--dim);font-size:13.5px;font-style:italic;margin-top:12px}
+/* systems-access-v1: the way through to /access/systems from here. */
+.sysjump{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin:18px 0 0;padding:14px 18px;
+  background:var(--card);border:1px solid var(--line);border-left:4px solid var(--cyan);border-radius:12px;
+  text-decoration:none;color:inherit}
+.sysjump b{color:var(--cyan);font-size:15px;white-space:nowrap}
+.sysjump span{color:var(--dim);font-size:13.5px}
+.sysjump:hover{border-color:var(--cyan)}
 
 #filter{max-width:260px}
 .count{font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
@@ -1557,6 +1565,200 @@ def access_group_remove():
                             ok="Group deleted, and every rule that used it."))
 
 
+# ---------------------------------------------------------------------------
+#  systems-access-v1: who may open which Titan site
+# ---------------------------------------------------------------------------
+# The portal's two tables (systems_access.py), on a page of their own under
+# /access, behind the same admin check. Every other Titan site reads these on
+# every request, so a change here takes effect on that person's next click.
+
+def _sys_back(ok=None, err=None, at=None):
+    q = {k: v for k, v in (("ok", ok), ("err", err)) if v}
+    return redirect(url_for("systems_screen", **q) + ("#" + at if at else ""))
+
+
+@app.get("/access/systems")
+@admin_only
+def systems_screen():
+    c = conn()
+    esc = html_mod.escape
+    if not systems_access.ready(c):
+        body = ('<p class="note err">The portal\'s tables (<code>%s.portal_sites</code>, '
+                '<code>%s.portal_access</code>) are not in the database, so there is nothing to '
+                'manage yet.</p>' % (esc(systems_access.S), esc(systems_access.S)))
+        sites = []
+    else:
+        sites = systems_access.systems(c)
+        cards = []
+        for st in sites:
+            slug = st["slug"]
+            people = "".join(
+                '<form method=post action="/access/systems/%s/revoke" class=person>'
+                '<span class=who><span class=av>%s</span>%s</span>'
+                '<span class=muted>%s</span>'
+                '<button class="btn small danger" name=email value="%s" '
+                'onclick="return confirm(\'Take %s off %s?\')">Remove</button></form>' % (
+                    esc(slug), _avatar(p["email"]), esc(p["email"]),
+                    esc("added by %s" % p["granted_by"]) if p.get("granted_by") else "",
+                    esc(p["email"]), esc(p["email"]).replace("'", ""), esc(st["name"]).replace("'", ""))
+                for p in st["people"])
+            if st["open_to_all"]:
+                who = '<span class="state open">Everyone at Titan</span>'
+                people = ('<p class=muted>Anyone with a Titan account can open this one; nobody '
+                          'needs to be listed.</p>' + people)
+            else:
+                n = len(st["people"])
+                who = '<span class="state shut">%d %s</span>' % (n, "person" if n == 1 else "people")
+                people = people or ('<p class=empty>Nobody yet &mdash; only the break-glass '
+                                    'administrators can open it.</p>')
+            cards.append(
+                '<div class="card sys" id="s-%(slug)s">'
+                '<div class=top><span class=label>%(name)s</span>'
+                '<a class=muted href="%(url)s" target=_blank rel=noopener>%(url)s</a>%(who)s%(off)s</div>'
+                '%(people)s'
+                '<form method=post action="/access/systems/%(slug)s/grant" class=box>'
+                '<textarea name=emails placeholder="Give access: paste addresses &mdash; one per line, '
+                'or comma separated"></textarea>'
+                '<div class=row><button class="btn small">Give access</button>'
+                '<span class=muted>Works on their next click. Short name: <code>%(slug)s</code></span></div></form>'
+                '<details class=kids><summary>Change this site</summary>'
+                '<form method=post action="/access/systems/%(slug)s/edit" class=box>'
+                '<div class=row><input name=name value="%(name)s" style="max-width:260px">'
+                '<input name=url value="%(url)s" style="max-width:360px"></div>'
+                '<div class=row><label class=pill><input type=checkbox name=live%(live)s><span>Shown on the portal</span></label>'
+                '<label class=pill><input type=checkbox name=open_to_all%(open)s><span>Open to everyone at Titan</span></label>'
+                '<input name=confirm placeholder="type %(slug)s to open it to everyone" style="max-width:280px">'
+                '<button class="btn small">Save</button></div></form></details>'
+                '</div>' % {"slug": esc(slug), "name": esc(st["name"] or slug), "url": esc(st["url"] or ""),
+                            "who": who, "people": people,
+                            "off": "" if st["live"] else '<span class="state shut">Hidden</span>',
+                            "live": " checked" if st["live"] else "",
+                            "open": " checked" if st["open_to_all"] else ""})
+        body = "".join(cards)
+    notice = ""
+    if request.args.get("ok"):
+        notice = '<p class="note ok">%s</p>' % esc(request.args["ok"])
+    elif request.args.get("err"):
+        notice = '<p class="note err">%s</p>' % esc(request.args["err"])
+    return _html(SYSTEMS_HTML % {
+        "css": ACCESS_CSS, "icon": _brand_bit("icon"), "who": esc(session.get("email") or ""),
+        "av": _avatar(session.get("email")), "notice": notice, "body": body,
+        "n_sites": len(sites), "n_people": len({p["email"] for st in sites for p in st["people"]})})
+
+
+@app.post("/access/systems/<slug>/grant")
+@admin_only
+def systems_grant(slug):
+    emails = systems_access.emails_from(request.form.get("emails"))
+    if not emails:
+        return _sys_back(err="No email addresses in that.", at="s-" + slug)
+    try:
+        n = systems_access.grant(conn(), slug, emails, by=session.get("email"))
+    except ValueError as e:
+        return _sys_back(err=str(e))
+    return _sys_back(ok="%s: gave access to %d %s%s." % (
+        slug, n, "person" if n == 1 else "people",
+        "" if n == len(emails) else " (%d already had it)" % (len(emails) - n)), at="s-" + slug)
+
+
+@app.post("/access/systems/<slug>/revoke")
+@admin_only
+def systems_revoke(slug):
+    email = (request.form.get("email") or "").strip().lower()
+    systems_access.revoke(conn(), slug, email)
+    return _sys_back(ok="%s no longer has %s. Somebody signed in there right now keeps their "
+                        "session until it expires." % (email, slug), at="s-" + slug)
+
+
+@app.post("/access/systems/<slug>/edit")
+@admin_only
+def systems_edit(slug):
+    try:
+        systems_access.set_site(conn(), slug, name=request.form.get("name"), url=request.form.get("url"),
+                                live=bool(request.form.get("live")),
+                                open_to_all=bool(request.form.get("open_to_all")),
+                                confirm=request.form.get("confirm"))
+    except ValueError as e:
+        return _sys_back(err=str(e), at="s-" + slug)
+    return _sys_back(ok="Saved %s." % slug, at="s-" + slug)
+
+
+@app.post("/access/systems/add")
+@admin_only
+def systems_add():
+    try:
+        systems_access.add_site(conn(), request.form.get("slug"), request.form.get("name"),
+                                request.form.get("url"), request.form.get("blurb"), request.form.get("badge"))
+    except ValueError as e:
+        return _sys_back(err=str(e), at="add")
+    slug = (request.form.get("slug") or "").strip().lower()
+    return _sys_back(ok="Added %s. Give people access below; the app itself must check the short name "
+                        "%s." % (slug, slug), at="s-" + slug)
+
+
+SYSTEMS_HTML = """<!doctype html><meta charset=utf-8>
+<title>Systems &mdash; Titan Enterprises Intranet</title>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href="%(icon)s">
+<link rel=preconnect href="https://fonts.googleapis.com">
+<link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel=stylesheet>
+<style>
+%(css)s
+.card.sys .top a.muted{font-size:13px;margin-left:10px;text-decoration:none}
+.card.sys details.kids form.box{margin-top:8px}
+</style>
+
+<div class=bar>
+  <img class=logo src="/images/titan-enterprises-logo.png" alt="Titan Enterprises">
+  <span class=divider></span>
+  <span>
+    <span class=kicker>Intranet &middot; Access</span>
+    <span class=name>Systems</span>
+  </span>
+  <span class=sp></span>
+  <span class=who><span class=av>%(av)s</span>%(who)s</span>
+  <a class=back href="/access">&larr; Intranet access</a>
+</div>
+
+<div class=wrap>
+  <div class=head>
+    <div>
+      <h1>Who can open each site</h1>
+      <div class=rule></div>
+      <p>Every Titan site checks this list on each click: the tickets, dispatch, HR and
+      accounts payable. Add somebody here and they are in; take them off and they are
+      out on their next click. A site marked <b>Everyone at Titan</b> needs no list.</p>
+    </div>
+    <div class=tally>
+      <div><b>%(n_sites)s</b><span>Sites</span></div>
+      <div><b>%(n_people)s</b><span>People</span></div>
+    </div>
+  </div>
+
+  %(notice)s
+  %(body)s
+
+  <details class="card" id=add><summary style="cursor:pointer;font-weight:600">Add a site</summary>
+    <form method=post action="/access/systems/add" class=box>
+      <div class=row>
+        <input name=slug placeholder="short name, e.g. titan-ap" style="max-width:220px" required>
+        <input name=name placeholder="Name people see" style="max-width:240px" required>
+        <input name=badge placeholder="AP" maxlength=3 style="max-width:70px">
+      </div>
+      <div class=row>
+        <input name=url placeholder="https://ap.tetransports.com" style="max-width:360px" required>
+        <input name=blurb placeholder="One line describing it" style="max-width:360px">
+        <button class="btn small">Add site</button>
+      </div>
+      <p class=muted>The short name is how the app itself asks this list, and cannot be
+      changed afterwards - renaming it would lock everybody out of that app.</p>
+    </form>
+  </details>
+</div>
+"""
+
+
 ACCESS_HTML = """<!doctype html><meta charset=utf-8>
 <title>Access &mdash; Titan Enterprises Intranet</title>
 <meta name=viewport content="width=device-width,initial-scale=1">
@@ -1597,6 +1799,10 @@ ACCESS_HTML = """<!doctype html><meta charset=utf-8>
   </div>
 
   %(notice)s
+
+  <a class=sysjump href="/access/systems"><b>Systems &rarr;</b>
+    <span>Who can open each Titan site &mdash; tickets, dispatch, HR, accounts payable.
+    This page is only about the intranet itself.</span></a>
 
   <div class=band>
     <h2>Groups</h2>
