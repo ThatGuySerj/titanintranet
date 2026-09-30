@@ -397,6 +397,7 @@ ENERGY = [
     "Safe Driving Packet.pdf",
     "Scheduling - Titan Energy.pdf",
     "SSE Packet.pdf",
+    "Updated Employee Handbook 05.27.26 (1).pdf",
 ]
 
 WANTED = [
@@ -411,6 +412,7 @@ WANTED = [
     "Light Duty Packet - Titan Energy.pdf",
     "SSE Packet.pdf",
     "Safe Driving Packet.pdf",
+    "Updated Employee Handbook 05.27.26 (1).pdf",   # last, on purpose
 ]
 
 
@@ -429,7 +431,7 @@ def files(names):
 
 
 def test_the_energy_packets_come_out_in_the_order_hr_asked_for(energy_order):
-    """The whole point. Contacts and ADP first, Safe Driving last, and the
+    """The whole point. Contacts and ADP first, the handbook last, and the
     insurance folder's left side before its right - which alphabetically it
     already is, by luck rather than design."""
     got = [f["name"] for f in orientation.in_order(files(ENERGY), energy_order)]
