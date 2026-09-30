@@ -314,6 +314,55 @@ dialog.ask .btns{display:flex;gap:10px;justify-content:flex-end;padding:0 20px 1
 dialog.ask .warnline{margin-top:12px;background:#2b2412;border:1px solid #5c4a20;
   border-radius:8px;padding:9px 12px;font-size:12.5px;color:#f3e3c4}
 
+/* ---- the upload dialog ---- */
+dialog.up{max-width:560px}
+dialog.up .pick{display:flex;align-items:center;gap:11px;margin-top:4px;cursor:pointer;
+  border:1px dashed var(--border-dark);border-radius:10px;padding:13px 15px;
+  color:var(--text-light);font-size:13.5px;background:var(--black)}
+dialog.up .pick:hover{border-color:var(--cyan);color:#fff}
+dialog.up .pick .plus{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  background:var(--surface-2);color:var(--cyan);font:700 17px/1 var(--font-body);flex:none}
+dialog.up .uplist{list-style:none;margin-top:8px;max-height:130px;overflow:auto}
+dialog.up .uplist li{display:flex;gap:10px;align-items:center;font-size:12.5px;
+  padding:5px 4px;border-bottom:1px solid #2a2f38;color:var(--text)}
+dialog.up .uplist li:last-child{border-bottom:0}
+dialog.up .uplist .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+dialog.up .uplist .sz{flex:none;color:var(--text-dim);font-variant-numeric:tabular-nums}
+dialog.up .uplist li.big .sz{color:#ff8080}
+dialog.up .uplist button{flex:none;background:none;border:0;color:var(--text-dim);
+  cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+dialog.up .uplist button:hover{color:#ff8080}
+dialog.up .upto{margin-top:14px;border:1px solid var(--border-dark);border-radius:10px;
+  overflow:hidden;background:var(--black)}
+dialog.up .upto .lbl{font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--text-dim);padding:9px 12px 0;display:flex;
+  align-items:center;gap:8px}
+dialog.up .upto .here{font:600 10px/1.8 var(--font-body);letter-spacing:.06em;
+  color:var(--cyan);border:1px solid #1d4a63;border-radius:4px;padding:0 6px;
+  text-transform:none}
+dialog.up .dest{display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:6px 12px 9px;
+  font-size:13px;border-bottom:1px solid var(--border-dark)}
+dialog.up .dest button{background:none;border:0;color:var(--cyan);cursor:pointer;
+  font-size:13px;padding:1px 2px}
+dialog.up .dest button:hover{text-decoration:underline}
+dialog.up .dest .sep{color:var(--text-dim)}
+dialog.up .dest .at{color:#fff;font-weight:600}
+dialog.up .picker{max-height:220px;overflow:auto;position:relative;transition:opacity .15s}
+dialog.up .picker.waiting{opacity:.45}
+dialog.up .picker button{width:100%;display:flex;align-items:center;gap:10px;background:none;
+  border:0;border-bottom:1px solid #1e2128;color:var(--text);text-align:left;
+  padding:8px 12px;cursor:pointer;font-size:13px}
+dialog.up .picker button:hover{background:#171a20}
+dialog.up .picker button .ic{color:var(--cyan)}
+dialog.up .picker button .nm{flex:1;min-width:0}
+dialog.up .picker button .nm small{display:block;font-family:var(--font-mono);
+  font-size:10.5px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+dialog.up .picker button .go{color:var(--text-dim);font-size:12px}
+dialog.up .picker .none{padding:12px;color:var(--text-dim);font-size:12.5px;font-style:italic}
+
+.toast .act{margin-left:10px;background:none;border:1px solid currentColor;color:inherit;
+  border-radius:6px;padding:2px 9px;font:600 12px/1.5 var(--font-body);cursor:pointer}
+
 /* ---------- outline ---------- */
 .outline{margin-top:18px}
 .outline details{background:var(--surface-light);border:1px solid var(--border-dark);
@@ -453,8 +502,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
   <section class="panel" id="panel-live">
     <div class="tools">
       <button class="btn go" id="mkdir">New folder</button>
-      <label class="btn" for="upl">Upload a file</label>
-      <input id="upl" type="file" hidden>
+      <button class="btn" id="uplbtn" type="button">Upload</button>
       <button class="btn" id="paste" hidden>Paste here</button>
       <button class="btn ghost" id="refresh" title="Read the folder again">Refresh</button>
       <div class="search">
@@ -604,6 +652,32 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
       <button class="btn go" value="yes" id="askOk" type="submit">OK</button>
     </div>
   </form>
+</dialog>
+
+<!-- Upload: opens on the folder you are in; browse to send it somewhere else -->
+<dialog class="ask up" id="updlg" aria-labelledby="upTitle">
+  <div class="body">
+    <h3 id="upTitle">Upload</h3>
+
+    <label class="pick" for="upfiles">
+      <input id="upfiles" type="file" multiple hidden>
+      <span class="plus">+</span>
+      <span id="upchoose">Choose files&hellip;</span>
+    </label>
+    <ul class="uplist" id="uplist"></ul>
+
+    <div class="upto">
+      <div class="lbl">Upload to <span class="here" id="uphere" hidden>the folder you&rsquo;re in</span></div>
+      <div class="dest" id="updest"></div>
+      <div class="picker" id="uppick"></div>
+    </div>
+
+    <div class="warnline" id="upwarn" hidden></div>
+  </div>
+  <div class="btns">
+    <button class="btn ghost" id="upcancel" type="button">Cancel</button>
+    <button class="btn go" id="upgo" type="button" disabled>Upload</button>
+  </div>
 </dialog>
 
 <script>
@@ -1027,15 +1101,26 @@ function busy(on){
   $("llist").classList.toggle("waiting", !!on);
 }
 
-function toast(msg, kind, hold){
+function toast(msg, kind, hold, action){
   var el = $("toast");
   clearTimeout(toastTimer);
-  if (!msg){ el.classList.remove("on"); return; }
+  if (!msg){ el.classList.remove("on"); el.style.pointerEvents = ""; return; }
   el.className = "toast " + (kind || "busy") + " on";
   el.innerHTML = msg;
+  /* A toast is normally click-through so it never gets in the way. One that
+     carries a button has to take clicks, for as long as it is showing. */
+  el.style.pointerEvents = action ? "auto" : "";
+  if (action){
+    var b = document.createElement("button");
+    b.className = "act"; b.type = "button"; b.textContent = action.label;
+    b.addEventListener("click", function(){ toast(""); action.run(); });
+    el.appendChild(b);
+  }
+  /* long enough to read, and longer when there is a button to press */
   if (hold !== true)
-    toastTimer = setTimeout(function(){ el.classList.remove("on"); },
-                            kind === "err" ? 9000 : 3800);
+    toastTimer = setTimeout(function(){
+      el.classList.remove("on"); el.style.pointerEvents = "";
+    }, kind === "err" ? 9000 : action ? 8000 : 3800);
 }
 
 /* ---- a dialog, rather than window.prompt, which browsers throttle ---- */
@@ -1327,17 +1412,195 @@ function deleteRow(r){
     });
 }
 
-function uploadFile(file){
-  if (!file) return;
-  var body = new FormData();
-  body.append("path", HERE);
-  body.append("file", file);
+/* ================================================================
+   Uploading
+
+   Two ways in. The Upload button opens a dialog that starts on the
+   folder you are standing in, where you can pick several files and,
+   if they belong somewhere else, browse to that folder instead. Or
+   drag files onto the list and they go straight into the folder you
+   are in, no questions asked.
+
+   The server checks the destination exactly as it checks everything
+   else - a path that leaves the root is refused there, not here.
+   ================================================================ */
+
+/* The same limit as sitemap.MAX_UPLOAD. Checked here only so a person
+   hears about it before waiting for the upload, not instead of the
+   server checking; test_sitemap.py keeps the two numbers the same. */
+var MAX_UPLOAD_MB = 4;
+
+var UP = {dest: "", files: [], cache: {}};
+
+function tooBig(f){ return f.size > MAX_UPLOAD_MB * 1048576; }
+
+/* Files one after another rather than all at once: a B1 app forwarding
+   several uploads to Graph at the same moment is how one of them times
+   out, and in order means the progress line tells the truth. */
+function sendFiles(files, dest, skipped){
+  var sent = [], failedNames = [], i = 0;
+  skipped = skipped || [];
   busy(true);
-  toast("Uploading " + esc(file.name) + "…", "busy", true);
-  jfetch("/api/map/upload", {method: "POST", body: body})
-    .then(function(){ return afterChange("Uploaded <b>" + esc(file.name) + "</b>."); })
-    .catch(failed);
+
+  function next(){
+    if (i >= files.length) return finish();
+    var f = files[i++];
+    toast("Uploading " + esc(f.name) + (files.length > 1
+      ? " &mdash; " + i + " of " + files.length : "") + "…", "busy", true);
+    var body = new FormData();
+    body.append("path", dest);
+    body.append("file", f);
+    return jfetch("/api/map/upload", {method: "POST", body: body})
+      .then(function(){ sent.push(f.name); })
+      .catch(function(e){ failedNames.push(f.name + ": " + e.message); })
+      .then(next);
+  }
+
+  function finish(){
+    var where = dest ? ("<b>" + esc(titleOf(dest.split("/").pop())) + "</b>")
+                     : "<b>" + esc(ROOTNAME || "the top") + "</b>";
+    var msg = (sent.length === 1
+                ? "Uploaded <b>" + esc(sent[0]) + "</b>"
+                : "Uploaded " + sent.length + " files") +
+              (dest === HERE ? "." : " to " + where + ".");
+    if (!sent.length) msg = "Nothing was uploaded.";
+    if (failedNames.length)
+      msg += "<br>Not uploaded: " + failedNames.map(esc).join("<br>");
+    if (skipped.length)
+      msg += "<br>Skipped, over " + MAX_UPLOAD_MB + " MB: " +
+             skipped.map(function(f){ return esc(f.name); }).join(", ");
+    var trouble = failedNames.length || skipped.length;
+
+    return refreshAll().then(function(){
+      busy(false);
+      toast(msg, (!sent.length || trouble) ? "err" : "ok", false,
+            sent.length && dest !== HERE
+              ? {label: "Open it", run: function(){ openFolder(dest); }}
+              : null);
+    });
+  }
+
+  next();
 }
+
+/* ---- the dialog ---- */
+function openUpload(files){
+  UP.dest = HERE;
+  UP.files = files ? Array.prototype.slice.call(files) : [];
+  renderUpFiles();
+  loadPick(HERE);
+  $("updlg").showModal();
+  if (!UP.files.length) setTimeout(function(){ $("upfiles").click(); }, 60);
+}
+
+function renderUpFiles(){
+  var list = UP.files;
+  $("upchoose").textContent = list.length
+    ? "Add more files…" : "Choose files…";
+  $("uplist").innerHTML = list.map(function(f, i){
+    return '<li class="' + (tooBig(f) ? 'big' : '') + '">' +
+      '<span class="nm">' + esc(f.name) + '</span>' +
+      '<span class="sz">' + kb(f.size) + (tooBig(f) ? ' &mdash; too big' : '') +
+      '</span><button type="button" data-drop="' + i + '" ' +
+      'aria-label="Remove ' + esc(f.name) + '">&times;</button></li>';
+  }).join("");
+
+  var big = list.filter(tooBig);
+  var ok = list.length - big.length;
+  $("upwarn").hidden = !big.length;
+  $("upwarn").textContent = big.length
+    ? (big.length === 1 ? "One file is" : big.length + " files are") +
+      " over " + MAX_UPLOAD_MB + " MB and will be skipped. Put bigger files " +
+      "into SharePoint directly — every folder here has an Open in " +
+      "SharePoint link."
+    : "";
+  $("upgo").disabled = ok === 0;
+  $("upgo").textContent = ok > 1 ? "Upload " + ok + " files" : "Upload";
+}
+
+function renderDest(){
+  var html = '<button type="button" data-to="">' + esc(ROOTNAME || "Top") +
+             '</button>';
+  var acc = "";
+  if (UP.dest) UP.dest.split("/").forEach(function(seg, i, all){
+    acc = join(acc, seg);
+    html += '<span class="sep">&rsaquo;</span>';
+    html += i === all.length - 1
+      ? '<span class="at">' + esc(titleOf(seg)) + '</span>'
+      : '<button type="button" data-to="' + esc(acc) + '">' +
+        esc(titleOf(seg)) + '</button>';
+  });
+  $("updest").innerHTML = html;
+  $("uphere").hidden = UP.dest !== HERE;
+}
+
+function loadPick(path){
+  UP.dest = path;
+  renderDest();
+  var box = $("uppick");
+
+  function draw(items){
+    var folders = items.filter(function(r){ return r.folder; });
+    box.classList.remove("waiting");
+    box.innerHTML = folders.length
+      ? folders.map(function(r){
+          return '<button type="button" data-to="' + esc(join(path, r.name)) + '">' +
+            '<span class="ic">&#128193;</span>' +
+            '<span class="nm">' + esc(titleOf(r.name)) +
+            '<small>' + esc(r.name) + '</small></span>' +
+            '<span class="go">' + (r.children ? r.children + ' &rsaquo;' : '&rsaquo;') +
+            '</span></button>';
+        }).join("")
+      : '<div class="none">No folders inside this one. The files will go ' +
+        'straight in here.</div>';
+  }
+
+  /* the folder you are in is already on screen; anywhere else is read once
+     and remembered for as long as the dialog is open */
+  if (path === HERE) return draw(ROWS);
+  if (UP.cache[path]) return draw(UP.cache[path]);
+
+  box.classList.add("waiting");
+  jfetch("/api/map?path=" + encodeURIComponent(path))
+    .then(function(j){ UP.cache[path] = j.items || []; draw(UP.cache[path]); })
+    .catch(function(e){
+      box.classList.remove("waiting");
+      box.innerHTML = '<div class="none">' + esc(e.message) + '</div>';
+    });
+}
+
+function closeUpload(){
+  UP.files = []; UP.cache = {};
+  $("upfiles").value = "";
+  $("updlg").close();
+}
+
+$("upfiles").addEventListener("change", function(){
+  UP.files = UP.files.concat(Array.prototype.slice.call(this.files || []));
+  this.value = "";
+  renderUpFiles();
+});
+$("uplist").addEventListener("click", function(e){
+  var b = e.target.closest("[data-drop]"); if (!b) return;
+  UP.files.splice(parseInt(b.dataset.drop, 10), 1);
+  renderUpFiles();
+});
+$("updest").addEventListener("click", function(e){
+  var b = e.target.closest("[data-to]"); if (b) loadPick(b.dataset.to);
+});
+$("uppick").addEventListener("click", function(e){
+  var b = e.target.closest("[data-to]"); if (b) loadPick(b.dataset.to);
+});
+$("upcancel").addEventListener("click", closeUpload);
+$("updlg").addEventListener("cancel", function(){ UP.files = []; UP.cache = {}; });
+$("upgo").addEventListener("click", function(){
+  var files = UP.files.filter(function(f){ return !tooBig(f); });
+  var skipped = UP.files.filter(tooBig);
+  var dest = UP.dest;
+  if (!files.length) return;
+  closeUpload();
+  sendFiles(files, dest, skipped);
+});
 
 function seedOne(name){
   return jpost("/api/map/seed", {master: name}).then(function(j){
@@ -1425,10 +1688,7 @@ $("mkdir").addEventListener("click", newFolder);
 $("paste").addEventListener("click", pasteHere);
 $("refresh").addEventListener("click", function(){ refreshAll(); });
 $("lq").addEventListener("input", liveRows);
-$("upl").addEventListener("change", function(){
-  uploadFile(this.files && this.files[0]);
-  this.value = "";
-});
+$("uplbtn").addEventListener("click", function(){ openUpload(); });
 
 /* drag a file onto the middle pane */
 var zone = $("dropzone");
@@ -1442,9 +1702,20 @@ var zone = $("dropzone");
     e.preventDefault(); zone.classList.remove("over");
   });
 });
+/* Dropping is the no-questions path: straight into the folder you are in.
+   Anything too big is named and skipped rather than sent to be refused. */
 zone.addEventListener("drop", function(e){
-  var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-  if (f) uploadFile(f);
+  var all = Array.prototype.slice.call((e.dataTransfer && e.dataTransfer.files) || []);
+  if (!all.length) return;
+  var big = all.filter(tooBig);
+  var files = all.filter(function(f){ return !tooBig(f); });
+  if (!files.length){
+    toast("Over " + MAX_UPLOAD_MB + " MB, so not uploaded: " +
+          big.map(function(f){ return esc(f.name); }).join(", ") +
+          ". Put it into SharePoint directly.", "err");
+    return;
+  }
+  sendFiles(files, HERE, big);
 });
 
 function openLive(){

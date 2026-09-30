@@ -12,6 +12,8 @@ Intranet/
 ├─ fileplan.py             the proposed filing structure, as data
 ├─ sitemap.py              reads AND WRITES the Site Mapping folder
 ├─ welcome.py              the proposed new front page, as data
+├─ duplex_layout.py        lays the orientation packets out for front-and-back
+├─ orientation_layout.json   one letter per packet page: R S K X
 ├─ titan_auth.py           COPY of the shared sign-in module
 ├─ db.py                   a connection to the shared database
 ├─ site/
@@ -25,6 +27,7 @@ Intranet/
 ├─ test_fileplan.py        31 tests
 ├─ test_sitemap.py         76 tests
 ├─ test_welcome.py         22 tests
+├─ test_duplex_layout.py   14 tests
 └─ .github/workflows/main_titanintranet.yml
 ```
 

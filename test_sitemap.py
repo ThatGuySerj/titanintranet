@@ -382,3 +382,14 @@ def test_folders_come_before_files_whatever_they_are_called():
     items = [tree._row(r) for r in rows]
     items.sort(key=lambda i: (not i["folder"], sitemap.sort_key(i["name"])))
     assert [i["name"] for i in items] == ["z-folder", "a-file.pdf"]
+
+
+def test_the_pages_upload_limit_matches_the_servers():
+    """The page warns before sending anything over the limit. If the two
+    numbers drift, it either blocks files the server would take or lets
+    people wait on uploads the server is about to refuse."""
+    import re
+    with open(os.path.join(HERE, "site", "fileplan.html"), encoding="utf-8") as f:
+        m = re.search(r"var MAX_UPLOAD_MB\s*=\s*(\d+)\s*;", f.read())
+    assert m, "fileplan.html no longer declares MAX_UPLOAD_MB"
+    assert int(m.group(1)) * 1024 * 1024 == sitemap.MAX_UPLOAD

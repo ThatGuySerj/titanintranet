@@ -306,6 +306,31 @@ old sequence and produce a wrongly stapled pile with no error anywhere.
 The popup numbers each row, so the sequence is visible before printing rather
 than after.
 
+### Laid out for front and back, inside each file
+
+The padding described below only works *between* files. Inside a packet, a
+signed form could still share a sheet with the policy before it, and the Oil,
+Kimberley and Trucking packets are single files holding thirty-odd sections.
+So the packets themselves are laid out in advance by `duplex_layout.py`:
+
+- anything signed or filled in and handed back is a sheet of its own, blank on
+  the back;
+- every section starts on a front;
+- everything else prints back to back.
+
+It runs from `orientation_layout.json` — one letter per page, set by a person
+who has looked at the page. **When a packet is replaced in SharePoint, its line
+has to be redone before it is laid out again**, because the page numbers have
+moved. The script refuses a file whose page count no longer matches its line
+rather than laying it out against the wrong pages.
+
+```
+python duplex_layout.py <folder of originals> <output folder>
+```
+
+Every laid-out file has an even page count, so the padding below finds nothing
+to do.
+
 ### Front and back
 
 These get printed double-sided, so every packet has to start on the front of a

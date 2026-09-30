@@ -108,8 +108,13 @@ breadcrumb walks back up. The filter box narrows the folder you are in — it is
 not a search across the whole tree, because that would be a Graph search call
 per keystroke.
 
-**New folder** makes one where you are standing. **Upload** takes a file up to
-4 MB, and so does dragging one onto the list. Anything bigger goes into
+**New folder** makes one where you are standing. **Upload** opens a dialog
+that starts on the folder you are in: choose one file or several, and either
+upload them there or browse to another folder first — down through the
+folder list, back up through the breadcrumb. **Dragging files onto the list**
+skips the dialog and puts them straight into the folder you are in. Either way
+each file can be up to 4 MB; anything bigger is named and skipped rather than
+sent to be refused. Anything bigger goes into
 SharePoint directly — the browser would be posting it through a Basic B1 web
 app that holds the whole thing in memory, and the Open in SharePoint link is
 one click from every folder.
