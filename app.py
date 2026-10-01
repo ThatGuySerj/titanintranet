@@ -1191,14 +1191,39 @@ def map_list():
 @app.post("/api/map/folder")
 @map_allowed
 def map_new_folder():
+    """A new folder - copied from the parent's _TEMPLATE_ if it has one.
+
+    `template: false` makes a plain empty folder even where there is a
+    template, for the odd one that should not look like the rest.
+    """
     body = request.get_json(silent=True) or {}
     path, name = body.get("path") or "", body.get("name") or ""
+    use = body.get("template", True) is not False
 
     def go():
         _map_check(path, name)
-        out = _map_tree().create_folder(path, name)
-        _map_note("new folder", (path + "/" + name).strip("/"))
-        return {"item": out.get("name")}
+        out = _map_tree().make_record(path, name, use_template=use)
+        _map_note("new folder", (path + "/" + name).strip("/"),
+                  "from the template" if out["template"] else "")
+        return {"item": out["name"], "template": out["template"],
+                "done": out["done"], "inside": out.get("inside", 0)}
+    return _map_answer(go)
+
+
+@app.post("/api/map/template")
+@map_allowed
+def map_make_template():
+    """Give a folder a _TEMPLATE_, optionally moving what is there into it."""
+    body = request.get_json(silent=True) or {}
+    path = body.get("path") or ""
+    adopt = body.get("adopt") is True
+
+    def go():
+        _map_check(path)
+        out = _map_tree().make_template(path, adopt=adopt)
+        _map_note("template", out["template"],
+                  ("moved %d folders in" % len(out["moved"])) if out["moved"] else "")
+        return out
     return _map_answer(go)
 
 

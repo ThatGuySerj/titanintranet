@@ -313,6 +313,14 @@ dialog.ask input:focus{outline:none;border-color:var(--cyan)}
 dialog.ask .btns{display:flex;gap:10px;justify-content:flex-end;padding:0 20px 18px}
 dialog.ask .warnline{margin-top:12px;background:#2b2412;border:1px solid #5c4a20;
   border-radius:8px;padding:9px 12px;font-size:12.5px;color:#f3e3c4}
+dialog.ask .chk{display:flex;gap:10px;align-items:flex-start;margin-top:12px;
+  font-size:13px;color:var(--text-light);cursor:pointer;line-height:1.45}
+dialog.ask .chk input{width:auto;margin:2px 0 0;accent-color:var(--cyan);flex:none}
+
+/* the template row: the shape new folders here are copied from */
+#llist .row.tmpl{background:rgba(154,140,240,.07);box-shadow:inset 3px 0 0 var(--violet)}
+#llist .row.tmpl .ic{color:var(--violet)}
+#llist .row.tmpl .nm b{color:#ddd6ff}
 
 /* ---- the upload dialog ---- */
 dialog.up{max-width:560px}
@@ -503,6 +511,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
     <div class="tools">
       <button class="btn go" id="mkdir">New folder</button>
       <button class="btn" id="uplbtn" type="button">Upload</button>
+      <button class="btn ghost" id="tmplbtn" type="button">Make a template</button>
       <button class="btn" id="paste" hidden>Paste here</button>
       <button class="btn ghost" id="refresh" title="Read the folder again">Refresh</button>
       <div class="search">
@@ -645,10 +654,18 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
       <h3 id="askTitle"></h3>
       <p id="askText"></p>
       <input id="askInput" autocomplete="off">
+      <label class="chk" id="askCheckRow" hidden>
+        <input type="checkbox" id="askCheck">
+        <span id="askCheckText"></span>
+      </label>
       <div class="warnline" id="askWarn" hidden></div>
     </div>
+    <!-- Cancel is type=button on purpose. Enter in a form presses its FIRST
+         submit button, and when Cancel was a submit button and came first,
+         Enter meant Cancel - you had to reach for the mouse to create a
+         folder. OK is now the only submit button, so Enter means OK. -->
     <div class="btns">
-      <button class="btn ghost" value="no" type="submit">Cancel</button>
+      <button class="btn ghost" id="askNo" type="button">Cancel</button>
       <button class="btn go" value="yes" id="askOk" type="submit">OK</button>
     </div>
   </form>
@@ -736,6 +753,7 @@ function prettyFile(name){
   return base.split("_").map(unhyphen).join(" ");
 }
 function pretty(r){
+  if (r.template) return "Template for new folders";
   return r.folder ? titleOf(r.name) : prettyFile(r.name);
 }
 function numOf(name){
@@ -1124,6 +1142,8 @@ function toast(msg, kind, hold, action){
 }
 
 /* ---- a dialog, rather than window.prompt, which browsers throttle ---- */
+/* `then(value, checked)` runs only on OK. `opts.check` adds a tick box:
+   {text: "...", checked: true}. */
 function ask(opts, then){
   var dlg = $("ask");
   $("askTitle").textContent = opts.title || "";
@@ -1133,18 +1153,31 @@ function ask(opts, then){
   var input = $("askInput");
   input.hidden = !opts.input;
   input.value = opts.value || "";
+  input.placeholder = opts.placeholder || "";
   var warn = $("askWarn");
   warn.hidden = !opts.warn;
   warn.textContent = opts.warn || "";
+  var check = $("askCheck");
+  $("askCheckRow").hidden = !opts.check;
+  $("askCheckText").textContent = (opts.check && opts.check.text) || "";
+  check.checked = !!(opts.check && opts.check.checked);
+
+  /* Wiped before every opening. A dialog closed with Escape keeps whatever
+     returnValue it had last time - so after a rename answered "yes", pressing
+     Escape on the NEXT dialog, a delete confirmation say, would have read as
+     yes and gone ahead. */
+  dlg.returnValue = "";
 
   function done(){
     dlg.removeEventListener("close", done);
-    if (dlg.returnValue === "yes") then(opts.input ? input.value : true);
+    if (dlg.returnValue === "yes")
+      then(opts.input ? input.value : true, check.checked);
   }
   dlg.addEventListener("close", done);
   dlg.showModal();
   if (opts.input) setTimeout(function(){ input.focus(); input.select(); }, 30);
 }
+$("askNo").addEventListener("click", function(){ $("ask").close("no"); });
 
 /* ---- rendering ---- */
 function kb(n){
@@ -1201,11 +1234,14 @@ function liveRows(){
   $("llist").innerHTML = rows.map(function(r){
     var cut = CUT && CUT.path === join(HERE, r.name);
     return '<div class="row' + (r.folder ? '' : ' leaf') +
+      (r.template ? ' tmpl' : '') +
       (SEL && SEL.id === r.id ? ' on' : '') + (cut ? ' cut' : '') +
       '" role="button" tabindex="0" data-name="' + esc(r.name) + '">' +
-      '<span class="ic">' + (r.folder ? '&#128193;' : '&#128196;') + '</span>' +
+      '<span class="ic">' + (r.template ? '&#10070;' :
+                             r.folder ? '&#128193;' : '&#128196;') + '</span>' +
       '<span class="nm"><b>' + esc(pretty(r)) + '</b>' +
-      '<small>' + esc(r.name) + '</small></span>' +
+      '<small>' + (r.template ? 'New folders made here are copied from this'
+                              : esc(r.name)) + '</small></span>' +
       '<span class="meta">' + (r.folder
         ? (r.children ? r.children + ' item' + (r.children === 1 ? '' : 's') : 'empty')
         : kb(r.size)) +
@@ -1243,6 +1279,11 @@ function liveDetail(){
         ' characters</span>' +
     '</div>' +
     '<div class="path">' + esc(join(ROOTNAME, path)) + '</div>' +
+    (SEL.template ? '<div class="tmplnote" style="margin-top:12px"><b>The template ' +
+      'for this folder.</b> Every new folder made next to it starts as a copy ' +
+      'of it: its folders, and any blank forms in them. Change it and every ' +
+      'folder made from now on changes with it; folders already made keep the ' +
+      'shape they were given. Renaming it switches the copying off.</div>' : '') +
     (SEL.url ? '<p style="margin-top:12px"><a href="' + esc(SEL.url) +
       '" target="_blank" rel="noopener">Open in SharePoint &#8599;</a></p>' : '') +
     '<dl>' +
@@ -1318,12 +1359,12 @@ function openFolder(path){
         TOPS = ROWS.filter(function(r){ return r.folder; });
         liveTops(); liveSeeds();
       }
-      liveCrumbs(); liveRows(); liveDetail();
+      liveCrumbs(); liveRows(); liveDetail(); paintTemplateButton();
       busy(false);
     })
     .catch(function(e){
       ROWS = [];
-      liveCrumbs(); liveRows(); liveDetail();
+      liveCrumbs(); liveRows(); liveDetail(); paintTemplateButton();
       busy(false);
       toast(esc(e.message), "err");
     });
@@ -1345,16 +1386,84 @@ function afterChange(msg){
 }
 function failed(e){ busy(false); toast(esc(e.message), "err"); }
 
+/* ---- templates ----
+   A folder called _TEMPLATE_ inside the folder you are in is the shape every
+   new folder made here is copied from. The server decides - this only reads
+   ROWS to say so before you press Create. */
+function templateHere(){
+  for (var i = 0; i < ROWS.length; i++)
+    if (ROWS[i].template) return ROWS[i];
+  return null;
+}
+
 function newFolder(){
+  var t = templateHere();
+  var where = HERE ? titleOf(HERE.split("/").pop()) : (ROOTNAME || "the top");
   ask({title: "New folder", input: true, ok: "Create",
-       text: "Inside " + (HERE || ROOTNAME || "the top") + "."},
-    function(name){
+       text: "Inside " + where + ".",
+       placeholder: t ? "e.g. SMITH-J_Hire-2026-09-30" : "",
+       check: t ? {checked: true,
+                   text: "Copy the template — " + (t.children
+                     ? t.children + " folder" + (t.children === 1 ? "" : "s") +
+                       " and everything in them"
+                     : "it is empty at the moment") + "."} : null},
+    function(name, useTemplate){
       if (!name) return;
       busy(true);
-      jpost("/api/map/folder", {path: HERE, name: name})
-        .then(function(){ return afterChange("Made <b>" + esc(name) + "</b>."); })
+      toast(t && useTemplate ? "Making <b>" + esc(name) +
+            "</b> from the template…" : "Creating…", "busy", true);
+      jpost("/api/map/folder", {path: HERE, name: name,
+                                template: !!(t && useTemplate)})
+        .then(function(j){
+          var msg = "Made <b>" + esc(name) + "</b>" +
+            (j.template ? " from the template" : "") + ".";
+          if (j.template && !j.done)
+            msg += " SharePoint is still copying what goes inside it — " +
+                   "give it a few seconds and press Refresh.";
+          return afterChange(msg);
+        })
         .catch(failed);
     });
+}
+
+function templateButton(){
+  var t = templateHere();
+  if (t) return openFolder(join(HERE, t.name));
+
+  var folders = ROWS.filter(function(r){ return r.folder; });
+  ask({title: "Make a template for this folder",
+       ok: "Make the template",
+       text: "Every new folder made in here will be a copy of it — its " +
+             "folders, and any blank forms you put in them. Open it after " +
+             "and add what one record should look like.",
+       check: folders.length ? {checked: false,
+         text: "Move the " + folders.length + " folder" +
+               (folders.length === 1 ? "" : "s") + " already here into " +
+               "the template. Do this if they are the shape of one record " +
+               "rather than records themselves."} : null},
+    function(_, adopt){
+      busy(true);
+      jpost("/api/map/template", {path: HERE, adopt: !!adopt})
+        .then(function(j){
+          return afterChange("Template made" + (j.moved && j.moved.length
+            ? ", with " + j.moved.length + " folder" +
+              (j.moved.length === 1 ? "" : "s") + " moved into it" : "") +
+            ". New folders here will be copies of it.");
+        })
+        .catch(failed);
+    });
+}
+
+function paintTemplateButton(){
+  var b = $("tmplbtn");
+  if (!b) return;
+  /* not at the very top: master folders are the plan, not records, and a
+     template there would make every new master folder a copy of the last */
+  b.hidden = !HERE;
+  var t = templateHere();
+  b.textContent = t ? "Open the template" : "Make a template";
+  b.title = t ? "New folders here are copied from this"
+              : "Make new folders here start out with the same folders inside";
 }
 
 function renameRow(r){
@@ -1685,6 +1794,7 @@ $("seeds").addEventListener("click", function(e){
 });
 
 $("mkdir").addEventListener("click", newFolder);
+$("tmplbtn").addEventListener("click", templateButton);
 $("paste").addEventListener("click", pasteHere);
 $("refresh").addEventListener("click", function(){ refreshAll(); });
 $("lq").addEventListener("input", liveRows);

@@ -39,6 +39,7 @@ Graph endpoints beyond the ones orientation.py already uses:
 import json
 import os
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -56,6 +57,25 @@ ROOT = (os.environ.get("MAP_ROOT") or "Site Mapping").strip().strip("/")
 # neither is a fight worth having for a filing structure. Bigger files go
 # straight into SharePoint, which is one click away from every folder here.
 MAX_UPLOAD = 4 * 1024 * 1024
+
+# A folder with this name inside a parent is the shape every new folder made in
+# that parent is copied from - the plan's own rule for record folders, section
+# 2.4: "A _TEMPLATE_ folder sits inside each of these parents. Copy it, rename
+# it, and every driver file looks like every other driver file." Make a folder
+# in 60-01_Employee-Files-Active called SMITH-J_Hire-2026-09-30 and it arrives
+# with every subfolder the template has, and any blank forms in them too.
+#
+# Everything about it is ordinary SharePoint. The template is a real folder HR
+# can open and change; nothing about the copy is stored anywhere else.
+TEMPLATE = "_TEMPLATE_"
+
+
+def is_template(name):
+    return (name or "").strip().lower() == TEMPLATE.lower()
+
+
+def _join(a, b):
+    return ("%s/%s" % ((a or "").strip("/"), b)).strip("/")
 
 # SharePoint's own rules, applied before Graph has to say no in its own words.
 BAD_CHARS = set('"*:<>?/\\|')
@@ -179,7 +199,11 @@ class Tree(orientation.Library):
         return base + (":" + suffix if suffix else "")
 
     # -- talking to Graph --------------------------------------------------
-    def _send(self, method, path, payload=None, raw=None, ctype=None):
+    def _send(self, method, path, payload=None, raw=None, ctype=None,
+              headers_out=None):
+        """One write to Graph. `headers_out`, if given, collects the response
+        headers - a copy answers 202 with nothing in the body and the only
+        useful thing it says is in Location."""
         url = path if path.startswith("http") else GRAPH + path
         body = raw
         if payload is not None:
@@ -191,6 +215,8 @@ class Tree(orientation.Library):
             req.add_header("Content-Type", ctype)
         try:
             with urllib.request.urlopen(req, timeout=120) as r:
+                if headers_out is not None:
+                    headers_out.update({k.lower(): v for k, v in r.headers.items()})
                 text = r.read()
                 return json.loads(text) if text else {}
         except urllib.error.HTTPError as e:
@@ -231,7 +257,10 @@ class Tree(orientation.Library):
             pages += 1
 
         items = [self._row(r) for r in rows]
-        items.sort(key=lambda i: (not i["folder"], sort_key(i["name"])))
+        # folders first, and the template first of those - it is what the
+        # rest of the folder is made from, so it goes at the top
+        items.sort(key=lambda i: (not i["folder"], not i["template"],
+                                  sort_key(i["name"])))
         return {"path": rel.strip("/"), "root": self.root, "items": items}
 
     @staticmethod
@@ -247,6 +276,7 @@ class Tree(orientation.Library):
             "url": r.get("webUrl"),
             "modified": r.get("lastModifiedDateTime"),
             "by": by.get("displayName") or "",
+            "template": bool(folder) and is_template(r.get("name")),
         }
 
     def item(self, rel):
@@ -276,6 +306,118 @@ class Tree(orientation.Library):
             "folder": {},
             "@microsoft.graph.conflictBehavior": "fail",
         })
+
+    # -- templates ---------------------------------------------------------
+    def template_of(self, rel_parent):
+        """The template folder inside rel_parent, or None if it has none."""
+        self._full(rel_parent)                   # the guard
+        try:
+            return self.item(_join(rel_parent, TEMPLATE))
+        except OrientationError:
+            return None
+
+    def make_record(self, rel_parent, name, use_template=True):
+        """A new folder in rel_parent - copied from its template if it has one.
+
+        This is what the New folder button calls. A folder with no template
+        gets an ordinary empty folder, exactly as before; a folder with one
+        gets a copy of it, subfolders and files and all, under the new name.
+        `use_template=False` is the escape hatch for the odd folder that should
+        not look like the others.
+        """
+        name = clean_name(name)
+        self._full(rel_parent)                   # the guard
+        tmpl = None
+        if use_template and not is_template(name):
+            tmpl = self.template_of(rel_parent)
+        if not tmpl:
+            out = self.create_folder(rel_parent, name)
+            return {"name": out.get("name") or name, "template": False,
+                    "done": True}
+        out = self.copy_folder(_join(rel_parent, TEMPLATE), rel_parent, name)
+        return {"name": name, "template": True, "done": out["done"],
+                "inside": tmpl["children"]}
+
+    def copy_folder(self, rel_src, rel_parent, name, wait=25.0, poll=0.8):
+        """Copy a folder and everything in it. Waits up to `wait` seconds.
+
+        Graph copies in the background: it answers 202 at once with a monitor
+        address, and the copy finishes in its own time - a second or two for a
+        handful of empty folders, longer if the template holds files. This
+        waits a while so the ordinary case comes back finished, and says so
+        honestly (`done: False`) when it did not.
+        """
+        name = clean_name(name)
+        self._full(rel_src)                      # the guard, on both ends
+        self._full(rel_parent)
+        if self.exists(_join(rel_parent, name)):
+            raise MapError("Something called %r is already there." % name)
+        src_id = self._json(self._item_url(rel_src))["id"]
+        parent_id = self._json(self._item_url(rel_parent))["id"]
+        drive = self.drive_id()
+        hdrs = {}
+        self._send("POST",
+                   "/drives/%s/items/%s/copy?@microsoft.graph.conflictBehavior=fail"
+                   % (drive, src_id),
+                   {"parentReference": {"driveId": drive, "id": parent_id},
+                    "name": name},
+                   headers_out=hdrs)
+        return {"name": name,
+                "done": self._wait_copy(hdrs.get("location"), wait, poll)}
+
+    def _wait_copy(self, monitor, wait, poll):
+        """Poll a copy's monitor until it finishes or `wait` runs out.
+
+        The monitor address is pre-authenticated, so it is asked WITHOUT the
+        bearer token - and through the opener that does not follow redirects,
+        because some Graph versions answer a finished copy with a 303 to the
+        new folder, and following that without a token is a 401.
+        """
+        if not monitor:
+            return False
+        deadline = time.time() + wait
+        while True:
+            try:
+                req = urllib.request.Request(monitor)
+                with orientation._OPENER.open(req, timeout=30) as r:
+                    st = json.loads(r.read() or b"{}")
+            except orientation._Redirected:
+                return True
+            except (urllib.error.URLError, ValueError):
+                return False
+            status = (st.get("status") or "").lower()
+            if status == "completed":
+                return True
+            if status == "failed":
+                why = (st.get("error") or {}).get("message") or "no reason given"
+                raise MapError("SharePoint could not copy the template: %s" % why)
+            if time.time() + poll > deadline:
+                return False
+            time.sleep(poll)
+
+    def make_template(self, rel, adopt=False):
+        """Give a folder a template.
+
+        `adopt` moves the subfolders already there into it. That is the case
+        HR is in with 60-01_Employee-Files-Active: the letter folders and the
+        ones added since are the shape of ONE employee's file, sitting where
+        the employees themselves should go. Only folders move - a loose file in
+        the parent would otherwise turn up in every new employee's folder.
+        """
+        self._full(rel)                          # the guard
+        if not _norm(rel):
+            raise MapError("The top folder holds the plan's master folders, not "
+                           "records - it does not get a template.")
+        if self.template_of(rel):
+            raise MapError("This folder already has a template.")
+        self.create_folder(rel, TEMPLATE)
+        moved = []
+        if adopt:
+            for it in self.listing(rel)["items"]:
+                if it["folder"] and not is_template(it["name"]):
+                    self.move(_join(rel, it["name"]), _join(rel, TEMPLATE))
+                    moved.append(it["name"])
+        return {"template": _join(rel, TEMPLATE), "moved": moved}
 
     def rename(self, rel, name):
         name = clean_name(name)
@@ -356,18 +498,29 @@ def seed(tree, master, progress=None):
     """
     made, kept = 0, 0
 
-    def walk(node, parent_rel):
+    def ensure(parent_rel, name):
         nonlocal made, kept
-        rel = (parent_rel + "/" + node["n"]).strip("/")
+        rel = _join(parent_rel, name)
         if tree.exists(rel):
             kept += 1
         else:
-            tree.create_folder(parent_rel, node["n"])
+            tree.create_folder(parent_rel, name)
             made += 1
             if progress:
                 progress(rel)
+        return rel
+
+    def walk(node, parent_rel):
+        rel = ensure(parent_rel, node["n"])
+        # A record-template parent - Employee Files, Driver Qualification
+        # Files, Unit Files and the rest - gets its lettered folders inside a
+        # _TEMPLATE_, not loose in the parent. They are the shape of one
+        # employee's file, and a new employee's folder is copied from them.
+        kids_parent = rel
+        if node.get("tm") and node.get("k"):
+            kids_parent = ensure(rel, TEMPLATE)
         for kid in node.get("k") or []:
-            walk(kid, rel)
+            walk(kid, kids_parent)
 
     walk(master, "")
     return {"made": made, "kept": kept,

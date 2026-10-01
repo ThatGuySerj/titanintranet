@@ -119,6 +119,22 @@ SharePoint directly — the browser would be posting it through a Basic B1 web
 app that holds the whole thing in memory, and the Open in SharePoint link is
 one click from every folder.
 
+**Templates.** A folder called `_TEMPLATE_` inside a folder is the shape every
+new folder made there is copied from — its subfolders, and any blank forms in
+them. It is the file plan's own rule for record folders (section 2.4): make
+`SMITH-J_Hire-2026-09-30` inside Employee Files and it arrives with every
+folder a new hire's file should have. The New folder dialog says when a
+template will be used and has a tick box to skip it for a one-off. **Make a
+template** in the toolbar creates one; where the folders already there are
+the shape of one record rather than records themselves, it can move them into
+the template in the same step. Change the template and every folder made from
+then on follows it; folders already made keep the shape they were given.
+Renaming the template switches the copying off.
+
+Graph copies in the background. The page waits up to 25 seconds, which covers
+a template of empty folders easily; one holding large files may still be
+arriving when the page comes back, and it says so.
+
 **Moving** is cut and paste, deliberately: press **move** on a row, walk to the
 folder it belongs in, press **Paste**. Drag-and-drop across a tree that is
 being read a folder at a time is a worse experience than it sounds, and this

@@ -393,3 +393,228 @@ def test_the_pages_upload_limit_matches_the_servers():
         m = re.search(r"var MAX_UPLOAD_MB\s*=\s*(\d+)\s*;", f.read())
     assert m, "fileplan.html no longer declares MAX_UPLOAD_MB"
     assert int(m.group(1)) * 1024 * 1024 == sitemap.MAX_UPLOAD
+
+
+# ---------------------------------------------------------------------------
+#  Templates: new folders copied from a _TEMPLATE_ next to them
+# ---------------------------------------------------------------------------
+
+class GraphFake(sitemap.Tree):
+    """A Tree whose SharePoint is a set of paths. Records every write."""
+
+    def __init__(self, paths):
+        super().__init__(tenant="t", client_id="c", client_secret="s", host="h",
+                         site_path="s", library="l", root="Site Mapping",
+                         drive_id="D")
+        self.paths = set(paths)
+        self.calls = []
+
+    def _kids(self, rel):
+        rel = rel.strip("/")
+        pre = rel + "/" if rel else ""
+        return sorted(p for p in self.paths
+                      if p.startswith(pre) and "/" not in p[len(pre):] and p != rel)
+
+    def exists(self, rel):
+        return rel.strip("/") in self.paths
+
+    def item(self, rel):
+        rel = rel.strip("/")
+        if rel not in self.paths:
+            raise sitemap.MapError("not there")
+        name = rel.split("/")[-1]
+        return {"id": "id:" + rel, "name": name, "folder": True,
+                "children": len(self._kids(rel)),
+                "template": sitemap.is_template(name)}
+
+    def listing(self, rel=""):
+        return {"items": [{"name": p.split("/")[-1],
+                           "folder": not p.endswith(".pdf"),
+                           "template": sitemap.is_template(p.split("/")[-1])}
+                          for p in self._kids(rel)]}
+
+    def create_folder(self, parent, name):
+        self.calls.append(("create", parent, name))
+        self.paths.add(sitemap._join(parent, name))
+        return {"name": name}
+
+    def copy_folder(self, src, parent, name, wait=0, poll=0):
+        self.calls.append(("copy", src, parent, name))
+        return {"name": name, "done": True}
+
+    def move(self, rel, parent):
+        self.calls.append(("move", rel, parent))
+
+
+HR = "60_HR/60-01_Employee-Files-Active"
+
+
+def test_a_new_folder_next_to_a_template_is_a_copy_of_it():
+    g = GraphFake({"60_HR", HR, HR + "/_TEMPLATE_", HR + "/_TEMPLATE_/A_Application",
+                   HR + "/_TEMPLATE_/Medical"})
+    out = g.make_record(HR, "SMITH-J_Hire-2026-09-30")
+    assert out["template"] is True and out["inside"] == 2
+    assert g.calls == [("copy", HR + "/_TEMPLATE_", HR, "SMITH-J_Hire-2026-09-30")]
+
+
+def test_no_template_means_an_ordinary_empty_folder():
+    g = GraphFake({"60_HR", HR})
+    out = g.make_record(HR, "Anything")
+    assert out["template"] is False
+    assert g.calls == [("create", HR, "Anything")]
+
+
+def test_the_template_can_be_declined_for_one_folder():
+    g = GraphFake({"60_HR", HR, HR + "/_TEMPLATE_"})
+    g.make_record(HR, "Odd One Out", use_template=False)
+    assert g.calls == [("create", HR, "Odd One Out")]
+
+
+def test_a_template_is_never_made_by_copying_itself():
+    g = GraphFake({"60_HR", HR, HR + "/_TEMPLATE_"})
+    g.make_record(HR, "_template_")
+    assert not any(c[0] == "copy" for c in g.calls)
+
+
+def test_the_template_name_is_recognised_whatever_the_case():
+    assert sitemap.is_template("_TEMPLATE_")
+    assert sitemap.is_template("_template_")
+    assert not sitemap.is_template("TEMPLATE")
+    assert not sitemap.is_template("Template for drivers")
+
+
+def test_adopting_moves_the_folders_already_there_and_no_files():
+    """HR's exact case: the letters and their own additions are the shape of
+    one employee, sitting where the employees should go."""
+    g = GraphFake({"60_HR", HR, HR + "/A_Application-Resume", HR + "/Medical",
+                   HR + "/Time Off Requests", HR + "/stray note.pdf"})
+    out = g.make_template(HR, adopt=True)
+    assert ("create", HR, "_TEMPLATE_") in g.calls
+    moved = sorted(c[1].split("/")[-1] for c in g.calls if c[0] == "move")
+    assert moved == ["A_Application-Resume", "Medical", "Time Off Requests"]
+    assert all(c[2] == HR + "/_TEMPLATE_" for c in g.calls if c[0] == "move")
+    assert sorted(out["moved"]) == moved
+
+
+def test_without_adopting_nothing_moves():
+    g = GraphFake({"60_HR", HR, HR + "/A_Application-Resume"})
+    g.make_template(HR, adopt=False)
+    assert not any(c[0] == "move" for c in g.calls)
+
+
+def test_a_second_template_is_refused():
+    g = GraphFake({"60_HR", HR, HR + "/_TEMPLATE_"})
+    with pytest.raises(sitemap.MapError):
+        g.make_template(HR)
+
+
+def test_the_top_folder_does_not_get_a_template():
+    g = GraphFake({"60_HR"})
+    with pytest.raises(sitemap.MapError):
+        g.make_template("")
+
+
+@pytest.mark.parametrize("bad", ESCAPES)
+def test_templates_stay_inside_the_fence(bad):
+    g = GraphFake(set())
+    with pytest.raises(sitemap.OutsideRoot):
+        g.make_record(bad, "x")
+    with pytest.raises(sitemap.OutsideRoot):
+        g.make_template(bad)
+
+
+def test_the_template_is_listed_first(tree):
+    tree._json = lambda url: {"value": [
+        {"name": "B_Offer", "folder": {"childCount": 0}},
+        {"name": "_TEMPLATE_", "folder": {"childCount": 6}},
+        {"name": "A_Application", "folder": {"childCount": 0}},
+        {"name": "a.pdf", "size": 1}]}
+    items = tree.listing("x")["items"]
+    assert [i["name"] for i in items] == ["_TEMPLATE_", "A_Application",
+                                          "B_Offer", "a.pdf"]
+    assert items[0]["template"] is True and items[1]["template"] is False
+
+
+def test_seeding_puts_a_record_parents_letters_inside_its_template():
+    hr = sitemap.plan_master("60")
+    fake = FakeTree()
+    sitemap.seed(fake, hr)
+    base = "60_HUMAN-RESOURCES_RESTRICTED/60-01_Employee-Files-Active"
+    assert base + "/_TEMPLATE_" in fake.made
+    assert base + "/_TEMPLATE_/A_Application-Resume-and-Onboarding" in fake.made
+    assert base + "/A_Application-Resume-and-Onboarding" not in fake.made
+    # and a folder that is not a record template is untouched
+    assert "60_HUMAN-RESOURCES_RESTRICTED/60-03_I-9-Files_SEGREGATED/60-03-01_Active-Employees" in fake.made
+
+
+def test_the_copy_asks_graph_for_the_right_thing(tree):
+    sent = {}
+    tree.exists = lambda rel: False
+    tree._json = lambda url: {"id": "ID(" + url.split("root:/")[-1] + ")"}
+
+    def fake_send(method, path, payload=None, headers_out=None, **kw):
+        sent.update(method=method, path=path, payload=payload)
+        headers_out["location"] = "https://monitor"
+        return {}
+    tree._send = fake_send
+    tree._wait_copy = lambda monitor, wait, poll: monitor == "https://monitor"
+
+    out = tree.copy_folder(HR + "/_TEMPLATE_", HR, "SMITH-J")
+    assert out == {"name": "SMITH-J", "done": True}
+    assert sent["method"] == "POST"
+    assert "/copy?" in sent["path"] and "_TEMPLATE_" in sent["path"]
+    assert sent["payload"]["name"] == "SMITH-J"
+    assert sent["payload"]["parentReference"]["driveId"] == "DRIVE"
+    assert sent["payload"]["parentReference"]["id"].endswith("Employee-Files-Active)")
+
+
+def test_a_copy_onto_an_existing_name_is_refused_before_graph_is_asked(tree):
+    tree.exists = lambda rel: True
+    with pytest.raises(sitemap.MapError):
+        tree.copy_folder(HR + "/_TEMPLATE_", HR, "SMITH-J")
+
+
+class _Resp:
+    def __init__(self, body): self.body = body
+    def __enter__(self): return self
+    def __exit__(self, *a): return False
+    def read(self): return self.body
+
+
+@pytest.mark.parametrize("answers,expect", [
+    ([b'{"status":"inProgress"}', b'{"status":"completed"}'], True),
+    (["redirect"], True),                     # older Graph: 303 to the new item
+    ([], False),                              # never finishes: gives up
+])
+def test_waiting_on_a_copy(tree, monkeypatch, answers, expect):
+    import orientation
+    seq = iter(answers)
+
+    class Opener:
+        def open(self, req, timeout=None):
+            assert req.get_header("Authorization") is None, \
+                "the monitor is pre-authenticated; a token must not be sent"
+            a = next(seq, b'{"status":"inProgress"}')
+            if a == "redirect":
+                raise orientation._Redirected("https://new-item")
+            return _Resp(a)
+    monkeypatch.setattr(orientation, "_OPENER", Opener())
+    monkeypatch.setattr(sitemap.time, "sleep", lambda s: None)
+    assert tree._wait_copy("https://monitor", wait=0.05, poll=0.001) is expect
+
+
+def test_a_failed_copy_says_so(tree, monkeypatch):
+    import orientation
+
+    class Opener:
+        def open(self, req, timeout=None):
+            return _Resp(b'{"status":"failed","error":{"message":"quota"}}')
+    monkeypatch.setattr(orientation, "_OPENER", Opener())
+    with pytest.raises(sitemap.MapError) as e:
+        tree._wait_copy("https://monitor", wait=5, poll=0)
+    assert "quota" in str(e.value)
+
+
+def test_the_template_route_refuses_an_escape(client):
+    assert client.post("/api/map/template",
+                       json={"path": "../Safety"}).status_code == 403
