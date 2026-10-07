@@ -90,8 +90,10 @@ def test_every_packet_opens_on_a_front(layout):
 
 
 def test_the_new_audit_form_is_a_hand_in(layout):
-    """SSE page 23 is the Driver Field Audit Form swapped in on the 28th."""
-    assert layout["Energy/SSE Packet.pdf"][22] == "R"
+    """The Driver Field Audit Form swapped in on 28 September. It was page 23;
+    the Ascent pages came out on 1 October (19), and the two-page DVIR policy
+    went in ahead of it on 6 October (21)."""
+    assert layout["Energy/SSE Packet.pdf"][20] == "R"
 
 
 def test_a_file_that_has_changed_is_refused_not_guessed():
