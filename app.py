@@ -1075,6 +1075,22 @@ CREATE TABLE IF NOT EXISTS intranet_map_log (
     detail text
 );
 CREATE INDEX IF NOT EXISTS intranet_map_log_at ON intranet_map_log (at DESC);
+
+-- rls-lock-v1 (7 Oct 2026): this app reads these over DATABASE_URL as the
+-- table owner, which RLS does not stop. Supabase also publishes the public
+-- schema through its REST API to anyone holding the project's anon key -
+-- unlocked, anyone could add themselves to a group. RLS on with no policies,
+-- and the API roles' grants taken away, shuts that door and nothing else.
+ALTER TABLE intranet_map_log ENABLE ROW LEVEL SECURITY;
+DO $rls$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+    REVOKE ALL ON intranet_map_log FROM anon;
+  END IF;
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+    REVOKE ALL ON intranet_map_log FROM authenticated;
+  END IF;
+END $rls$;
 """
 
 _MAP = {"tree": None}
