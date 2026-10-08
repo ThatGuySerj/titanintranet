@@ -754,9 +754,8 @@ function pretty(r){
   if (r.template) return "Template for new folders";
   return r.folder ? nice(r.name) : prettyFile(r.name);
 }
-/* The File Class the way the CFO writes it. The folder name pads the master
-   number to five digits so SharePoint sorts 2000 before 10000; nobody says
-   "oh-one-thousand", so 01000-02 shows as 1000-02. */
+/* The File Class: 1000-02_Naming -> 1000-02. A folder still carrying the
+   index's padded spelling (01000-02) reads the same. */
 function numOf(name){
   var head = name.split("_")[0];
   if (!/^[0-9]+(-[0-9]+)*$/.test(head)) return "";
@@ -987,8 +986,7 @@ function goTo(node, alsoPick){
 }
 
 function markMaster(){
-  /* Matched on the master's path, not its number: the number on screen is
-     1000 and the folder is 01000_. Only the plan's own list - the live tab
+  /* Matched on the master's path. Only the plan's own list - the live tab
      uses the same button style for SharePoint's folders. */
   var path = here ? here.master.path : null;
   document.querySelectorAll("#masters .master").forEach(function(b){
@@ -1073,7 +1071,7 @@ goTo(null);
    Everything below talks to /api/map. The server is the only thing
    that knows where the root is and the only thing that decides what
    is inside it; this code never builds an absolute path and never
-   sees one. Send it "03000_Corporate-and-Legal/03000-01_Entity-Records"
+   sees one. Send it "3000_Corporate-and-Legal/3000-01_Entity-Records"
    and it either resolves inside Site Mapping or it is refused.
    ================================================================ */
 var HERE = "";        /* where we are, relative to the root */
@@ -1311,15 +1309,21 @@ function liveTops(){
     : '<div class="empty" style="padding:14px">Nothing here yet.</div>';
 }
 
-/* Master folders still carrying the numbering from before the CFO's File
-   Class index - 00_, 60_HUMAN-RESOURCES and the rest. Their old numbers come
-   with the plan (m.former), so this needs no list of its own. */
+/* Master folders not yet named the way the plan names them: the numbering
+   from before the CFO's File Class index (00_, 60_HUMAN-RESOURCES and the
+   rest - their old numbers come with the plan as m.former), or the index's
+   padded spelling with a leading zero (01000_), which Titan dropped. */
 function oldTops(){
-  var was = {};
-  PLAN.masters.forEach(function(m){ if (m.former) was[m.former] = true; });
+  var was = {}, plan = {}, num = {};
+  PLAN.masters.forEach(function(m){
+    if (m.former) was[m.former] = true;
+    plan[m.name] = true; num[m.num] = true;
+  });
   return TOPS.filter(function(t){
+    if (plan[t.name]) return false;
     var head = t.name.split("_")[0];
-    return /^[0-9]{2,3}$/.test(head) && was[head];
+    if (/^[0-9]{2,3}$/.test(head) && was[head]) return true;
+    return /^0[0-9]+$/.test(head) && num[String(parseInt(head, 10))];
   });
 }
 
@@ -1785,7 +1789,7 @@ function runRenumber(){
        ok: "Rename the folders",
        text: "Every folder from the plan is renamed to its File Class - " +
              "60_HUMAN-RESOURCES_RESTRICTED becomes " +
-             "08000_Human-Resources_RESTRICTED, and so on down. Employee " +
+             "8000_Human-Resources_RESTRICTED, and so on down. Employee " +
              "files and the other records made from templates get the same " +
              "treatment inside. Folders that are not in the plan keep their " +
              "names. Nothing is deleted or moved."},

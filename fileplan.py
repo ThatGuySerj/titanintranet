@@ -15,13 +15,17 @@ can be dropped in as it comes and the page follows it.
 
 The numbering:
 
-    01000_File-Plan-and-Governance          File Class 1000 - a master folder
-    01000-02_Naming-Conventions-...         File Class 1000-02
-    08000-01-01_Application-Resume-...      File Class 8000-01-01
+    1000_File-Plan-and-Governance           File Class 1000 - a master folder
+    1000-02_Naming-Conventions-...          File Class 1000-02
+    8000-01-01_Application-Resume-...       File Class 8000-01-01
 
-Master folders are written five digits wide so SharePoint sorts 2000 before
-10000. The page shows the class the way the CFO writes it - 1000-02, not
-01000-02.
+The index pads master folders to five digits (01000). Titan decided against
+the leading zero, so it is taken off as the index is read (unpad) - a new
+draft can arrive padded or not and the folder names come out the same. The
+cost is SharePoint's own sort, which is by text: in its web view 10000 to
+18000 sit between 1000 and 2000. The intranet sorts by number (sitemap.
+sort_key) and Windows File Explorer does too, so both show 1000, 2000 ...
+18000 in order.
 
 Rows whose Entry Type is "Record template" sit under a [RECORD-ID] segment in
 the index: Employee Files, Driver Qualification Files, Unit Files, Customer and
@@ -272,10 +276,8 @@ PRINCIPLES = [
      "would be the alternative."),
     ("Numbered master folders",
      "Every master folder has a fixed File Class - 1000, 2000 and on to "
-     "18000 - written five digits wide in the folder name (01000) so "
-     "SharePoint sorts 2000 ahead of 10000. Numbers never change and are "
-     "never reused, so the sort order is the same in every system. Inside a "
-     "master folder each level adds two digits: 8000-01, then 8000-01-01."),
+     "18000. Numbers never change and are never reused. Inside a master "
+     "folder each level adds two digits: 8000-01, then 8000-01-01."),
     ("Shallow and wide",
      "Four levels, no more. SharePoint stops at 400 characters for the whole "
      "path including the filename, and deep nesting is the single most common "
@@ -297,19 +299,19 @@ PRINCIPLES = [
 ]
 
 WORKFLOW = [
-    ("02000-01_Scan-Drop-Unfiled", "Any staff",
+    ("2000-01_Scan-Drop-Unfiled", "Any staff",
      "The scanner drops its output here. No naming required yet."),
-    ("02000-02_In-Process-OCR", "Controller",
+    ("2000-02_In-Process-OCR", "Controller",
      "OCR applied, a searchable PDF/A created."),
-    ("02000-03_Quality-Check", "Controller",
+    ("2000-03_Quality-Check", "Controller",
      "Legibility, page count and completeness checked against the paper."),
-    ("02000-04_Ready-to-File", "Assigned staff", "Renamed to the convention."),
+    ("2000-04_Ready-to-File", "Assigned staff", "Renamed to the convention."),
     ("Moved out", "Assigned staff",
      "Into its permanent home somewhere in 3000 to 17000."),
-    ("02000-05_Filed-Pending-Shred", "Controller",
+    ("2000-05_Filed-Pending-Shred", "Controller",
      "Originals held thirty days, then shredded - except the do-not-destroy "
      "list."),
-    ("02000-06_Exceptions-Illegible-or-Unidentified", "Controller",
+    ("2000-06_Exceptions-Illegible-or-Unidentified", "Controller",
      "Rescanned, or sent back to the department it came from, weekly."),
 ]
 
@@ -370,10 +372,10 @@ def _wall(name):
 
 
 def _number(name):
-    """The File Class, the way the CFO writes it: 01000-02_... -> 1000-02.
+    """The File Class: 1000-02_Naming... -> 1000-02.
 
-    The folder name pads the master number to five digits so that SharePoint,
-    which sorts by text, puts 2000 before 10000. Nobody says "oh-one-thousand".
+    A padded name (01000-02_...) gives the same answer, so folders made before
+    the leading zero was dropped still read correctly.
     """
     head = name.split("_", 1)[0]
     if not re.match(r"^[0-9]+(-[0-9]+)*$", head):
@@ -383,7 +385,7 @@ def _number(name):
 
 
 def _title(name):
-    """The folder name as prose. 09000-02_Drug-and-Alcohol-Program -> the words.
+    """The folder name as prose. 9000-02_Drug-and-Alcohol-Program -> the words.
 
     The numbers and the underscores are how the system sorts; they are not how
     anybody reads. The page shows both.
@@ -431,6 +433,11 @@ def _their_title(row_title, name):
     return None
 
 
+def unpad(name):
+    """01000-02_Naming -> 1000-02_Naming. Only the leading number changes."""
+    return re.sub(r"^0+(?=[0-9])", "", name or "")
+
+
 def read_index(path=None):
     """The index's rows, blank ones skipped, in the order the CFO wrote them."""
     with open(path or INDEX, encoding="utf-8-sig", newline="") as f:
@@ -470,7 +477,7 @@ def tree():
     rows = read_index()
     rows.sort(key=lambda r: r["New Folder Path"].count("/"))
     for r in rows:
-        segs = [s for s in r["New Folder Path"].strip().split("/") if s]
+        segs = [unpad(s) for s in r["New Folder Path"].strip().split("/") if s]
         if segs[0] != ROOT:
             raise ValueError("%r is not under %s" % (r["New Folder Path"], ROOT))
         part = RECORD_ID in segs
@@ -625,9 +632,11 @@ def former_names():
     path = os.path.join(HERE, "fileplan_renames.json")
     try:
         with open(path, encoding="utf-8") as f:
-            return json.load(f)
+            raw = json.load(f)
     except OSError:
         return {}
+    # recorded against the padded names; the plan's names are unpadded now
+    return {"/".join(unpad(s) for s in k.split("/")): v for k, v in raw.items()}
 
 
 if __name__ == "__main__":

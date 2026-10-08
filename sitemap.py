@@ -62,7 +62,7 @@ MAX_UPLOAD = 4 * 1024 * 1024
 # that parent is copied from - the plan's own rule for record folders, section
 # 2.4: "A _TEMPLATE_ folder sits inside each of these parents. Copy it, rename
 # it, and every driver file looks like every other driver file." Make a folder
-# in 08000-01_Employee-Files-Active called SMITH-J_Hire-2026-09-30 and it arrives
+# in 8000-01_Employee-Files-Active called SMITH-J_Hire-2026-09-30 and it arrives
 # with every subfolder the template has, and any blank forms in them too.
 #
 # Everything about it is ordinary SharePoint. The template is a real folder HR
@@ -126,10 +126,9 @@ def sort_key(name):
     """Sort a folder list the way the numbering means it, not the way ASCII does.
 
     The plan's numbers are what put the structure in order, and SharePoint
-    sorts them as text. The File Class index pads master folders to five
-    digits (01000 ... 18000) so SharePoint gets them right on its own, but
-    folders people add by hand are not always padded, and the old numbering
-    (100_SALES between 10_CORPORATE and 110_VENDORS) was not. Splitting the
+    sorts them as text: 10000_Fleet lands between 1000_File-Plan and
+    2000_Scan-Intake, because "10000" and "1000_" differ at the fifth
+    character and '0' comes before '_'. Splitting the
     digits out and comparing them as numbers puts every one of them where it
     belongs. SharePoint still shows what SharePoint shows - this is the
     intranet's own list.
@@ -398,7 +397,7 @@ class Tree(orientation.Library):
         """Give a folder a template.
 
         `adopt` moves the subfolders already there into it. That is the case
-        HR is in with 08000-01_Employee-Files-Active: the template folders and the
+        HR is in with 8000-01_Employee-Files-Active: the template folders and the
         ones added since are the shape of ONE employee's file, sitting where
         the employees themselves should go. Only folders move - a loose file in
         the parent would otherwise turn up in every new employee's folder.
@@ -529,13 +528,12 @@ def seed(tree, master, progress=None):
 def plan_master(name):
     """One master folder out of fileplan.py, by name or by File Class.
 
-    "08000_Human-Resources_RESTRICTED", "08000" and "8000" all find HR.
+    "8000_Human-Resources_RESTRICTED", "8000" and "08000" all find HR.
     """
     import fileplan
-    want = (name or "").strip().lower()
+    want = fileplan.unpad((name or "").strip().lower())
     for node in fileplan.payload()["tree"]:
-        head = node["n"].split("_")[0]
-        if want in (node["n"].lower(), head, fileplan._number(node["n"])):
+        if want in (node["n"].lower(), node["n"].split("_")[0]):
             return node
     raise MapError("There is no master folder called %r in the plan." % name)
 
@@ -553,9 +551,12 @@ def _key(name):
 
     The old folders were not all spelled the way the plan spelled them: one
     master folder had been renamed to "00_FILE PLAN AND GOVERNANCE", spaces
-    and all. Matching on letters and digits alone finds it anyway.
+    and all. Matching on letters and digits alone finds it anyway. A leading
+    zero is dropped first, so 01000_File-Plan - the index's padded spelling,
+    which Titan decided against - is found as 1000_File-Plan.
     """
-    s = (name or "").lower().replace("&", "and")
+    s = re.sub(r"^0+(?=[0-9])", "", (name or "").strip())
+    s = s.lower().replace("&", "and")
     return re.sub(r"[^a-z0-9]", "", s)
 
 

@@ -217,7 +217,7 @@ def test_seeding_one_master_makes_its_whole_branch():
 
     assert out["made"] == len(fake.made)
     assert fake.made[0] == master["n"]
-    assert master["n"] + "/01000-09_Templates-Library/01000-09-02_Forms-Master" in fake.made
+    assert master["n"] + "/1000-09_Templates-Library/1000-09-02_Forms-Master" in fake.made
 
 
 def test_a_parent_is_always_made_before_its_children():
@@ -263,9 +263,9 @@ def test_asking_for_a_master_folder_that_is_not_in_the_plan():
 
 
 def test_a_master_folder_can_be_asked_for_by_number_or_by_name():
-    hr = "08000_Human-Resources_RESTRICTED"
+    hr = "8000_Human-Resources_RESTRICTED"
     assert sitemap.plan_master("8000")["n"] == hr
-    assert sitemap.plan_master("08000")["n"] == hr
+    assert sitemap.plan_master("08000")["n"] == hr       # the index's spelling
     assert sitemap.plan_master(hr)["n"] == hr
 
 
@@ -548,14 +548,14 @@ def test_seeding_puts_a_record_parents_letters_inside_its_template():
     hr = sitemap.plan_master("8000")
     fake = FakeTree()
     sitemap.seed(fake, hr)
-    base = "08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active"
-    kid = "08000-01-01_Application-Resume-and-Onboarding"
+    base = "8000_Human-Resources_RESTRICTED/8000-01_Employee-Files-Active"
+    kid = "8000-01-01_Application-Resume-and-Onboarding"
     assert base + "/_TEMPLATE_" in fake.made
     assert base + "/_TEMPLATE_/" + kid in fake.made
     assert base + "/" + kid not in fake.made
     # and a folder that is not a record template is untouched
-    assert ("08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/"
-            "08000-03-01_Active-Employees") in fake.made
+    assert ("8000_Human-Resources_RESTRICTED/8000-03_I9-Files_SEGREGATED/"
+            "8000-03-01_Active-Employees") in fake.made
 
 
 def test_the_copy_asks_graph_for_the_right_thing(tree):
@@ -687,9 +687,9 @@ def test_renumbering_keeps_what_is_inside_and_what_is_not_in_the_plan():
               "50_INSURANCE-AND-RISK/Somebody's Own Folder"}
     g = GraphFake(paths)
     sitemap.renumber(g, master, former)
-    assert ("07000_Insurance-and-Risk/07000-01_Policies-in-Force/policy.pdf"
+    assert ("7000_Insurance-and-Risk/7000-01_Policies-in-Force/policy.pdf"
             in g.paths)
-    assert "07000_Insurance-and-Risk/Somebody's Own Folder" in g.paths
+    assert "7000_Insurance-and-Risk/Somebody's Own Folder" in g.paths
 
 
 def test_renumbering_finds_a_folder_somebody_respelled():
@@ -700,7 +700,7 @@ def test_renumbering_finds_a_folder_somebody_respelled():
     g = GraphFake(paths)
     out = sitemap.renumber(g, master, former)
     assert out["missing"] == []
-    assert "01000_File-Plan-and-Governance" in g.paths
+    assert "1000_File-Plan-and-Governance" in g.paths
 
 
 def test_renumbering_reaches_inside_records_made_from_a_template():
@@ -711,9 +711,9 @@ def test_renumbering_reaches_inside_records_made_from_a_template():
               hr + "/SMITH-J_Hire-2026-09-30/Medical"}
     g = GraphFake(paths)
     out = sitemap.renumber(g, master, former)
-    rec = ("08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/"
+    rec = ("8000_Human-Resources_RESTRICTED/8000-01_Employee-Files-Active/"
            "SMITH-J_Hire-2026-09-30")
-    assert rec + "/08000-01-01_Application-Resume-and-Onboarding" in g.paths
+    assert rec + "/8000-01-01_Application-Resume-and-Onboarding" in g.paths
     assert rec + "/Medical" in g.paths                # HR's own, kept
     assert out["records"] == 1
     assert out["missing"] == []      # a record missing a folder is not news
@@ -743,6 +743,22 @@ def test_a_plan_folder_that_is_not_there_is_reported_not_made():
     gone = [p for p in paths if p.endswith("05-06_Exceptions-Illegible-or-Unidentified")][0]
     g = GraphFake(paths - {gone})
     out = sitemap.renumber(g, master, former)
-    assert out["missing"] == ["02000_Scan-Intake-and-Workflow/"
-                              "02000-06_Exceptions-Illegible-or-Unidentified"]
+    assert out["missing"] == ["2000_Scan-Intake-and-Workflow/"
+                              "2000-06_Exceptions-Illegible-or-Unidentified"]
     assert not any(c[0] == "create" for c in g.calls)
+
+
+def test_renumbering_drops_the_leading_zero_from_folders_that_have_it():
+    """Folders already switched to the index's padded spelling (01000_) are
+    renamed again to the plan's (1000_), files and all."""
+    master, former, paths = old_tree("8000")
+    plan = plan_paths(master)
+
+    def pad(p):
+        return "/".join(("0" + s) if s[:1].isdigit() else s for s in p.split("/"))
+    padded = {pad(p) for p in plan} | {pad(sorted(plan)[1]) + "/a.pdf"}
+    g = GraphFake(padded)
+    out = sitemap.renumber(g, master, former)
+    assert out["missing"] == []
+    assert plan <= g.paths
+    assert not any(p.split("/")[0].startswith("0") for p in g.paths)

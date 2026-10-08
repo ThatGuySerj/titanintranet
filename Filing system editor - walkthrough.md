@@ -174,12 +174,18 @@ is missing inside it and leaves the rest alone.
 ## Part D½ — the CFO's File Class numbering (October 2026)
 
 The plan is now numbered to the CFO's **File Class index** (first draft).
-`60_HUMAN-RESOURCES_RESTRICTED` is `08000_Human-Resources_RESTRICTED`,
-`60-01_Employee-Files-Active` is `08000-01_Employee-Files-Active`, and the
+`60_HUMAN-RESOURCES_RESTRICTED` is `8000_Human-Resources_RESTRICTED`,
+`60-01_Employee-Files-Active` is `8000-01_Employee-Files-Active`, and the
 lettered template folders are numbered too (`A_Application-…` is
-`08000-01-01_Application-…`). Master folders are padded to five digits so
-SharePoint sorts 2000 before 10000; the page shows the class the way the CFO
-writes it, `8000-01`.
+`8000-01-01_Application-…`).
+
+**No leading zero.** The index writes master folders five digits wide
+(`01000`); Titan decided against that, so the zero is taken off as the index is
+read — a new draft can arrive either way. The price is SharePoint's own web
+view, which sorts by text and so puts 10000–18000 between 1000 and 2000. The
+intranet and Windows File Explorer both sort by number and show them in order.
+If folders were already switched to the padded names, **Switch to the new
+numbering** appears again and takes the zero off.
 
 **Where it lives.** `file_number_index.csv` in the repository is the CFO's
 index, cleaned: blank rows removed, and the Former Code and Parent Class columns

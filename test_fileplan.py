@@ -40,11 +40,17 @@ def test_the_eighteen_master_folders_are_all_there():
     assert got == [str(n * 1000) for n in range(1, 19)]
 
 
-def test_master_folders_are_five_digits_wide_so_sharepoint_sorts_them():
-    """SharePoint sorts by text. 2000 before 10000 only if both are padded."""
-    names = [n["name"] for n in fileplan.tree()["kids"]]
-    assert all(re.match(r"^[0-9]{5}_", n) for n in names)
-    assert names == sorted(names)
+def test_no_folder_name_starts_with_a_zero():
+    """Titan dropped the index's leading zero: 1000_, not 01000_."""
+    for n in nodes():
+        assert not n["name"].startswith("0"), n["name"]
+
+
+def test_the_index_can_arrive_padded_or_not():
+    assert fileplan.unpad("01000-02_Naming") == "1000-02_Naming"
+    assert fileplan.unpad("18000_Archive") == "18000_Archive"
+    assert fileplan.unpad("[RECORD-ID]") == "[RECORD-ID]"
+    assert fileplan.unpad("SMITH-J_Hire-2026-09-30") == "SMITH-J_Hire-2026-09-30"
 
 
 def test_every_folder_is_numbered_under_its_parent():
@@ -63,7 +69,7 @@ def test_the_index_and_the_tree_agree_row_for_row():
     by_num = {n["num"]: n for n in nodes()}
     for r in rows:
         assert r["File Class"] in by_num, r["File Class"]
-        assert r["New Folder Path"].split("/")[-1] == \
+        assert fileplan.unpad(r["New Folder Path"].split("/")[-1]) == \
             by_num[r["File Class"]]["name"]
 
 
@@ -81,7 +87,7 @@ def test_the_rename_record_covers_every_folder_in_the_plan():
     former = fileplan.former_names()
     paths = {n["path"].split("/", 1)[1] for n in nodes()}
     assert set(former) == paths
-    assert former["08000_Human-Resources_RESTRICTED"] == \
+    assert former["8000_Human-Resources_RESTRICTED"] == \
         "60_HUMAN-RESOURCES_RESTRICTED"
 
 
@@ -141,10 +147,10 @@ def test_the_walls_are_inherited_all_the_way_down():
 
 def test_the_segregated_folders_are_inside_restricted_hr():
     by_name = {n["name"]: n for n in nodes()}
-    for name in ("08000-03_I9-Files_SEGREGATED",
-                 "08000-04_Confidential-Medical-Files_SEGREGATED"):
+    for name in ("8000-03_I9-Files_SEGREGATED",
+                 "8000-04_Confidential-Medical-Files_SEGREGATED"):
         assert by_name[name]["path"].startswith(
-            "TITAN-GROUP/08000_Human-Resources_RESTRICTED/")
+            "TITAN-GROUP/8000_Human-Resources_RESTRICTED/")
 
 
 def test_every_explained_wall_is_a_folder_that_exists():
@@ -258,14 +264,14 @@ def test_the_payload_carries_every_folder():
 
 
 def test_titles_are_readable_and_lose_the_numbering():
-    assert fileplan._title("09000-02_Drug-and-Alcohol-Program_RESTRICTED") == \
+    assert fileplan._title("9000-02_Drug-and-Alcohol-Program_RESTRICTED") == \
         "Drug and Alcohol Program"
     assert fileplan._title("18000_Archive-and-Inactive") == "Archive and Inactive"
 
 
 def test_the_number_is_the_file_class_as_the_cfo_writes_it():
-    assert fileplan._number("01000_File-Plan-and-Governance") == "1000"
-    assert fileplan._number("01000-02_Naming") == "1000-02"
+    assert fileplan._number("1000_File-Plan-and-Governance") == "1000"
+    assert fileplan._number("1000-02_Naming") == "1000-02"
     assert fileplan._number("18000-03-01_X") == "18000-03-01"
     assert fileplan._number("_TEMPLATE_") == ""
     assert fileplan._number("SMITH-J_Hire-2026-09-30") == ""
@@ -368,7 +374,7 @@ def test_signed_in_gets_the_plan_filled_in(client):
 
     assert "var PLAN = null;" not in body
     assert "var PLAN = {" in body
-    assert "09000-02_Drug-and-Alcohol-Program_RESTRICTED" in body
+    assert "9000-02_Drug-and-Alcohol-Program_RESTRICTED" in body
     assert body.count("/* TITAN-PLAN-END */") == 1
     assert r.headers["Cache-Control"] == "no-store, private"
     assert r.headers["Vary"] == "Cookie"
