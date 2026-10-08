@@ -211,13 +211,13 @@ class FakeTree:
 
 def test_seeding_one_master_makes_its_whole_branch():
     import fileplan
-    master = fileplan.payload()["tree"][0]          # 00_FILE-PLAN-AND-GOVERNANCE
+    master = fileplan.payload()["tree"][0]          # 01000_File-Plan-and-Governance
     fake = FakeTree()
     out = sitemap.seed(fake, master)
 
     assert out["made"] == len(fake.made)
     assert fake.made[0] == master["n"]
-    assert master["n"] + "/00-09_Templates-Library/00-09-02_Forms-Master" in fake.made
+    assert master["n"] + "/01000-09_Templates-Library/01000-09-02_Forms-Master" in fake.made
 
 
 def test_a_parent_is_always_made_before_its_children():
@@ -225,7 +225,7 @@ def test_a_parent_is_always_made_before_its_children():
     walk order is not a detail."""
     import fileplan
     fake = FakeTree()
-    sitemap.seed(fake, fileplan.payload()["tree"][2])   # 10_CORPORATE-AND-LEGAL
+    sitemap.seed(fake, fileplan.payload()["tree"][2])   # 03000_Corporate-and-Legal
     seen = set()
     for path in fake.made:
         parent = path.rsplit("/", 1)[0]
@@ -263,9 +263,10 @@ def test_asking_for_a_master_folder_that_is_not_in_the_plan():
 
 
 def test_a_master_folder_can_be_asked_for_by_number_or_by_name():
-    assert sitemap.plan_master("60")["n"] == "60_HUMAN-RESOURCES_RESTRICTED"
-    assert sitemap.plan_master("60_HUMAN-RESOURCES_RESTRICTED")["n"] == \
-        "60_HUMAN-RESOURCES_RESTRICTED"
+    hr = "08000_Human-Resources_RESTRICTED"
+    assert sitemap.plan_master("8000")["n"] == hr
+    assert sitemap.plan_master("08000")["n"] == hr
+    assert sitemap.plan_master(hr)["n"] == hr
 
 
 # ---------------------------------------------------------------------------
@@ -430,8 +431,16 @@ class GraphFake(sitemap.Tree):
     def listing(self, rel=""):
         return {"items": [{"name": p.split("/")[-1],
                            "folder": not p.endswith(".pdf"),
+                           "children": len(self._kids(p)),
                            "template": sitemap.is_template(p.split("/")[-1])}
                           for p in self._kids(rel)]}
+
+    def rename(self, rel, name):
+        rel = rel.strip("/")
+        self.calls.append(("rename", rel, name))
+        new = sitemap._join(rel.rsplit("/", 1)[0] if "/" in rel else "", name)
+        self.paths = {new + p[len(rel):] if p == rel or p.startswith(rel + "/")
+                      else p for p in self.paths}
 
     def create_folder(self, parent, name):
         self.calls.append(("create", parent, name))
@@ -536,15 +545,17 @@ def test_the_template_is_listed_first(tree):
 
 
 def test_seeding_puts_a_record_parents_letters_inside_its_template():
-    hr = sitemap.plan_master("60")
+    hr = sitemap.plan_master("8000")
     fake = FakeTree()
     sitemap.seed(fake, hr)
-    base = "60_HUMAN-RESOURCES_RESTRICTED/60-01_Employee-Files-Active"
+    base = "08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active"
+    kid = "08000-01-01_Application-Resume-and-Onboarding"
     assert base + "/_TEMPLATE_" in fake.made
-    assert base + "/_TEMPLATE_/A_Application-Resume-and-Onboarding" in fake.made
-    assert base + "/A_Application-Resume-and-Onboarding" not in fake.made
+    assert base + "/_TEMPLATE_/" + kid in fake.made
+    assert base + "/" + kid not in fake.made
     # and a folder that is not a record template is untouched
-    assert "60_HUMAN-RESOURCES_RESTRICTED/60-03_I-9-Files_SEGREGATED/60-03-01_Active-Employees" in fake.made
+    assert ("08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/"
+            "08000-03-01_Active-Employees") in fake.made
 
 
 def test_the_copy_asks_graph_for_the_right_thing(tree):
@@ -618,3 +629,120 @@ def test_a_failed_copy_says_so(tree, monkeypatch):
 def test_the_template_route_refuses_an_escape(client):
     assert client.post("/api/map/template",
                        json={"path": "../Safety"}).status_code == 403
+
+
+# ---------------------------------------------------------------------------
+#  Renumbering - the move to the File Class index
+# ---------------------------------------------------------------------------
+
+def old_tree(master_num):
+    """A master folder's branch as it was built under the old numbering."""
+    import fileplan
+    former = fileplan.former_names()
+    master = sitemap.plan_master(master_num)
+    paths = set()
+
+    def walk(node, plan_parent, live_parent):
+        plan_rel = sitemap._join(plan_parent, node["n"])
+        live = sitemap._join(live_parent, former[plan_rel])
+        paths.add(live)
+        kids_live = live
+        if node.get("tm") and node.get("k"):
+            kids_live = live + "/_TEMPLATE_"
+            paths.add(kids_live)
+        for k in node.get("k") or []:
+            walk(k, plan_rel, kids_live)
+    walk(master, "", "")
+    return master, former, paths
+
+
+def plan_paths(master):
+    out = set()
+
+    def walk(node, parent):
+        rel = sitemap._join(parent, node["n"])
+        out.add(rel)
+        kp = rel + "/_TEMPLATE_" if node.get("tm") and node.get("k") else rel
+        if kp != rel:
+            out.add(kp)
+        for k in node.get("k") or []:
+            walk(k, kp)
+    walk(master, "")
+    return out
+
+
+def test_renumbering_renames_a_whole_branch_in_place():
+    master, former, paths = old_tree("3000")
+    g = GraphFake(paths)
+    out = sitemap.renumber(g, master, former)
+    assert out["missing"] == [] and not out["more"]
+    assert g.paths == plan_paths(master)
+    assert all(c[0] == "rename" for c in g.calls)     # nothing made or moved
+    assert out["renamed"] == len(g.calls) == len(paths)
+
+
+def test_renumbering_keeps_what_is_inside_and_what_is_not_in_the_plan():
+    master, former, paths = old_tree("7000")
+    paths |= {"50_INSURANCE-AND-RISK/50-01_Policies-in-Force/policy.pdf",
+              "50_INSURANCE-AND-RISK/Somebody's Own Folder"}
+    g = GraphFake(paths)
+    sitemap.renumber(g, master, former)
+    assert ("07000_Insurance-and-Risk/07000-01_Policies-in-Force/policy.pdf"
+            in g.paths)
+    assert "07000_Insurance-and-Risk/Somebody's Own Folder" in g.paths
+
+
+def test_renumbering_finds_a_folder_somebody_respelled():
+    """Site Mapping really has "00_FILE PLAN AND GOVERNANCE", with spaces."""
+    master, former, paths = old_tree("1000")
+    paths = {p.replace("00_FILE-PLAN-AND-GOVERNANCE",
+                       "00_FILE PLAN AND GOVERNANCE") for p in paths}
+    g = GraphFake(paths)
+    out = sitemap.renumber(g, master, former)
+    assert out["missing"] == []
+    assert "01000_File-Plan-and-Governance" in g.paths
+
+
+def test_renumbering_reaches_inside_records_made_from_a_template():
+    master, former, paths = old_tree("8000")
+    hr = "60_HUMAN-RESOURCES_RESTRICTED/60-01_Employee-Files-Active"
+    paths |= {hr + "/SMITH-J_Hire-2026-09-30",
+              hr + "/SMITH-J_Hire-2026-09-30/A_Application-Resume-and-Onboarding",
+              hr + "/SMITH-J_Hire-2026-09-30/Medical"}
+    g = GraphFake(paths)
+    out = sitemap.renumber(g, master, former)
+    rec = ("08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/"
+           "SMITH-J_Hire-2026-09-30")
+    assert rec + "/08000-01-01_Application-Resume-and-Onboarding" in g.paths
+    assert rec + "/Medical" in g.paths                # HR's own, kept
+    assert out["records"] == 1
+    assert out["missing"] == []      # a record missing a folder is not news
+
+
+def test_renumbering_twice_changes_nothing_the_second_time():
+    master, former, paths = old_tree("2000")
+    g = GraphFake(paths)
+    sitemap.renumber(g, master, former)
+    g.calls = []
+    again = sitemap.renumber(g, master, former)
+    assert g.calls == [] and again["renamed"] == 0
+    assert again["right"] == len(paths)
+
+
+def test_renumbering_out_of_time_says_so_and_finishes_next_time():
+    master, former, paths = old_tree("3000")
+    g = GraphFake(paths)
+    first = sitemap.renumber(g, master, former, budget=-1)
+    assert first["more"] is True
+    out = sitemap.renumber(g, master, former)
+    assert not out["more"] and g.paths == plan_paths(master)
+
+
+def test_a_plan_folder_that_is_not_there_is_reported_not_made():
+    master, former, paths = old_tree("2000")
+    gone = [p for p in paths if p.endswith("05-06_Exceptions-Illegible-or-Unidentified")][0]
+    g = GraphFake(paths - {gone})
+    out = sitemap.renumber(g, master, former)
+    assert out["missing"] == ["02000_Scan-Intake-and-Workflow/"
+                              "02000-06_Exceptions-Illegible-or-Unidentified"]
+    assert not any(c[0] == "create" for c in g.calls)

@@ -62,7 +62,7 @@ MAX_UPLOAD = 4 * 1024 * 1024
 # that parent is copied from - the plan's own rule for record folders, section
 # 2.4: "A _TEMPLATE_ folder sits inside each of these parents. Copy it, rename
 # it, and every driver file looks like every other driver file." Make a folder
-# in 60-01_Employee-Files-Active called SMITH-J_Hire-2026-09-30 and it arrives
+# in 08000-01_Employee-Files-Active called SMITH-J_Hire-2026-09-30 and it arrives
 # with every subfolder the template has, and any blank forms in them too.
 #
 # Everything about it is ordinary SharePoint. The template is a real folder HR
@@ -126,14 +126,13 @@ def sort_key(name):
     """Sort a folder list the way the numbering means it, not the way ASCII does.
 
     The plan's numbers are what put the structure in order, and SharePoint
-    sorts them as text: 100_SALES lands between 10_CORPORATE and 110_VENDORS,
-    because "100" and "10_" differ at the third character and '0' comes before
-    '_'. Every numbered structure hits this eventually and everybody blames the
-    numbering rather than the sort.
-
-    Splitting the digits out and comparing them as numbers puts 00, 05, 10, 20
-    ... 100, 110, 160 where they belong. SharePoint still shows what SharePoint
-    shows - this is the intranet's own list.
+    sorts them as text. The File Class index pads master folders to five
+    digits (01000 ... 18000) so SharePoint gets them right on its own, but
+    folders people add by hand are not always padded, and the old numbering
+    (100_SALES between 10_CORPORATE and 110_VENDORS) was not. Splitting the
+    digits out and comparing them as numbers puts every one of them where it
+    belongs. SharePoint still shows what SharePoint shows - this is the
+    intranet's own list.
     """
     parts = _DIGITS.split(name or "")
     return [int(p) if p.isdigit() else p.lower() for p in parts]
@@ -399,7 +398,7 @@ class Tree(orientation.Library):
         """Give a folder a template.
 
         `adopt` moves the subfolders already there into it. That is the case
-        HR is in with 60-01_Employee-Files-Active: the letter folders and the
+        HR is in with 08000-01_Employee-Files-Active: the template folders and the
         ones added since are the shape of ONE employee's file, sitting where
         the employees themselves should go. Only folders move - a loose file in
         the parent would otherwise turn up in every new employee's folder.
@@ -528,10 +527,127 @@ def seed(tree, master, progress=None):
 
 
 def plan_master(name):
-    """One master folder out of fileplan.py, by name or by number."""
+    """One master folder out of fileplan.py, by name or by File Class.
+
+    "08000_Human-Resources_RESTRICTED", "08000" and "8000" all find HR.
+    """
     import fileplan
     want = (name or "").strip().lower()
     for node in fileplan.payload()["tree"]:
-        if node["n"].lower() == want or node["n"].split("_")[0] == want:
+        head = node["n"].split("_")[0]
+        if want in (node["n"].lower(), head, fileplan._number(node["n"])):
             return node
     raise MapError("There is no master folder called %r in the plan." % name)
+
+
+# ---------------------------------------------------------------------------
+#  Renumbering - the move to the CFO's File Class index
+# ---------------------------------------------------------------------------
+
+class _OutOfTime(Exception):
+    pass
+
+
+def _key(name):
+    """A name with everything but its letters and digits taken out.
+
+    The old folders were not all spelled the way the plan spelled them: one
+    master folder had been renamed to "00_FILE PLAN AND GOVERNANCE", spaces
+    and all. Matching on letters and digits alone finds it anyway.
+    """
+    s = (name or "").lower().replace("&", "and")
+    return re.sub(r"[^a-z0-9]", "", s)
+
+
+def renumber(tree, master, former, budget=80.0):
+    """Rename one master folder's branch from the old numbering to the index's.
+
+    RENAMES, NEVER RECREATES. The folders already in Site Mapping have files
+    in them - Insurance and Safety do - and HR has added folders of its own.
+    A rename in SharePoint keeps the folder's contents, its id, its sharing and
+    its history. Building the new tree beside the old one and moving things
+    across would keep none of that for free.
+
+    `former` maps each plan path (below TITAN-GROUP) to the name the folder had
+    before - fileplan.former_names(). A live folder is matched to its old name
+    on letters and digits only (see _key), inside the parent it should be in.
+    Nothing outside the plan is touched: a folder somebody added keeps its
+    name, and so does anything that matches nothing.
+
+    Inside a record template's parent - Employee Files, Driver Qualification
+    Files and the rest - the template's folders are renamed, and so are the
+    same folders inside every record already made from it, so that SMITH-J's
+    file and the next new hire's look the same.
+
+    Safe to run again. A folder that already has its new name is counted and
+    left alone, so a run that stops partway - `budget` seconds, because
+    gunicorn cuts a request off at 120 - is finished by running it again. The
+    answer says `more` when that is needed.
+    """
+    deadline = time.time() + budget
+    out = {"master": master["n"], "renamed": 0, "right": 0, "records": 0,
+           "missing": [], "more": False}
+
+    def folders(rel, row=None):
+        if row is not None and not row.get("children"):
+            return []
+        if time.time() > deadline:
+            raise _OutOfTime()
+        return [it for it in tree.listing(rel)["items"] if it["folder"]]
+
+    def place(parent_rel, live, node, plan_rel, count_missing=True):
+        """The live row for this plan folder, renamed if it needed it."""
+        want = node["n"]
+        for it in live:
+            if it["name"] == want:
+                out["right"] += 1
+                return it
+        old = former.get(plan_rel)
+        if old:
+            hits = [it for it in live if _key(it["name"]) == _key(old)
+                    or _key(it["name"]) == _key(want)]
+            if len(hits) == 1:
+                if time.time() > deadline:
+                    raise _OutOfTime()
+                tree.rename(_join(parent_rel, hits[0]["name"]), want)
+                hits[0]["name"] = want
+                out["renamed"] += 1
+                return hits[0]
+        if count_missing:
+            out["missing"].append(plan_rel)
+        return None
+
+    def walk(node, parent_rel, plan_parent, live):
+        plan_rel = _join(plan_parent, node["n"])
+        row = place(parent_rel, live, node, plan_rel)
+        if row is None or not node.get("k"):
+            return
+        rel = _join(parent_rel, row["name"])
+        here = folders(rel, row)
+
+        if node.get("tm"):
+            tmpl = [it for it in here if it["template"]]
+            if tmpl:
+                trel = _join(rel, tmpl[0]["name"])
+                tlive = folders(trel, tmpl[0])
+                for kid in node["k"]:
+                    walk(kid, trel, plan_rel, tlive)
+                for rec in here:
+                    if rec["template"]:
+                        continue
+                    rrel = _join(rel, rec["name"])
+                    rlive = folders(rrel, rec)
+                    for kid in node["k"]:
+                        place(rrel, rlive, kid, _join(plan_rel, kid["n"]),
+                              count_missing=False)
+                    out["records"] += 1
+                return
+
+        for kid in node["k"]:
+            walk(kid, rel, plan_rel, here)
+
+    try:
+        walk(master, "", "", folders(""))
+    except _OutOfTime:
+        out["more"] = True
+    return out

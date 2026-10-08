@@ -166,6 +166,45 @@ that failed halfway can simply be run again. That is also how the tick appears:
 the panel compares the plan against what is really in the folder every time it
 reloads.
 
+A master folder that is already there can still be clicked: it adds whatever
+is missing inside it and leaves the rest alone.
+
+---
+
+## Part D½ — the CFO's File Class numbering (October 2026)
+
+The plan is now numbered to the CFO's **File Class index** (first draft).
+`60_HUMAN-RESOURCES_RESTRICTED` is `08000_Human-Resources_RESTRICTED`,
+`60-01_Employee-Files-Active` is `08000-01_Employee-Files-Active`, and the
+lettered template folders are numbered too (`A_Application-…` is
+`08000-01-01_Application-…`). Master folders are padded to five digits so
+SharePoint sorts 2000 before 10000; the page shows the class the way the CFO
+writes it, `8000-01`.
+
+**Where it lives.** `file_number_index.csv` in the repository is the CFO's
+index, cleaned: blank rows removed, and the Former Code and Parent Class columns
+repaired — Excel had turned codes like `10-01-01` into dates. The tree is built
+from its *New Folder Path* column, so when the next draft arrives, save it over
+that file (as CSV), run the tests, and the page follows. The index's
+`[RECORD-ID]` is our `_TEMPLATE_` folder.
+
+**What the page shows.** Every folder's detail panel gives its File Class and
+the number it had before ("8000-01 — was 60-01"), and search finds a folder by
+either number. Owners come from the index's Primary Owner column.
+
+**Switching the folders already in Site Mapping.** While old-numbered master
+folders are there, the *Build from the plan* panel offers one thing only:
+**Switch to the new numbering**. It renames — never recreates — every plan
+folder in place, so files, links, sharing and history stay put. It also renames
+the template folders inside every employee, driver, unit (and so on) file
+already made from a template. Folders that are not in the plan, like HR's own
+additions or `TESTER`, keep their names. It runs one master folder at a time
+and is safe to run again; each run is in the history log.
+
+The old names it matches against are in `fileplan_renames.json` — a frozen
+record of the move, not part of the index, and not needed once the switch has
+been made.
+
 ---
 
 ## Part E — when Site Mapping stops being a sandbox

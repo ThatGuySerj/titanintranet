@@ -1341,6 +1341,33 @@ def map_seed():
     return _map_answer(go)
 
 
+@app.post("/api/map/renumber")
+@map_allowed
+def map_renumber():
+    """Rename one master folder's branch to the CFO's File Class numbering.
+
+    Renames in place - files, sharing and history stay with their folders.
+    One master folder per call for the same reason as seeding, and inside that
+    a time budget: HR's branch includes every employee file made so far, and
+    the answer says `more` when the call has to be made again to finish.
+    """
+    import fileplan
+    import sitemap
+    body = request.get_json(silent=True) or {}
+    which = body.get("master") or ""
+
+    def go():
+        out = sitemap.renumber(_map_tree(), sitemap.plan_master(which),
+                               fileplan.former_names())
+        if out["renamed"] or out["missing"]:
+            _map_note("renumber", out["master"],
+                      "%d renamed, %d already right, %d not found%s" % (
+                          out["renamed"], out["right"], len(out["missing"]),
+                          ", more to do" if out["more"] else ""))
+        return out
+    return _map_answer(go)
+
+
 @app.get("/api/map/log")
 @map_allowed
 def map_log_read():

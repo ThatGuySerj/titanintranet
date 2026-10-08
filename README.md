@@ -9,7 +9,9 @@ Intranet/
 ├─ app.py                  the whole site
 ├─ intranet_access.py      who sees what
 ├─ orientation.py          reads the packet folder, merges the PDFs
-├─ fileplan.py             the proposed filing structure, as data
+├─ fileplan.py             the filing structure, read from the index below
+├─ file_number_index.csv   the CFO's File Class index - the folder list itself
+├─ fileplan_renames.json   old folder names, for the one-off rename to the index
 ├─ sitemap.py              reads AND WRITES the Site Mapping folder
 ├─ welcome.py              the proposed new front page, as data
 ├─ duplex_layout.py        lays the orientation packets out for front-and-back
@@ -23,9 +25,9 @@ Intranet/
 │  ├─ config.json          WHAT IS ON THE INTRANET. Edit this.
 │  └─ images/
 ├─ test_intranet_access.py 28 tests
-├─ test_orientation.py     41 tests
-├─ test_fileplan.py        31 tests
-├─ test_sitemap.py         76 tests
+├─ test_orientation.py     43 tests
+├─ test_fileplan.py        37 tests
+├─ test_sitemap.py        111 tests
 ├─ test_welcome.py         22 tests
 ├─ test_duplex_layout.py   14 tests
 └─ .github/workflows/main_titanintranet.yml

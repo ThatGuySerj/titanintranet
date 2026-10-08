@@ -1,0 +1,733 @@
+File Class,Former Code,Folder / Document Type,Parent Class,Entry Type,Primary Owner,New Folder Path
+1000,00,File Plan and Governance,,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance
+2000,05,Scan Intake and Workflow,,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow
+3000,10,Corporate and Legal,,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal
+4000,20,Finance and Accounting,,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting
+5000,30,Tax,,Folder,CFO,TITAN-GROUP/05000_Tax
+6000,40,Banking and Capital,,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital
+7000,50,Insurance and Risk,,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk
+8000,60,Human Resources_RESTRICTED,,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED
+9000,70,Safety and DOT Compliance,,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance
+10000,80,Fleet and Equipment,,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment
+11000,90,Operations,,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations
+12000,100,Sales Customers and Revenue,,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue
+13000,110,Vendors and Procurement,,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement
+14000,120,Real Estate and Facilities,,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities
+15000,130,SWD Wells and Environmental,,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental
+16000,140,IT and Systems,,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems
+17000,150,Strategic M&A and Projects,,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects
+18000,160,Archive and Inactive,,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive
+1000-01,00-01,File Plan Master,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-01_File-Plan-Master
+1000-02,00-02,Naming Conventions and Document Codes,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-02_Naming-Conventions-and-Document-Codes
+1000-03,00-03,Retention and Destruction Schedule,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-03_Retention-and-Destruction-Schedule
+1000-04,00-04,Permissions and Access Matrix,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-04_Permissions-and-Access-Matrix
+1000-05,00-05,Scanning and Digitization SOPs,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-05_Scanning-and-Digitization-SOPs
+1000-06,00-06,Legal Holds,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-06_Legal-Holds
+1000-07,00-07,Destruction Certificates and Log,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-07_Destruction-Certificates-and-Log
+1000-08,00-08,System Administration and Change Log,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-08_System-Administration-and-Change-Log
+1000-09,00-09,Templates Library,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library
+1000-09-01,00-09-01,Letterhead and Brand Assets,1000-09,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library/01000-09-01_Letterhead-and-Brand-Assets
+1000-09-02,00-09-02,Forms Master,1000-09,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library/01000-09-02_Forms-Master
+1000-09-03,00-09-03,Contract Templates,1000-09,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library/01000-09-03_Contract-Templates
+1000-09-04,00-09-04,Policy and SOP Templates,1000-09,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library/01000-09-04_Policy-and-SOP-Templates
+1000-09-05,00-09-05,Financial Model Templates,1000-09,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-09_Templates-Library/01000-09-05_Financial-Model-Templates
+1000-10,00-10,Training and User Guides,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-10_Training-and-User-Guides
+1000-11,00-11,Records Inventory and Migration Tracker,1000,Folder,CFO,TITAN-GROUP/01000_File-Plan-and-Governance/01000-11_Records-Inventory-and-Migration-Tracker
+2000-01,05-01,Scan Drop Unfiled,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-01_Scan-Drop-Unfiled
+2000-02,05-02,In Process OCR,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-02_In-Process-OCR
+2000-03,05-03,Quality Check,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-03_Quality-Check
+2000-04,05-04,Ready to File,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-04_Ready-to-File
+2000-05,05-05,Filed Pending Shred,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-05_Filed-Pending-Shred
+2000-06,05-06,Exceptions Illegible or Unidentified,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-06_Exceptions-Illegible-or-Unidentified
+2000-07,05-07,Daily Morning Paperwork Batches,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-07_Daily-Morning-Paperwork-Batches
+2000-08,05-08,Mail and Correspondence Intake,2000,Folder,Controller,TITAN-GROUP/02000_Scan-Intake-and-Workflow/02000-08_Mail-and-Correspondence-Intake
+3000-01,10-01,Entity Records,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records
+3000-01-01,10-01-01,TEUI Titan Enterprises Unlimited Inc,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc
+3000-01-02,10-01-02,TET Titan Energy Transportation LLC,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC
+3000-01-03,10-01-03,TOL Titan Oil LLC,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC
+3000-01-04,10-01-04,TTI Titan Trucking Industries LLC,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC
+3000-01-05,10-01-05,TEL Titan Enterprises Leasing Co LLC,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC
+3000-01-06,10-01-06,TREP Titan Real Estate Properties LLC,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC
+3000-01-07,10-01-07,TPOL Titan Polishing LLC DBA Reflection Metal Works,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works
+3000-01-08,10-01-08,LRLT Lonnie Ridenbaugh Living Trust_RESTRICTED,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-08_LRLT-Lonnie-Ridenbaugh-Living-Trust_RESTRICTED
+3000-01-09,10-01-09,KTL Kimberley Transport LLC_PARTITIONED,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED
+3000-01-10,10-01-10,Dormant and Reserved Entities,3000-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-10_Dormant-and-Reserved-Entities
+3000-02,10-02,Intercompany Agreements,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements
+3000-02-01,10-02-01,Management and Shared Services Agreements,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-01_Management-and-Shared-Services-Agreements
+3000-02-02,10-02-02,Equipment Lease Agreements TEL,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-02_Equipment-Lease-Agreements-TEL
+3000-02-03,10-02-03,Real Estate Lease Agreements TREP,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-03_Real-Estate-Lease-Agreements-TREP
+3000-02-04,10-02-04,Intercompany Notes and Loans,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-04_Intercompany-Notes-and-Loans
+3000-02-05,10-02-05,Cost Allocation and Transfer Pricing TEL-FIN-001,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-05_Cost-Allocation-and-Transfer-Pricing-TEL-FIN-001
+3000-02-06,10-02-06,Intercompany Reconciliation Support,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-06_Intercompany-Reconciliation-Support
+3000-02-07,10-02-07,Guaranty and Support Agreements,3000-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-02_Intercompany-Agreements/03000-02-07_Guaranty-and-Support-Agreements
+3000-03,10-03,Contracts Master,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master
+3000-03-01,10-03-01,Customer MSAs and Service Agreements,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-01_Customer-MSAs-and-Service-Agreements
+3000-03-02,10-03-02,Vendor and Supplier Agreements,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-02_Vendor-and-Supplier-Agreements
+3000-03-03,10-03-03,Owner Operator and Lease Purchase,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-03_Owner-Operator-and-Lease-Purchase
+3000-03-04,10-03-04,Broker and Carrier Agreements,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-04_Broker-and-Carrier-Agreements
+3000-03-05,10-03-05,Confidentiality and NDAs,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-05_Confidentiality-and-NDAs
+3000-03-06,10-03-06,Third Party Leases,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-06_Third-Party-Leases
+3000-03-07,10-03-07,Executed Contract Register,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-07_Executed-Contract-Register
+3000-03-08,10-03-08,Contracts Expired and Terminated,3000-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-03_Contracts-Master/03000-03-08_Contracts-Expired-and-Terminated
+3000-04,10-04,Litigation and Claims,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims
+3000-04-01,10-04-01,Active Matters,3000-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims/03000-04-01_Active-Matters
+3000-04-02,10-04-02,Closed Matters,3000-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims/03000-04-02_Closed-Matters
+3000-04-03,10-04-03,Demand Letters and Pre Suit,3000-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims/03000-04-03_Demand-Letters-and-Pre-Suit
+3000-04-04,10-04-04,Subpoenas and Records Requests,3000-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims/03000-04-04_Subpoenas-and-Records-Requests
+3000-04-05,10-04-05,Settlement Agreements and Releases,3000-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-04_Litigation-and-Claims/03000-04-05_Settlement-Agreements-and-Releases
+3000-05,10-05,Intellectual Property,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-05_Intellectual-Property
+3000-05-01,10-05-01,Trademarks and Trade Names,3000-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-05_Intellectual-Property/03000-05-01_Trademarks-and-Trade-Names
+3000-05-02,10-05-02,Domains and Digital Assets,3000-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-05_Intellectual-Property/03000-05-02_Domains-and-Digital-Assets
+3000-05-03,10-05-03,Licenses In and Out,3000-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-05_Intellectual-Property/03000-05-03_Licenses-In-and-Out
+3000-06,10-06,Governance Policies,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies
+3000-06-01,10-06-01,Delegation of Authority,3000-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies/03000-06-01_Delegation-of-Authority
+3000-06-02,10-06-02,Signature Authority Matrix,3000-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies/03000-06-02_Signature-Authority-Matrix
+3000-06-03,10-06-03,Code of Conduct and Ethics,3000-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies/03000-06-03_Code-of-Conduct-and-Ethics
+3000-06-04,10-06-04,Conflict of Interest and Related Party,3000-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies/03000-06-04_Conflict-of-Interest-and-Related-Party
+3000-06-05,10-06-05,Board and Member Meeting Calendar,3000-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-06_Governance-Policies/03000-06-05_Board-and-Member-Meeting-Calendar
+3000-07,10-07,Corporate Restructuring Project,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-07_Corporate-Restructuring-Project
+3000-07-01,10-07-01,Structure Plan v3-1 and Revisions,3000-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-07_Corporate-Restructuring-Project/03000-07-01_Structure-Plan-v3-1-and-Revisions
+3000-07-02,10-07-02,Companion Legal Agreements,3000-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-07_Corporate-Restructuring-Project/03000-07-02_Companion-Legal-Agreements
+3000-07-03,10-07-03,Implementation Checklist and Status,3000-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-07_Corporate-Restructuring-Project/03000-07-03_Implementation-Checklist-and-Status
+3000-07-04,10-07-04,Advisor Memos and Opinions,3000-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-07_Corporate-Restructuring-Project/03000-07-04_Advisor-Memos-and-Opinions
+3000-08,10-08,Outside Counsel,3000,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel
+3000-08-01,10-08-01,Engagement Letters,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-01_Engagement-Letters
+3000-08-02,10-08-02,Matter Files by Firm,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-02_Matter-Files-by-Firm
+3000-08-03,10-08-03,Legal Invoices and Budgets,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-03_Legal-Invoices-and-Budgets
+4000-01,20-01,Financial Statements,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements
+4000-01-01,20-01-01,Consolidated and Combined,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-01_Consolidated-and-Combined
+4000-01-02,20-01-02,By Entity,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-02_By-Entity
+4000-01-03,20-01-03,Monthly Reporting Packages,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-03_Monthly-Reporting-Packages
+4000-01-04,20-01-04,Quarterly Packages,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-04_Quarterly-Packages
+4000-01-05,20-01-05,Annual Year End,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-05_Annual-Year-End
+4000-01-06,20-01-06,Lender and Third Party Versions,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-06_Lender-and-Third-Party-Versions
+4000-02,20-02,Month End Close,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close
+4000-02-01,20-02-01,Close Calendar and Checklists,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-01_Close-Calendar-and-Checklists
+4000-02-02,20-02-02,Journal Entries and Support,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-02_Journal-Entries-and-Support
+4000-02-03,20-02-03,Account Reconciliations,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-03_Account-Reconciliations
+4000-02-04,20-02-04,Accruals and Prepaids,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-04_Accruals-and-Prepaids
+4000-02-05,20-02-05,Flux and Variance Analysis,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-05_Flux-and-Variance-Analysis
+4000-02-06,20-02-06,Intercompany Eliminations,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-06_Intercompany-Eliminations
+4000-03,20-03,General Ledger and COA,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA
+4000-03-01,20-03-01,Chart of Accounts Master,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-01_Chart-of-Accounts-Master
+4000-03-02,20-03-02,Trial Balances,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-02_Trial-Balances
+4000-03-03,20-03-03,GL Detail Exports,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-03_GL-Detail-Exports
+4000-03-04,20-03-04,Opening Balances and Conversions,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-04_Opening-Balances-and-Conversions
+4000-04,20-04,Accounts Payable,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable
+4000-04-01,20-04-01,Vendor Invoices Paid,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-01_Vendor-Invoices-Paid
+4000-04-02,20-04-02,Open and Pending Payables,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-02_Open-and-Pending-Payables
+4000-04-03,20-04-03,Check Runs and ACH Batches,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-03_Check-Runs-and-ACH-Batches
+4000-04-04,20-04-04,Vendor W9 and 1099 Reporting,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-04_Vendor-W9-and-1099-Reporting
+4000-04-05,20-04-05,Fuel and Fluids AP,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-05_Fuel-and-Fluids-AP
+4000-04-06,20-04-06,Credit Card Statements and Receipts,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-06_Credit-Card-Statements-and-Receipts
+4000-04-07,20-04-07,Employee Expense Reports,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-07_Employee-Expense-Reports
+4000-04-08,20-04-08,Disputes and Vendor Statements,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-08_Disputes-and-Vendor-Statements
+4000-05,20-05,Accounts Receivable,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable
+4000-05-01,20-05-01,Customer Invoices Issued,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-01_Customer-Invoices-Issued
+4000-05-02,20-05-02,Field Tickets and Run Tickets Billing Support,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-02_Field-Tickets-and-Run-Tickets-Billing-Support
+4000-05-03,20-05-03,Aging and Collections,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-03_Aging-and-Collections
+4000-05-04,20-05-04,Credit Memos and Adjustments,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-04_Credit-Memos-and-Adjustments
+4000-05-05,20-05-05,Customer Credit Applications and References,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-05_Customer-Credit-Applications-and-References
+4000-05-06,20-05-06,Lien Notices and Preliminary Notices,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-06_Lien-Notices-and-Preliminary-Notices
+4000-05-07,20-05-07,Cash Application and Remittance Advices,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-07_Cash-Application-and-Remittance-Advices
+4000-05-08,20-05-08,Bad Debt and Write Offs,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-08_Bad-Debt-and-Write-Offs
+4000-06,20-06,Payroll Accounting_RESTRICTED,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED
+4000-06-01,20-06-01,Payroll Registers,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-01_Payroll-Registers
+4000-06-02,20-06-02,Payroll Tax Deposits,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-02_Payroll-Tax-Deposits
+4000-06-03,20-06-03,Garnishments and Withholding Orders,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-03_Garnishments-and-Withholding-Orders
+4000-06-04,20-06-04,401k and Benefit Remittances,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-04_401k-and-Benefit-Remittances
+4000-06-05,20-06-05,Driver Settlements and Owner Operator Pay,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-05_Driver-Settlements-and-Owner-Operator-Pay
+4000-06-06,20-06-06,Payroll Reconciliations,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-06_Payroll-Reconciliations
+4000-07,20-07,Fixed Assets and Depreciation,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation
+4000-07-01,20-07-01,Fixed Asset Register,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-01_Fixed-Asset-Register
+4000-07-02,20-07-02,Additions and Capitalization Support,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-02_Additions-and-Capitalization-Support
+4000-07-03,20-07-03,Disposals and Gain Loss,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-03_Disposals-and-Gain-Loss
+4000-07-04,20-07-04,Depreciation Schedules Book and Tax,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-04_Depreciation-Schedules-Book-and-Tax
+4000-07-05,20-07-05,Impairment and Valuation,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-05_Impairment-and-Valuation
+4000-08,20-08,Debt and Lease Schedules,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules
+4000-08-01,20-08-01,Debt Amortization Schedules,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-01_Debt-Amortization-Schedules
+4000-08-02,20-08-02,Lease Schedules and ASC 842,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-02_Lease-Schedules-and-ASC-842
+4000-08-03,20-08-03,Interest and Fee Accruals,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-03_Interest-and-Fee-Accruals
+4000-09,20-09,Budget and Forecast,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast
+4000-09-01,20-09-01,Annual Operating Budget,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-01_Annual-Operating-Budget
+4000-09-02,20-09-02,Capital Expenditure Budget,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-02_Capital-Expenditure-Budget
+4000-09-03,20-09-03,Rolling Forecast and Reforecast,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-03_Rolling-Forecast-and-Reforecast
+4000-09-04,20-09-04,Budget to Actual Reporting,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-04_Budget-to-Actual-Reporting
+4000-10,20-10,Cost Accounting and Unit Economics,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics
+4000-10-01,20-10-01,Cost Per Mile and Cost Per Hour,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-01_Cost-Per-Mile-and-Cost-Per-Hour
+4000-10-02,20-10-02,Cost Per Barrel Water Division,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-02_Cost-Per-Barrel-Water-Division
+4000-10-03,20-10-03,Per Unit and Per Driver Profitability,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-03_Per-Unit-and-Per-Driver-Profitability
+4000-10-04,20-10-04,Division and Yard Level P&L,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-04_Division-and-Yard-Level-PandL
+4000-10-05,20-10-05,Job and Customer Profitability,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-05_Job-and-Customer-Profitability
+4000-11,20-11,Audit Review and Compilation,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation
+4000-11-01,20-11-01,Engagement Letters,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-01_Engagement-Letters
+4000-11-02,20-11-02,PBC Requests and Deliverables,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-02_PBC-Requests-and-Deliverables
+4000-11-03,20-11-03,Workpapers Provided,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-03_Workpapers-Provided
+4000-11-04,20-11-04,Management Letters and Responses,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-04_Management-Letters-and-Responses
+4000-11-05,20-11-05,Issued Reports,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-05_Issued-Reports
+4000-12,20-12,Cash Management,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management
+4000-12-01,20-12-01,Daily Cash Position,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-01_Daily-Cash-Position
+4000-12-02,20-12-02,Thirteen Week Cash Flow,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-02_Thirteen-Week-Cash-Flow
+4000-12-03,20-12-03,Cash Forecast Support,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-03_Cash-Forecast-Support
+4000-13,20-13,Accounting Policies and SOPs,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-13_Accounting-Policies-and-SOPs
+4000-14,20-14,Financial Systems and Data,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data
+4000-14-01,20-14-01,ERP Accounting System Documentation,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-01_ERP-Accounting-System-Documentation
+4000-14-02,20-14-02,Data Exports and Backups,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-02_Data-Exports-and-Backups
+4000-14-03,20-14-03,System Change Log,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-03_System-Change-Log
+5000-01,30-01,Federal Income Tax,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax
+5000-01-01,30-01-01,Returns by Entity and Year,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-01_Returns-by-Entity-and-Year
+5000-01-02,30-01-02,K1s Issued and Received,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-02_K1s-Issued-and-Received
+5000-01-03,30-01-03,Extensions and Estimates,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-03_Extensions-and-Estimates
+5000-01-04,30-01-04,Workpapers and Tax Basis Schedules,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-04_Workpapers-and-Tax-Basis-Schedules
+5000-01-05,30-01-05,Elections and Statements,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-05_Elections-and-Statements
+5000-02,30-02,State and Local Income and Franchise,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise
+5000-02-01,30-02-01,Ohio,5000-02,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise/05000-02-01_Ohio
+5000-02-02,30-02-02,West Virginia,5000-02,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise/05000-02-02_West-Virginia
+5000-02-03,30-02-03,Pennsylvania,5000-02,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise/05000-02-03_Pennsylvania
+5000-02-04,30-02-04,Other States,5000-02,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise/05000-02-04_Other-States
+5000-02-05,30-02-05,Municipal and School District,5000-02,Folder,CFO,TITAN-GROUP/05000_Tax/05000-02_State-and-Local-Income-and-Franchise/05000-02-05_Municipal-and-School-District
+5000-03,30-03,Ohio Commercial Activity Tax CAT,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-03_Ohio-Commercial-Activity-Tax-CAT
+5000-04,30-04,Sales and Use Tax,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax
+5000-04-01,30-04-01,Exemption Certificates Issued to Vendors,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-01_Exemption-Certificates-Issued-to-Vendors
+5000-04-02,30-04-02,Exemption Certificates Received from Customers,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-02_Exemption-Certificates-Received-from-Customers
+5000-04-03,30-04-03,Returns and Remittances,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-03_Returns-and-Remittances
+5000-04-04,30-04-04,Nexus and Registration Analysis,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-04_Nexus-and-Registration-Analysis
+5000-04-05,30-04-05,Audit Defense and Assessments,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-05_Audit-Defense-and-Assessments
+5000-04-06,30-04-06,Taxability Matrices and Research,5000-04,Folder,CFO,TITAN-GROUP/05000_Tax/05000-04_Sales-and-Use-Tax/05000-04-06_Taxability-Matrices-and-Research
+5000-05,30-05,Fuel Tax and IFTA,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-05_Fuel-Tax-and-IFTA
+5000-05-01,30-05-01,IFTA Quarterly Returns,5000-05,Folder,CFO,TITAN-GROUP/05000_Tax/05000-05_Fuel-Tax-and-IFTA/05000-05-01_IFTA-Quarterly-Returns
+5000-05-02,30-05-02,Mileage and Jurisdiction Reports,5000-05,Folder,CFO,TITAN-GROUP/05000_Tax/05000-05_Fuel-Tax-and-IFTA/05000-05-02_Mileage-and-Jurisdiction-Reports
+5000-05-03,30-05-03,Fuel Purchase Records,5000-05,Folder,CFO,TITAN-GROUP/05000_Tax/05000-05_Fuel-Tax-and-IFTA/05000-05-03_Fuel-Purchase-Records
+5000-05-04,30-05-04,IFTA Audits,5000-05,Folder,CFO,TITAN-GROUP/05000_Tax/05000-05_Fuel-Tax-and-IFTA/05000-05-04_IFTA-Audits
+5000-06,30-06,Heavy Highway Use Tax Form 2290,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-06_Heavy-Highway-Use-Tax-Form-2290
+5000-07,30-07,Property Tax,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-07_Property-Tax
+5000-07-01,30-07-01,Real Property,5000-07,Folder,CFO,TITAN-GROUP/05000_Tax/05000-07_Property-Tax/05000-07-01_Real-Property
+5000-07-02,30-07-02,Personal Property,5000-07,Folder,CFO,TITAN-GROUP/05000_Tax/05000-07_Property-Tax/05000-07-02_Personal-Property
+5000-07-03,30-07-03,Valuation Appeals,5000-07,Folder,CFO,TITAN-GROUP/05000_Tax/05000-07_Property-Tax/05000-07-03_Valuation-Appeals
+5000-08,30-08,Payroll Tax Filings,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-08_Payroll-Tax-Filings
+5000-08-01,30-08-01,Form 941 and 940,5000-08,Folder,CFO,TITAN-GROUP/05000_Tax/05000-08_Payroll-Tax-Filings/05000-08-01_Form-941-and-940
+5000-08-02,30-08-02,W2 and W3,5000-08,Folder,CFO,TITAN-GROUP/05000_Tax/05000-08_Payroll-Tax-Filings/05000-08-02_W2-and-W3
+5000-08-03,30-08-03,Ohio Withholding and ODJFS,5000-08,Folder,CFO,TITAN-GROUP/05000_Tax/05000-08_Payroll-Tax-Filings/05000-08-03_Ohio-Withholding-and-ODJFS
+5000-08-04,30-08-04,Multistate Withholding,5000-08,Folder,CFO,TITAN-GROUP/05000_Tax/05000-08_Payroll-Tax-Filings/05000-08-04_Multistate-Withholding
+5000-09,30-09,Tax Notices and Correspondence,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-09_Tax-Notices-and-Correspondence
+5000-10,30-10,Tax Planning and Memos,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-10_Tax-Planning-and-Memos
+5000-10-01,30-10-01,Entity and Structure Planning,5000-10,Folder,CFO,TITAN-GROUP/05000_Tax/05000-10_Tax-Planning-and-Memos/05000-10-01_Entity-and-Structure-Planning
+5000-10-02,30-10-02,Depreciation and Bonus Strategy,5000-10,Folder,CFO,TITAN-GROUP/05000_Tax/05000-10_Tax-Planning-and-Memos/05000-10-02_Depreciation-and-Bonus-Strategy
+5000-10-03,30-10-03,Cost Segregation Studies,5000-10,Folder,CFO,TITAN-GROUP/05000_Tax/05000-10_Tax-Planning-and-Memos/05000-10-03_Cost-Segregation-Studies
+5000-10-04,30-10-04,Credits and Incentives,5000-10,Folder,CFO,TITAN-GROUP/05000_Tax/05000-10_Tax-Planning-and-Memos/05000-10-04_Credits-and-Incentives
+5000-11,30-11,Tax Advisor Engagements,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-11_Tax-Advisor-Engagements
+6000-01,40-01,Bank Accounts,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-01_Bank-Accounts
+6000-01-01,40-01-01,Account Opening and Signature Cards,6000-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-01_Bank-Accounts/06000-01-01_Account-Opening-and-Signature-Cards
+6000-01-02,40-01-02,Bank Statements by Entity and Account,6000-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-01_Bank-Accounts/06000-01-02_Bank-Statements-by-Entity-and-Account
+6000-01-03,40-01-03,Bank Reconciliations,6000-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-01_Bank-Accounts/06000-01-03_Bank-Reconciliations
+6000-01-04,40-01-04,Account Closures,6000-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-01_Bank-Accounts/06000-01-04_Account-Closures
+6000-02,40-02,Lender Relationships,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships
+6000-02-01,40-02-01,Farmers National Bank,6000-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank
+6000-02-02,40-02-02,Peoples Bank,6000-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank
+6000-02-03,40-02-03,Equipment Finance Lenders and Lessors,6000-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-03_Equipment-Finance-Lenders-and-Lessors
+6000-02-04,40-02-04,Prospective and Declined Lenders,6000-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-04_Prospective-and-Declined-Lenders
+6000-02-05,40-02-05,Lender Reporting Calendar,6000-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-05_Lender-Reporting-Calendar
+6000-03,40-03,Active Loan and Lease Files,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-03_Active-Loan-and-Lease-Files
+6000-04,40-04,Paid Off and Closed Facilities,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-04_Paid-Off-and-Closed-Facilities
+6000-05,40-05,UCC Filings and Lien Searches,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-05_UCC-Filings-and-Lien-Searches
+6000-06,40-06,Guaranties Subordinations and Intercreditor,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-06_Guaranties-Subordinations-and-Intercreditor
+6000-07,40-07,Equity and Investor Relations,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-07_Equity-and-Investor-Relations
+6000-07-01,40-07-01,Capital Participation Expand Energy GWS,6000-07,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-07_Equity-and-Investor-Relations/06000-07-01_Capital-Participation-Expand-Energy-GWS
+6000-07-02,40-07-02,Private Equity Outreach and NDAs,6000-07,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-07_Equity-and-Investor-Relations/06000-07-02_Private-Equity-Outreach-and-NDAs
+6000-07-03,40-07-03,Valuation and EBITDA Analyses,6000-07,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-07_Equity-and-Investor-Relations/06000-07-03_Valuation-and-EBITDA-Analyses
+6000-07-04,40-07-04,Distribution and Contribution Records,6000-07,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-07_Equity-and-Investor-Relations/06000-07-04_Distribution-and-Contribution-Records
+6000-08,40-08,Treasury and Merchant Services,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-08_Treasury-and-Merchant-Services
+6000-08-01,40-08-01,Positive Pay and Fraud Controls,6000-08,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-08_Treasury-and-Merchant-Services/06000-08-01_Positive-Pay-and-Fraud-Controls
+6000-08-02,40-08-02,Wire and ACH Authorizations,6000-08,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-08_Treasury-and-Merchant-Services/06000-08-02_Wire-and-ACH-Authorizations
+6000-08-03,40-08-03,Fuel and Purchasing Card Programs,6000-08,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-08_Treasury-and-Merchant-Services/06000-08-03_Fuel-and-Purchasing-Card-Programs
+6000-09,40-09,Personal Financial Statements_RESTRICTED,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-09_Personal-Financial-Statements_RESTRICTED
+6000-10,40-10,Credit Files and Ratings,6000,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-10_Credit-Files-and-Ratings
+7000-01,50-01,Policies in Force,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force
+7000-01-01,50-01-01,Commercial Auto Liability,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-01_Commercial-Auto-Liability
+7000-01-02,50-01-02,General Liability,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-02_General-Liability
+7000-01-03,50-01-03,Excess and Umbrella,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-03_Excess-and-Umbrella
+7000-01-04,50-01-04,Motor Truck Cargo,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-04_Motor-Truck-Cargo
+7000-01-05,50-01-05,Property and Inland Marine,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-05_Property-and-Inland-Marine
+7000-01-06,50-01-06,Pollution and Environmental Liability,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-06_Pollution-and-Environmental-Liability
+7000-01-07,50-01-07,Workers Compensation Ohio BWC,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-07_Workers-Compensation-Ohio-BWC
+7000-01-08,50-01-08,Cyber Liability,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-08_Cyber-Liability
+7000-01-09,50-01-09,Employment Practices EPLI,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-09_Employment-Practices-EPLI
+7000-01-10,50-01-10,Directors and Officers,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-10_Directors-and-Officers
+7000-01-11,50-01-11,Surety Bonds and Financial Responsibility BMC-91,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-11_Surety-Bonds-and-Financial-Responsibility-BMC-91
+7000-01-12,50-01-12,Employee Benefits Liability,7000-01,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-01_Policies-in-Force/07000-01-12_Employee-Benefits-Liability
+7000-02,50-02,Expired Policies Archive,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-02_Expired-Policies-Archive
+7000-03,50-03,Certificates of Insurance,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-03_Certificates-of-Insurance
+7000-03-01,50-03-01,COIs Issued to Customers,7000-03,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-03_Certificates-of-Insurance/07000-03-01_COIs-Issued-to-Customers
+7000-03-02,50-03-02,COIs Received from Vendors and Subcontractors,7000-03,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-03_Certificates-of-Insurance/07000-03-02_COIs-Received-from-Vendors-and-Subcontractors
+7000-03-03,50-03-03,Additional Insured and Waiver Endorsements,7000-03,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-03_Certificates-of-Insurance/07000-03-03_Additional-Insured-and-Waiver-Endorsements
+7000-03-04,50-03-04,COI Tracking Log,7000-03,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-03_Certificates-of-Insurance/07000-03-04_COI-Tracking-Log
+7000-04,50-04,Claims,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims
+7000-04-01,50-04-01,Auto Open,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-01_Auto-Open
+7000-04-02,50-04-02,Auto Closed,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-02_Auto-Closed
+7000-04-03,50-04-03,Workers Compensation Open_RESTRICTED,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-03_Workers-Compensation-Open_RESTRICTED
+7000-04-04,50-04-04,Workers Compensation Closed_RESTRICTED,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-04_Workers-Compensation-Closed_RESTRICTED
+7000-04-05,50-04-05,Property and Equipment,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-05_Property-and-Equipment
+7000-04-06,50-04-06,Cargo,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-06_Cargo
+7000-04-07,50-04-07,Environmental and Pollution,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-07_Environmental-and-Pollution
+7000-04-08,50-04-08,General Liability,7000-04,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-04_Claims/07000-04-08_General-Liability
+7000-05,50-05,Loss Runs and Experience Modification,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-05_Loss-Runs-and-Experience-Modification
+7000-06,50-06,Renewal Submissions and Applications,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-06_Renewal-Submissions-and-Applications
+7000-07,50-07,Broker and Carrier Correspondence,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-07_Broker-and-Carrier-Correspondence
+7000-08,50-08,Ohio BWC Administration,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-08_Ohio-BWC-Administration
+7000-08-01,50-08-01,Payroll True Up Reports,7000-08,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-08_Ohio-BWC-Administration/07000-08-01_Payroll-True-Up-Reports
+7000-08-02,50-08-02,Group Rating and Program Enrollment,7000-08,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-08_Ohio-BWC-Administration/07000-08-02_Group-Rating-and-Program-Enrollment
+7000-08-03,50-08-03,MCO and TPA Records,7000-08,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-08_Ohio-BWC-Administration/07000-08-03_MCO-and-TPA-Records
+7000-09,50-09,Risk Register and Business Continuity,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-09_Risk-Register-and-Business-Continuity
+7000-10,50-10,Contractual Risk Review and Indemnity Analysis,7000,Folder,Safety / CFO,TITAN-GROUP/07000_Insurance-and-Risk/07000-10_Contractual-Risk-Review-and-Indemnity-Analysis
+8000-01,60-01,Employee Files Active,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active
+8000-02,60-02,Employee Files Terminated,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-02_Employee-Files-Terminated
+8000-03,60-03,I9 Files_SEGREGATED,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED
+8000-03-01,60-03-01,Active Employees,8000-03,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/08000-03-01_Active-Employees
+8000-03-02,60-03-02,Terminated Employees,8000-03,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/08000-03-02_Terminated-Employees
+8000-03-03,60-03-03,E Verify Records,8000-03,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/08000-03-03_E-Verify-Records
+8000-03-04,60-03-04,Reverification Tickler,8000-03,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-03_I9-Files_SEGREGATED/08000-03-04_Reverification-Tickler
+8000-04,60-04,Confidential Medical Files_SEGREGATED,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED
+8000-04-01,60-04-01,DOT Physical Medical Detail,8000-04,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED/08000-04-01_DOT-Physical-Medical-Detail
+8000-04-02,60-04-02,FMLA and Leave Documentation,8000-04,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED/08000-04-02_FMLA-and-Leave-Documentation
+8000-04-03,60-04-03,ADA Accommodation Requests,8000-04,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED/08000-04-03_ADA-Accommodation-Requests
+8000-04-04,60-04-04,Workers Compensation Medical,8000-04,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED/08000-04-04_Workers-Compensation-Medical
+8000-04-05,60-04-05,Benefits Enrollment and PHI,8000-04,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-04_Confidential-Medical-Files_SEGREGATED/08000-04-05_Benefits-Enrollment-and-PHI
+8000-05,60-05,Payroll HR Administration,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-05_Payroll-HR-Administration
+8000-05-01,60-05-01,Timekeeping Records,8000-05,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-05_Payroll-HR-Administration/08000-05-01_Timekeeping-Records
+8000-05-02,60-05-02,PTO and Leave Balances,8000-05,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-05_Payroll-HR-Administration/08000-05-02_PTO-and-Leave-Balances
+8000-05-03,60-05-03,Pay Rate Change Authorizations,8000-05,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-05_Payroll-HR-Administration/08000-05-03_Pay-Rate-Change-Authorizations
+8000-05-04,60-05-04,Direct Deposit and W4,8000-05,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-05_Payroll-HR-Administration/08000-05-04_Direct-Deposit-and-W4
+8000-06,60-06,Benefits Administration,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration
+8000-06-01,60-06-01,Plan Documents and SPDs,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-01_Plan-Documents-and-SPDs
+8000-06-02,60-06-02,Carrier Contracts and Invoices,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-02_Carrier-Contracts-and-Invoices
+8000-06-03,60-06-03,Form 5500 and Compliance Filings,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-03_Form-5500-and-Compliance-Filings
+8000-06-04,60-06-04,401k Plan Administration,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-04_401k-Plan-Administration
+8000-06-05,60-06-05,COBRA and ACA Reporting,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-05_COBRA-and-ACA-Reporting
+8000-06-06,60-06-06,Open Enrollment Materials,8000-06,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-06_Benefits-Administration/08000-06-06_Open-Enrollment-Materials
+8000-07,60-07,Recruiting and Applicant Flow,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow
+8000-07-01,60-07-01,Job Postings and Requisitions,8000-07,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow/08000-07-01_Job-Postings-and-Requisitions
+8000-07-02,60-07-02,Applications Not Hired,8000-07,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow/08000-07-02_Applications-Not-Hired
+8000-07-03,60-07-03,Driver Recruiting Campaigns,8000-07,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow/08000-07-03_Driver-Recruiting-Campaigns
+8000-07-04,60-07-04,Recruiting Vendors and Job Boards,8000-07,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow/08000-07-04_Recruiting-Vendors-and-Job-Boards
+8000-07-05,60-07-05,Referral and Sign On Bonus Programs,8000-07,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-07_Recruiting-and-Applicant-Flow/08000-07-05_Referral-and-Sign-On-Bonus-Programs
+8000-08,60-08,Handbook and HR Policies,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-08_Handbook-and-HR-Policies
+8000-09,60-09,Training and Certifications Non DOT,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-09_Training-and-Certifications-Non-DOT
+8000-10,60-10,Org Charts and Job Descriptions,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-10_Org-Charts-and-Job-Descriptions
+8000-11,60-11,Labor Law Postings and Compliance,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-11_Labor-Law-Postings-and-Compliance
+8000-12,60-12,Unemployment and Wage Claims,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-12_Unemployment-and-Wage-Claims
+8000-13,60-13,Investigations and Complaints_RESTRICTED,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-13_Investigations-and-Complaints_RESTRICTED
+8000-14,60-14,Compensation Studies and Pay Bands,8000,Folder,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-14_Compensation-Studies-and-Pay-Bands
+9000-01,70-01,Driver Qualification Files,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files
+9000-02,70-02,Drug and Alcohol Program_RESTRICTED,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED
+9000-02-01,70-02-01,Policy and Employee Acknowledgments,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-01_Policy-and-Employee-Acknowledgments
+9000-02-02,70-02-02,Random Selection Pool and Logs,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-02_Random-Selection-Pool-and-Logs
+9000-02-03,70-02-03,Pre Employment Tests,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-03_Pre-Employment-Tests
+9000-02-04,70-02-04,Random Test Results,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-04_Random-Test-Results
+9000-02-05,70-02-05,Post Accident Tests,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-05_Post-Accident-Tests
+9000-02-06,70-02-06,Reasonable Suspicion Tests,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-06_Reasonable-Suspicion-Tests
+9000-02-07,70-02-07,Return to Duty and Follow Up,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-07_Return-to-Duty-and-Follow-Up
+9000-02-08,70-02-08,FMCSA Clearinghouse Queries and Reports,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-08_FMCSA-Clearinghouse-Queries-and-Reports
+9000-02-09,70-02-09,MRO and Consortium TPA Records,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-09_MRO-and-Consortium-TPA-Records
+9000-02-10,70-02-10,Supervisor Reasonable Suspicion Training,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-10_Supervisor-Reasonable-Suspicion-Training
+9000-02-11,70-02-11,Annual MIS Reports,9000-02,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-02_Drug-and-Alcohol-Program_RESTRICTED/09000-02-11_Annual-MIS-Reports
+9000-03,70-03,Hours of Service and ELD,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD
+9000-03-01,70-03-01,Records of Duty Status,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-01_Records-of-Duty-Status
+9000-03-02,70-03-02,Supporting Documents,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-02_Supporting-Documents
+9000-03-03,70-03-03,Unassigned Driving Time,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-03_Unassigned-Driving-Time
+9000-03-04,70-03-04,Log Edits and Annotations,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-04_Log-Edits-and-Annotations
+9000-03-05,70-03-05,ELD Malfunction Log and Paper Logs,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-05_ELD-Malfunction-Log-and-Paper-Logs
+9000-03-06,70-03-06,HOS Violation Reports and Coaching,9000-03,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-03_Hours-of-Service-and-ELD/09000-03-06_HOS-Violation-Reports-and-Coaching
+9000-04,70-04,Accidents and Incidents,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents
+9000-04-01,70-04-01,Accident Register 390-15,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-01_Accident-Register-390-15
+9000-04-02,70-04-02,Accident Files by Incident,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-02_Accident-Files-by-Incident
+9000-04-03,70-04-03,DOT Recordable Determinations,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-03_DOT-Recordable-Determinations
+9000-04-04,70-04-04,Post Accident Testing Documentation,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-04_Post-Accident-Testing-Documentation
+9000-04-05,70-04-05,Root Cause and Corrective Action,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-05_Root-Cause-and-Corrective-Action
+9000-04-06,70-04-06,Near Miss Reports,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-06_Near-Miss-Reports
+9000-04-07,70-04-07,Preventability Review Committee,9000-04,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-04_Accidents-and-Incidents/09000-04-07_Preventability-Review-Committee
+9000-05,70-05,Inspections and Enforcement,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement
+9000-05-01,70-05-01,Roadside Inspection Reports,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-01_Roadside-Inspection-Reports
+9000-05-02,70-05-02,Violation Corrections and Signed Returns,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-02_Violation-Corrections-and-Signed-Returns
+9000-05-03,70-05-03,DOT Audits and Compliance Reviews,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-03_DOT-Audits-and-Compliance-Reviews
+9000-05-04,70-05-04,CSA Scores and BASIC Reports,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-04_CSA-Scores-and-BASIC-Reports
+9000-05-05,70-05-05,DataQs Challenges,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-05_DataQs-Challenges
+9000-05-06,70-05-06,MSHA Contractor V438,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-06_MSHA-Contractor-V438
+9000-05-07,70-05-07,State and PUCO Enforcement,9000-05,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-05_Inspections-and-Enforcement/09000-05-07_State-and-PUCO-Enforcement
+9000-06,70-06,Vehicle Maintenance Compliance Files,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files
+9000-06-01,70-06-01,Annual Periodic Inspections 396-17,9000-06,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files/09000-06-01_Annual-Periodic-Inspections-396-17
+9000-06-02,70-06-02,Driver Vehicle Inspection Reports DVIR,9000-06,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files/09000-06-02_Driver-Vehicle-Inspection-Reports-DVIR
+9000-06-03,70-06-03,Systematic Maintenance Records 396-3,9000-06,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files/09000-06-03_Systematic-Maintenance-Records-396-3
+9000-06-04,70-06-04,Brake Inspector Qualifications,9000-06,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files/09000-06-04_Brake-Inspector-Qualifications
+9000-06-05,70-06-05,Out of Service and Repair Verification,9000-06,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-06_Vehicle-Maintenance-Compliance-Files/09000-06-05_Out-of-Service-and-Repair-Verification
+9000-07,70-07,Operating Authority and Registration,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration
+9000-07-01,70-07-01,USDOT Number and MCS150,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-01_USDOT-Number-and-MCS150
+9000-07-02,70-07-02,Motor Carrier Authority MC,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-02_Motor-Carrier-Authority-MC
+9000-07-03,70-07-03,Unified Carrier Registration UCR,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-03_Unified-Carrier-Registration-UCR
+9000-07-04,70-07-04,IRP Apportioned Registration,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-04_IRP-Apportioned-Registration
+9000-07-05,70-07-05,IFTA License and Decals,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-05_IFTA-License-and-Decals
+9000-07-06,70-07-06,Ohio BMV Registration,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-06_Ohio-BMV-Registration
+9000-07-07,70-07-07,PUCO and State Permits,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-07_PUCO-and-State-Permits
+9000-07-08,70-07-08,Oversize Overweight Permits,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-08_Oversize-Overweight-Permits
+9000-07-09,70-07-09,Hazmat Registration and Security Plan,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-09_Hazmat-Registration-and-Security-Plan
+9000-07-10,70-07-10,Process Agent BOC3,9000-07,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-07_Operating-Authority-and-Registration/09000-07-10_Process-Agent-BOC3
+9000-08,70-08,Safety Meetings and Training,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-08_Safety-Meetings-and-Training
+9000-08-01,70-08-01,Toolbox Talks and Attendance,9000-08,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-08_Safety-Meetings-and-Training/09000-08-01_Toolbox-Talks-and-Attendance
+9000-08-02,70-08-02,New Driver Orientation,9000-08,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-08_Safety-Meetings-and-Training/09000-08-02_New-Driver-Orientation
+9000-08-03,70-08-03,Remedial and Post Incident Training,9000-08,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-08_Safety-Meetings-and-Training/09000-08-03_Remedial-and-Post-Incident-Training
+9000-08-04,70-08-04,Certificates and Completion Records,9000-08,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-08_Safety-Meetings-and-Training/09000-08-04_Certificates-and-Completion-Records
+9000-09,70-09,Safety Policies and SOPs,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-09_Safety-Policies-and-SOPs
+9000-10,70-10,OSHA and Workplace Safety,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety
+9000-10-01,70-10-01,OSHA 300 301 and 300A Logs,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-01_OSHA-300-301-and-300A-Logs
+9000-10-02,70-10-02,Safety Data Sheets SDS,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-02_Safety-Data-Sheets-SDS
+9000-10-03,70-10-03,Job Safety Analyses and JHAs,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-03_Job-Safety-Analyses-and-JHAs
+9000-10-04,70-10-04,PPE and Respirator Program,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-04_PPE-and-Respirator-Program
+9000-10-05,70-10-05,Lockout Tagout and Confined Space,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-05_Lockout-Tagout-and-Confined-Space
+9000-10-06,70-10-06,OSHA Inspections and Citations,9000-10,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-10_OSHA-and-Workplace-Safety/09000-10-06_OSHA-Inspections-and-Citations
+9000-11,70-11,Field Environmental Compliance,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-11_Field-Environmental-Compliance
+9000-11-01,70-11-01,Spill Prevention SPCC Plans,9000-11,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-11_Field-Environmental-Compliance/09000-11-01_Spill-Prevention-SPCC-Plans
+9000-11-02,70-11-02,Spill Response Reports,9000-11,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-11_Field-Environmental-Compliance/09000-11-02_Spill-Response-Reports
+9000-11-03,70-11-03,Emergency Response Plans,9000-11,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-11_Field-Environmental-Compliance/09000-11-03_Emergency-Response-Plans
+9000-12,70-12,Customer Safety Qualification Platforms,9000,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-12_Customer-Safety-Qualification-Platforms
+9000-12-01,70-12-01,ISNetworld,9000-12,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-12_Customer-Safety-Qualification-Platforms/09000-12-01_ISNetworld
+9000-12-02,70-12-02,Avetta,9000-12,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-12_Customer-Safety-Qualification-Platforms/09000-12-02_Avetta
+9000-12-03,70-12-03,Veriforce and PEC,9000-12,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-12_Customer-Safety-Qualification-Platforms/09000-12-03_Veriforce-and-PEC
+9000-12-04,70-12-04,Customer Specific Prequalification,9000-12,Folder,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-12_Customer-Safety-Qualification-Platforms/09000-12-04_Customer-Specific-Prequalification
+10000-01,80-01,Unit Files by Unit Number,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number
+10000-02,80-02,Titles and Registration Master,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-02_Titles-and-Registration-Master
+10000-02-01,80-02-01,Original Title Custody Log,10000-02,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-02_Titles-and-Registration-Master/10000-02-01_Original-Title-Custody-Log
+10000-02-02,80-02-02,Lien Releases,10000-02,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-02_Titles-and-Registration-Master/10000-02-02_Lien-Releases
+10000-02-03,80-02-03,Title Transfers Intercompany,10000-02,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-02_Titles-and-Registration-Master/10000-02-03_Title-Transfers-Intercompany
+10000-02-04,80-02-04,Plate and Cab Card Records,10000-02,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-02_Titles-and-Registration-Master/10000-02-04_Plate-and-Cab-Card-Records
+10000-03,80-03,Maintenance and Repair,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair
+10000-03-01,80-03-01,Preventive Maintenance Schedules,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-01_Preventive-Maintenance-Schedules
+10000-03-02,80-03-02,Internal Work Orders,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-02_Internal-Work-Orders
+10000-03-03,80-03-03,Outside Vendor Repair Invoices,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-03_Outside-Vendor-Repair-Invoices
+10000-03-04,80-03-04,Warranty Claims,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-04_Warranty-Claims
+10000-03-05,80-03-05,Tire Program and Records,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-05_Tire-Program-and-Records
+10000-03-06,80-03-06,Tank Testing and Certifications,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-06_Tank-Testing-and-Certifications
+10000-03-07,80-03-07,Breakdown and Roadside Assistance,10000-03,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-03_Maintenance-and-Repair/10000-03-07_Breakdown-and-Roadside-Assistance
+10000-04,80-04,Parts and Inventory,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-04_Parts-and-Inventory
+10000-04-01,80-04-01,Parts Purchase Orders,10000-04,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-04_Parts-and-Inventory/10000-04-01_Parts-Purchase-Orders
+10000-04-02,80-04-02,Inventory Counts and Valuation,10000-04,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-04_Parts-and-Inventory/10000-04-02_Inventory-Counts-and-Valuation
+10000-04-03,80-04-03,Parts Vendor Catalogs and Pricing,10000-04,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-04_Parts-and-Inventory/10000-04-03_Parts-Vendor-Catalogs-and-Pricing
+10000-04-04,80-04-04,Core Returns and Credits,10000-04,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-04_Parts-and-Inventory/10000-04-04_Core-Returns-and-Credits
+10000-05,80-05,Fuel Program,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program
+10000-05-01,80-05-01,Fuel Vendor RJ Wright and Sons,10000-05,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program/10000-05-01_Fuel-Vendor-RJ-Wright-and-Sons
+10000-05-02,80-05-02,Fuel Card Administration,10000-05,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program/10000-05-02_Fuel-Card-Administration
+10000-05-03,80-05-03,Bulk Tank Records and Inventory,10000-05,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program/10000-05-03_Bulk-Tank-Records-and-Inventory
+10000-05-04,80-05-04,Fuel Purchase Detail and Reconciliation,10000-05,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program/10000-05-04_Fuel-Purchase-Detail-and-Reconciliation
+10000-05-05,80-05-05,DEF and Lubricants,10000-05,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-05_Fuel-Program/10000-05-05_DEF-and-Lubricants
+10000-06,80-06,Telematics and Cameras,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras
+10000-06-01,80-06-01,Motive Deployment and Configuration,10000-06,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras/10000-06-01_Motive-Deployment-and-Configuration
+10000-06-02,80-06-02,Device Assignment by Unit,10000-06,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras/10000-06-02_Device-Assignment-by-Unit
+10000-06-03,80-06-03,Video Event Pulls and Retention,10000-06,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras/10000-06-03_Video-Event-Pulls-and-Retention
+10000-06-04,80-06-04,Telematics Reporting,10000-06,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras/10000-06-04_Telematics-Reporting
+10000-06-05,80-06-05,Prior System Records,10000-06,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-06_Telematics-and-Cameras/10000-06-05_Prior-System-Records
+10000-07,80-07,Acquisitions and Dispositions,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions
+10000-07-01,80-07-01,Quotes and Purchase Approvals,10000-07,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions/10000-07-01_Quotes-and-Purchase-Approvals
+10000-07-02,80-07-02,New Unit Deliveries,10000-07,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions/10000-07-02_New-Unit-Deliveries
+10000-07-03,80-07-03,Trade Ins and Auctions,10000-07,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions/10000-07-03_Trade-Ins-and-Auctions
+10000-07-04,80-07-04,Total Loss and Salvage,10000-07,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions/10000-07-04_Total-Loss-and-Salvage
+10000-07-05,80-07-05,Fire Damaged and Out of Service Units,10000-07,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-07_Acquisitions-and-Dispositions/10000-07-05_Fire-Damaged-and-Out-of-Service-Units
+10000-08,80-08,Intercompany Equipment Transfers,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-08_Intercompany-Equipment-Transfers
+10000-08-01,80-08-01,Transfer Authorizations,10000-08,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-08_Intercompany-Equipment-Transfers/10000-08-01_Transfer-Authorizations
+10000-08-02,80-08-02,Bills of Sale and Valuations,10000-08,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-08_Intercompany-Equipment-Transfers/10000-08-02_Bills-of-Sale-and-Valuations
+10000-08-03,80-08-03,Lease Schedule Amendments,10000-08,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-08_Intercompany-Equipment-Transfers/10000-08-03_Lease-Schedule-Amendments
+10000-09,80-09,Trailers Tanks and Ancillary Equipment,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-09_Trailers-Tanks-and-Ancillary-Equipment
+10000-10,80-10,Fleet Reporting and Analytics,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-10_Fleet-Reporting-and-Analytics
+10000-10-01,80-10-01,Utilization Reports,10000-10,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-10_Fleet-Reporting-and-Analytics/10000-10-01_Utilization-Reports
+10000-10-02,80-10-02,Maintenance Cost Per Mile,10000-10,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-10_Fleet-Reporting-and-Analytics/10000-10-02_Maintenance-Cost-Per-Mile
+10000-10-03,80-10-03,Downtime and Availability,10000-10,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-10_Fleet-Reporting-and-Analytics/10000-10-03_Downtime-and-Availability
+10000-10-04,80-10-04,Fleet Roster Master,10000-10,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-10_Fleet-Reporting-and-Analytics/10000-10-04_Fleet-Roster-Master
+10000-11,80-11,Equipment Manuals and Reference,10000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-11_Equipment-Manuals-and-Reference
+11000-01,90-01,Dispatch,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch
+11000-01-01,90-01-01,Daily Dispatch Sheets,11000-01,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch/11000-01-01_Daily-Dispatch-Sheets
+11000-01-02,90-01-02,Driver Assignment and Scheduling,11000-01,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch/11000-01-02_Driver-Assignment-and-Scheduling
+11000-01-03,90-01-03,Load Confirmations,11000-01,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch/11000-01-03_Load-Confirmations
+11000-01-04,90-01-04,Dispatch SOPs and Scripts,11000-01,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch/11000-01-04_Dispatch-SOPs-and-Scripts
+11000-01-05,90-01-05,After Hours and On Call,11000-01,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-01_Dispatch/11000-01-05_After-Hours-and-On-Call
+11000-02,90-02,Field and Run Tickets,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets
+11000-02-01,90-02-01,Water Division TET,11000-02,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets/11000-02-01_Water-Division-TET
+11000-02-02,90-02-02,Crude Division Titan Oil,11000-02,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets/11000-02-02_Crude-Division-Titan-Oil
+11000-02-03,90-02-03,Dump and Aggregate TTI,11000-02,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets/11000-02-03_Dump-and-Aggregate-TTI
+11000-02-04,90-02-04,Livestock Kimberley Transport_PARTITIONED,11000-02,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets/11000-02-04_Livestock-Kimberley-Transport_PARTITIONED
+11000-02-05,90-02-05,Disposal and Manifest Tickets,11000-02,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-02_Field-and-Run-Tickets/11000-02-05_Disposal-and-Manifest-Tickets
+11000-03,90-03,Daily and Weekly Operating Reports,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-03_Daily-and-Weekly-Operating-Reports
+11000-04,90-04,Yard Operations,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations
+11000-04-01,90-04-01,Barnesville BAR,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-01_Barnesville-BAR
+11000-04-02,90-04-02,Cambridge CAM,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-02_Cambridge-CAM
+11000-04-03,90-04-03,Sherrodsville SHR,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-03_Sherrodsville-SHR
+11000-04-04,90-04-04,New Philadelphia NPH,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-04_New-Philadelphia-NPH
+11000-04-05,90-04-05,Sardis SAR,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-05_Sardis-SAR
+11000-04-06,90-04-06,Newcomerstown NEW,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-06_Newcomerstown-NEW
+11000-04-07,90-04-07,Coshocton COS,11000-04,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-04_Yard-Operations/11000-04-07_Coshocton-COS
+11000-05,90-05,Customer Site Requirements and Access,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-05_Customer-Site-Requirements-and-Access
+11000-06,90-06,Capacity and Utilization Planning,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-06_Capacity-and-Utilization-Planning
+11000-07,90-07,Owner Operators and Contract Carriers,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-07_Owner-Operators-and-Contract-Carriers
+11000-07-01,90-07-01,Carrier Qualification Packets,11000-07,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-07_Owner-Operators-and-Contract-Carriers/11000-07-01_Carrier-Qualification-Packets
+11000-07-02,90-07-02,Settlements and Rate Confirmations,11000-07,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-07_Owner-Operators-and-Contract-Carriers/11000-07-02_Settlements-and-Rate-Confirmations
+11000-07-03,90-07-03,Insurance and Authority Verification,11000-07,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-07_Owner-Operators-and-Contract-Carriers/11000-07-03_Insurance-and-Authority-Verification
+11000-08,90-08,Operations SOPs and Work Instructions,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-08_Operations-SOPs-and-Work-Instructions
+11000-09,90-09,Quality and Customer Service Issues,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-09_Quality-and-Customer-Service-Issues
+11000-10,90-10,Weather Road Closures and Disruption Logs,11000,Folder,Head of Dispatch,TITAN-GROUP/11000_Operations/11000-10_Weather-Road-Closures-and-Disruption-Logs
+12000-01,100-01,Customer Master Files,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files
+12000-02,100-02,Rate Cards and Pricing,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing
+12000-02-01,100-02-01,Published Rate Schedules,12000-02,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing/12000-02-01_Published-Rate-Schedules
+12000-02-02,100-02-02,Rate Increase Requests and Support,12000-02,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing/12000-02-02_Rate-Increase-Requests-and-Support
+12000-02-03,100-02-03,Fuel Surcharge Programs,12000-02,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing/12000-02-03_Fuel-Surcharge-Programs
+12000-02-04,100-02-04,Accessorial and Demurrage Schedules,12000-02,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing/12000-02-04_Accessorial-and-Demurrage-Schedules
+12000-02-05,100-02-05,Competitive Rate Benchmarking,12000-02,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-02_Rate-Cards-and-Pricing/12000-02-05_Competitive-Rate-Benchmarking
+12000-03,100-03,Bids RFPs and Proposals,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-03_Bids-RFPs-and-Proposals
+12000-03-01,100-03-01,Active Bids,12000-03,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-03_Bids-RFPs-and-Proposals/12000-03-01_Active-Bids
+12000-03-02,100-03-02,Won,12000-03,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-03_Bids-RFPs-and-Proposals/12000-03-02_Won
+12000-03-03,100-03-03,Lost and No Bid,12000-03,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-03_Bids-RFPs-and-Proposals/12000-03-03_Lost-and-No-Bid
+12000-04,100-04,Revenue Reporting,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-04_Revenue-Reporting
+12000-04-01,100-04-01,Revenue by Customer,12000-04,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-04_Revenue-Reporting/12000-04-01_Revenue-by-Customer
+12000-04-02,100-04-02,Revenue by Division,12000-04,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-04_Revenue-Reporting/12000-04-02_Revenue-by-Division
+12000-04-03,100-04-03,Revenue by Yard,12000-04,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-04_Revenue-Reporting/12000-04-03_Revenue-by-Yard
+12000-04-04,100-04-04,Volume and Load Count Reporting,12000-04,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-04_Revenue-Reporting/12000-04-04_Volume-and-Load-Count-Reporting
+12000-05,100-05,Marketing and Brand,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand
+12000-05-01,100-05-01,Logo and Brand Standards,12000-05,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand/12000-05-01_Logo-and-Brand-Standards
+12000-05-02,100-05-02,Website and Digital,12000-05,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand/12000-05-02_Website-and-Digital
+12000-05-03,100-05-03,Driver Recruiting Marketing,12000-05,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand/12000-05-03_Driver-Recruiting-Marketing
+12000-05-04,100-05-04,Truck Graphics and Signage,12000-05,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand/12000-05-04_Truck-Graphics-and-Signage
+12000-05-05,100-05-05,Trade Shows and Sponsorships,12000-05,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-05_Marketing-and-Brand/12000-05-05_Trade-Shows-and-Sponsorships
+12000-06,100-06,Customer Onboarding and Setup,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-06_Customer-Onboarding-and-Setup
+12000-07,100-07,CRM and Prospect Pipeline,12000,Folder,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-07_CRM-and-Prospect-Pipeline
+13000-01,110-01,Vendor Master Files,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files
+13000-02,110-02,Purchase Orders and Requisitions,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-02_Purchase-Orders-and-Requisitions
+13000-03,110-03,Quotes and Bids Received,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-03_Quotes-and-Bids-Received
+13000-04,110-04,Vendor Onboarding and Compliance,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-04_Vendor-Onboarding-and-Compliance
+13000-05,110-05,Subcontractors and Third Party Carriers,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-05_Subcontractors-and-Third-Party-Carriers
+13000-06,110-06,Procurement Policies and Approval Thresholds,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-06_Procurement-Policies-and-Approval-Thresholds
+13000-07,110-07,Preferred Vendor and National Account Programs,13000,Folder,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-07_Preferred-Vendor-and-National-Account-Programs
+14000-01,120-01,Owned Properties,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties
+14000-02,120-02,Leased Properties,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-02_Leased-Properties
+14000-03,120-03,Yard Site Files,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-03_Yard-Site-Files
+14000-04,120-04,Utilities and Services,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-04_Utilities-and-Services
+14000-05,120-05,Construction and Capital Improvements,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-05_Construction-and-Capital-Improvements
+14000-06,120-06,Zoning Permits and Easements,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-06_Zoning-Permits-and-Easements
+14000-07,120-07,Facility Maintenance and Vendors,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-07_Facility-Maintenance-and-Vendors
+14000-08,120-08,Security Access and Keys,14000,Folder,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-08_Security-Access-and-Keys
+15000-01,130-01,Well Files by API Number,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number
+15000-02,130-02,ODNR Division of Oil and Gas Regulatory,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-02_ODNR-Division-of-Oil-and-Gas-Regulatory
+15000-03,130-03,US EPA UIC Program,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-03_US-EPA-UIC-Program
+15000-04,130-04,Ohio EPA,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-04_Ohio-EPA
+15000-05,130-05,Disposal Volume Reporting and Manifests,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-05_Disposal-Volume-Reporting-and-Manifests
+15000-06,130-06,Landowner Leases and Royalty,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-06_Landowner-Leases-and-Royalty
+15000-07,130-07,Well Acquisitions and Transfers,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-07_Well-Acquisitions-and-Transfers
+15000-08,130-08,Environmental Assessments and Remediation,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-08_Environmental-Assessments-and-Remediation
+15000-09,130-09,Spill and Release Notifications,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-09_Spill-and-Release-Notifications
+15000-10,130-10,Seismicity Monitoring and Compliance,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-10_Seismicity-Monitoring-and-Compliance
+15000-11,130-11,Water Sourcing and Recycling,15000,Folder,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-11_Water-Sourcing-and-Recycling
+16000-01,140-01,Systems Inventory and Licenses,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-01_Systems-Inventory-and-Licenses
+16000-02,140-02,Software Vendor Contracts and SaaS,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-02_Software-Vendor-Contracts-and-SaaS
+16000-03,140-03,Access and Identity Management,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-03_Access-and-Identity-Management
+16000-03-01,140-03-01,User Provisioning and Deprovisioning,16000-03,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-03_Access-and-Identity-Management/16000-03-01_User-Provisioning-and-Deprovisioning
+16000-03-02,140-03-02,Permission Change Requests,16000-03,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-03_Access-and-Identity-Management/16000-03-02_Permission-Change-Requests
+16000-03-03,140-03-03,Access Reviews,16000-03,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-03_Access-and-Identity-Management/16000-03-03_Access-Reviews
+16000-04,140-04,Backup and Disaster Recovery,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-04_Backup-and-Disaster-Recovery
+16000-05,140-05,Cybersecurity and Incident Response,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response
+16000-05-01,140-05-01,Policies and Standards,16000-05,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response/16000-05-01_Policies-and-Standards
+16000-05-02,140-05-02,Security Assessments and Pen Tests,16000-05,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response/16000-05-02_Security-Assessments-and-Pen-Tests
+16000-05-03,140-05-03,Incident Reports,16000-05,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response/16000-05-03_Incident-Reports
+16000-05-04,140-05-04,Security Awareness Training,16000-05,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response/16000-05-04_Security-Awareness-Training
+16000-05-05,140-05-05,Cyber Insurance Requirements,16000-05,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-05_Cybersecurity-and-Incident-Response/16000-05-05_Cyber-Insurance-Requirements
+16000-06,140-06,Hardware and Device Inventory,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-06_Hardware-and-Device-Inventory
+16000-07,140-07,Integrations and Data Mapping,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-07_Integrations-and-Data-Mapping
+16000-08,140-08,IT Project Files,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-08_IT-Project-Files
+16000-09,140-09,Telecom and Connectivity,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-09_Telecom-and-Connectivity
+16000-10,140-10,Email Archiving and Retention,16000,Folder,Technology contact,TITAN-GROUP/16000_IT-and-Systems/16000-10_Email-Archiving-and-Retention
+17000-01,150-01,Active Transactions,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions
+17000-02,150-02,Closed Transactions Archive,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-02_Closed-Transactions-Archive
+17000-03,150-03,Pipeline and Target Screening,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-03_Pipeline-and-Target-Screening
+17000-04,150-04,Exit Readiness Data Room,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room
+17000-04-01,150-04-01,Corporate and Legal,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-01_Corporate-and-Legal
+17000-04-02,150-04-02,Financial and Quality of Earnings,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-02_Financial-and-Quality-of-Earnings
+17000-04-03,150-04-03,Tax,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-03_Tax
+17000-04-04,150-04-04,Operations and Customers,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-04_Operations-and-Customers
+17000-04-05,150-04-05,Fleet and Assets,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-05_Fleet-and-Assets
+17000-04-06,150-04-06,HR and Benefits,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-06_HR-and-Benefits
+17000-04-07,150-04-07,Safety and Regulatory Compliance,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-07_Safety-and-Regulatory-Compliance
+17000-04-08,150-04-08,Environmental and SWD,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-08_Environmental-and-SWD
+17000-04-09,150-04-09,Insurance and Litigation,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-09_Insurance-and-Litigation
+17000-04-10,150-04-10,IT and Systems,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-10_IT-and-Systems
+17000-04-11,150-04-11,Diligence Response Tracker,17000-04,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-04_Exit-Readiness-Data-Room/17000-04-11_Diligence-Response-Tracker
+17000-05,150-05,Strategic Planning and Board Materials,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-05_Strategic-Planning-and-Board-Materials
+17000-06,150-06,Special Projects,17000,Folder,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-06_Special-Projects
+18000-01,160-01,Closed and Dissolved Entities,18000,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive/18000-01_Closed-and-Dissolved-Entities
+18000-02,160-02,Superseded Records,18000,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive/18000-02_Superseded-Records
+18000-03,160-03,Scanned Paper Backfile by Year,18000,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive/18000-03_Scanned-Paper-Backfile-by-Year
+18000-04,160-04,Records Under Legal Hold,18000,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive/18000-04_Records-Under-Legal-Hold
+18000-05,160-05,Pending Destruction Review,18000,Folder,Controller,TITAN-GROUP/18000_Archive-and-Inactive/18000-05_Pending-Destruction-Review
+8000-01-01,60-01/A,Application Resume and Onboarding,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-01_Application-Resume-and-Onboarding
+8000-01-02,60-01/B,Offer Compensation and Job Changes,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-02_Offer-Compensation-and-Job-Changes
+8000-01-03,60-01/C,Performance Reviews,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-03_Performance-Reviews
+8000-01-04,60-01/D,Discipline and Corrective Action,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-04_Discipline-and-Corrective-Action
+8000-01-05,60-01/E,Policy Acknowledgments and Signed Forms,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-05_Policy-Acknowledgments-and-Signed-Forms
+8000-01-06,60-01/F,Separation and Exit,8000-01,Record template,HR,TITAN-GROUP/08000_Human-Resources_RESTRICTED/08000-01_Employee-Files-Active/[RECORD-ID]/08000-01-06_Separation-and-Exit
+9000-01-01,70-01/A,Employment Application 391-21,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-01_Employment-Application-391-21
+9000-01-02,70-01/B,Motor Vehicle Record Annual,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-02_Motor-Vehicle-Record-Annual
+9000-01-03,70-01/C,Road Test or CDL Equivalency,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-03_Road-Test-or-CDL-Equivalency
+9000-01-04,70-01/D,Medical Examiner Certificate and CDLIS,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-04_Medical-Examiner-Certificate-and-CDLIS
+9000-01-05,70-01/E,Previous Employer Safety Performance History,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-05_Previous-Employer-Safety-Performance-History
+9000-01-06,70-01/F,Annual Review and Violation Certification,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-06_Annual-Review-and-Violation-Certification
+9000-01-07,70-01/G,Entry Level Driver Training Certificate,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-07_Entry-Level-Driver-Training-Certificate
+9000-01-08,70-01/H,Hazmat and Tanker Endorsements,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-08_Hazmat-and-Tanker-Endorsements
+9000-01-09,70-01/I,Disqualification and Reinstatement,9000-01,Record template,Safety / DOT,TITAN-GROUP/09000_Safety-and-DOT-Compliance/09000-01_Driver-Qualification-Files/[RECORD-ID]/09000-01-09_Disqualification-and-Reinstatement
+10000-01-01,80-01/A,Title and Ownership,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-01_Title-and-Ownership
+10000-01-02,80-01/B,Registration and Plates,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-02_Registration-and-Plates
+10000-01-03,80-01/C,Purchase or Lease Documents,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-03_Purchase-or-Lease-Documents
+10000-01-04,80-01/D,Specifications and Build Sheet,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-04_Specifications-and-Build-Sheet
+10000-01-05,80-01/E,Warranty and Recalls,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-05_Warranty-and-Recalls
+10000-01-06,80-01/F,Photos and Condition Reports,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-06_Photos-and-Condition-Reports
+10000-01-07,80-01/G,Modifications and Upfits,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-07_Modifications-and-Upfits
+10000-01-08,80-01/H,Disposal and Sale,10000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/10000_Fleet-and-Equipment/10000-01_Unit-Files-by-Unit-Number/[RECORD-ID]/10000-01-08_Disposal-and-Sale
+12000-01-01,100-01/A,Contracts and MSAs,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-01_Contracts-and-MSAs
+12000-01-02,100-01/B,Rate Sheets and Amendments,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-02_Rate-Sheets-and-Amendments
+12000-01-03,100-01/C,Insurance and Indemnity Requirements,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-03_Insurance-and-Indemnity-Requirements
+12000-01-04,100-01/D,Billing Requirements and Portal Access,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-04_Billing-Requirements-and-Portal-Access
+12000-01-05,100-01/E,Contacts and Org Charts,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-05_Contacts-and-Org-Charts
+12000-01-06,100-01/F,Correspondence,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-06_Correspondence
+12000-01-07,100-01/G,Performance and Scorecards,12000-01,Record template,CFO,TITAN-GROUP/12000_Sales-Customers-and-Revenue/12000-01_Customer-Master-Files/[RECORD-ID]/12000-01-07_Performance-and-Scorecards
+13000-01-01,110-01/A,W9 and Tax Documentation,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-01_W9-and-Tax-Documentation
+13000-01-02,110-01/B,Certificates of Insurance,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-02_Certificates-of-Insurance
+13000-01-03,110-01/C,Contracts and Terms,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-03_Contracts-and-Terms
+13000-01-04,110-01/D,Pricing Agreements,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-04_Pricing-Agreements
+13000-01-05,110-01/E,Contacts,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-05_Contacts
+13000-01-06,110-01/F,Performance and Issues,13000-01,Record template,Director of Fleet Administration and Purchasing,TITAN-GROUP/13000_Vendors-and-Procurement/13000-01_Vendor-Master-Files/[RECORD-ID]/13000-01-06_Performance-and-Issues
+14000-01-01,120-01/A,Deed and Title Policy,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-01_Deed-and-Title-Policy
+14000-01-02,120-01/B,Survey and Legal Description,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-02_Survey-and-Legal-Description
+14000-01-03,120-01/C,Purchase and Closing Binder,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-03_Purchase-and-Closing-Binder
+14000-01-04,120-01/D,Appraisals and Valuations,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-04_Appraisals-and-Valuations
+14000-01-05,120-01/E,Environmental Phase I and II,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-05_Environmental-Phase-I-and-II
+14000-01-06,120-01/F,Mortgage and Financing,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-06_Mortgage-and-Financing
+14000-01-07,120-01/G,Property Tax,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-07_Property-Tax
+14000-01-08,120-01/H,Insurance,14000-01,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-01_Owned-Properties/[RECORD-ID]/14000-01-08_Insurance
+14000-02-01,120-02/A,Lease and Amendments,14000-02,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-02_Leased-Properties/[RECORD-ID]/14000-02-01_Lease-and-Amendments
+14000-02-02,120-02/B,Rent Schedule and Payments,14000-02,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-02_Leased-Properties/[RECORD-ID]/14000-02-02_Rent-Schedule-and-Payments
+14000-02-03,120-02/C,Landlord Correspondence,14000-02,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-02_Leased-Properties/[RECORD-ID]/14000-02-03_Landlord-Correspondence
+14000-02-04,120-02/D,Estoppels and SNDAs,14000-02,Record template,CFO,TITAN-GROUP/14000_Real-Estate-and-Facilities/14000-02_Leased-Properties/[RECORD-ID]/14000-02-04_Estoppels-and-SNDAs
+15000-01-01,130-01/A,UIC Class II Permit and Application,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-01_UIC-Class-II-Permit-and-Application
+15000-01-02,130-01/B,ODNR Correspondence and Orders,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-02_ODNR-Correspondence-and-Orders
+15000-01-03,130-01/C,Drilling Completion and Logs,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-03_Drilling-Completion-and-Logs
+15000-01-04,130-01/D,Mechanical Integrity Testing MIT,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-04_Mechanical-Integrity-Testing-MIT
+15000-01-05,130-01/E,Injection Volume and Pressure Reports,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-05_Injection-Volume-and-Pressure-Reports
+15000-01-06,130-01/F,Wellhead Equipment and Facility,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-06_Wellhead-Equipment-and-Facility
+15000-01-07,130-01/G,Bonding and Financial Assurance,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-07_Bonding-and-Financial-Assurance
+15000-01-08,130-01/H,Plugging and Abandonment,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-08_Plugging-and-Abandonment
+15000-01-09,130-01/I,Title Lease and Surface Rights,15000-01,Record template,CFO,TITAN-GROUP/15000_SWD-Wells-and-Environmental/15000-01_Well-Files-by-API-Number/[RECORD-ID]/15000-01-09_Title-Lease-and-Surface-Rights
+17000-01-01,150-01/A,NDA and Confidentiality,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-01_NDA-and-Confidentiality
+17000-01-02,150-01/B,Letters of Intent and Term Sheets,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-02_Letters-of-Intent-and-Term-Sheets
+17000-01-03,150-01/C,Diligence Received from Target,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-03_Diligence-Received-from-Target
+17000-01-04,150-01/D,Diligence Provided,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-04_Diligence-Provided
+17000-01-05,150-01/E,Valuation and Financial Models,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-05_Valuation-and-Financial-Models
+17000-01-06,150-01/F,Purchase and Sale Agreements,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-06_Purchase-and-Sale-Agreements
+17000-01-07,150-01/G,Third Party Advisors,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-07_Third-Party-Advisors
+17000-01-08,150-01/H,Closing Binder and Funds Flow,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-08_Closing-Binder-and-Funds-Flow
+17000-01-09,150-01/I,Post Closing and Integration,17000-01,Record template,CFO,TITAN-GROUP/17000_Strategic-MandA-and-Projects/17000-01_Active-Transactions/[RECORD-ID]/17000-01-09_Post-Closing-and-Integration
+3000-01-01-01,10-01-01/A,Formation and Charter,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-01_Formation-and-Charter
+3000-01-01-02,10-01-01/B,Governing Documents Bylaws,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-02_Governing-Documents-Bylaws
+3000-01-01-03,10-01-01/C,Ownership and Cap Table,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-03_Ownership-and-Cap-Table
+3000-01-01-04,10-01-01/D,Minutes and Resolutions,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-04_Minutes-and-Resolutions
+3000-01-01-05,10-01-01/E,Annual Filings and Good Standing,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-05_Annual-Filings-and-Good-Standing
+3000-01-01-06,10-01-01/F,EIN and Tax ID,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-06_EIN-and-Tax-ID
+3000-01-01-07,10-01-01/G,Registered Agent,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-07_Registered-Agent
+3000-01-01-08,10-01-01/H,Foreign Qualifications,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-08_Foreign-Qualifications
+3000-01-01-09,10-01-01/I,DBA and Trade Names,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-09_DBA-and-Trade-Names
+3000-01-01-10,10-01-01/J,Officer and Director Records,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-10_Officer-and-Director-Records
+3000-01-01-11,10-01-01/K,Dissolution Merger Conversion,3000-01-01,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-01_TEUI-Titan-Enterprises-Unlimited-Inc/03000-01-01-11_Dissolution-Merger-Conversion
+3000-01-02-01,10-01-02/A,Formation and Charter,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-01_Formation-and-Charter
+3000-01-02-02,10-01-02/B,Operating Agreement,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-02_Operating-Agreement
+3000-01-02-03,10-01-02/C,Ownership and Membership Interests,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-03_Ownership-and-Membership-Interests
+3000-01-02-04,10-01-02/D,Minutes and Consents,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-04_Minutes-and-Consents
+3000-01-02-05,10-01-02/E,Annual Filings and Good Standing,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-05_Annual-Filings-and-Good-Standing
+3000-01-02-06,10-01-02/F,EIN and Tax ID,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-06_EIN-and-Tax-ID
+3000-01-02-07,10-01-02/G,Registered Agent,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-07_Registered-Agent
+3000-01-02-08,10-01-02/H,Foreign Qualifications,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-08_Foreign-Qualifications
+3000-01-02-09,10-01-02/I,DBA and Trade Names,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-09_DBA-and-Trade-Names
+3000-01-02-10,10-01-02/J,Officer and Manager Records,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-10_Officer-and-Manager-Records
+3000-01-02-11,10-01-02/K,Dissolution Merger Conversion,3000-01-02,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-02_TET-Titan-Energy-Transportation-LLC/03000-01-02-11_Dissolution-Merger-Conversion
+3000-01-03-01,10-01-03/A,Formation and Charter,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-01_Formation-and-Charter
+3000-01-03-02,10-01-03/B,Operating Agreement,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-02_Operating-Agreement
+3000-01-03-03,10-01-03/C,Ownership and Membership Interests,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-03_Ownership-and-Membership-Interests
+3000-01-03-04,10-01-03/D,Minutes and Consents,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-04_Minutes-and-Consents
+3000-01-03-05,10-01-03/E,Annual Filings and Good Standing,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-05_Annual-Filings-and-Good-Standing
+3000-01-03-06,10-01-03/F,EIN and Tax ID,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-06_EIN-and-Tax-ID
+3000-01-03-07,10-01-03/G,Registered Agent,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-07_Registered-Agent
+3000-01-03-08,10-01-03/H,Foreign Qualifications,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-08_Foreign-Qualifications
+3000-01-03-09,10-01-03/I,DBA and Trade Names,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-09_DBA-and-Trade-Names
+3000-01-03-10,10-01-03/J,Officer and Manager Records,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-10_Officer-and-Manager-Records
+3000-01-03-11,10-01-03/K,Dissolution Merger Conversion,3000-01-03,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-03_TOL-Titan-Oil-LLC/03000-01-03-11_Dissolution-Merger-Conversion
+3000-01-04-01,10-01-04/A,Formation and Charter,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-01_Formation-and-Charter
+3000-01-04-02,10-01-04/B,Operating Agreement,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-02_Operating-Agreement
+3000-01-04-03,10-01-04/C,Ownership and Membership Interests,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-03_Ownership-and-Membership-Interests
+3000-01-04-04,10-01-04/D,Minutes and Consents,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-04_Minutes-and-Consents
+3000-01-04-05,10-01-04/E,Annual Filings and Good Standing,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-05_Annual-Filings-and-Good-Standing
+3000-01-04-06,10-01-04/F,EIN and Tax ID,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-06_EIN-and-Tax-ID
+3000-01-04-07,10-01-04/G,Registered Agent,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-07_Registered-Agent
+3000-01-04-08,10-01-04/H,Foreign Qualifications,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-08_Foreign-Qualifications
+3000-01-04-09,10-01-04/I,DBA and Trade Names,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-09_DBA-and-Trade-Names
+3000-01-04-10,10-01-04/J,Officer and Manager Records,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-10_Officer-and-Manager-Records
+3000-01-04-11,10-01-04/K,Dissolution Merger Conversion,3000-01-04,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-04_TTI-Titan-Trucking-Industries-LLC/03000-01-04-11_Dissolution-Merger-Conversion
+3000-01-05-01,10-01-05/A,Formation and Charter,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-01_Formation-and-Charter
+3000-01-05-02,10-01-05/B,Operating Agreement,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-02_Operating-Agreement
+3000-01-05-03,10-01-05/C,Ownership and Membership Interests,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-03_Ownership-and-Membership-Interests
+3000-01-05-04,10-01-05/D,Minutes and Consents,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-04_Minutes-and-Consents
+3000-01-05-05,10-01-05/E,Annual Filings and Good Standing,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-05_Annual-Filings-and-Good-Standing
+3000-01-05-06,10-01-05/F,EIN and Tax ID,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-06_EIN-and-Tax-ID
+3000-01-05-07,10-01-05/G,Registered Agent,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-07_Registered-Agent
+3000-01-05-08,10-01-05/H,Foreign Qualifications,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-08_Foreign-Qualifications
+3000-01-05-09,10-01-05/I,DBA and Trade Names,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-09_DBA-and-Trade-Names
+3000-01-05-10,10-01-05/J,Officer and Manager Records,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-10_Officer-and-Manager-Records
+3000-01-05-11,10-01-05/K,Dissolution Merger Conversion,3000-01-05,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-05_TEL-Titan-Enterprises-Leasing-Co-LLC/03000-01-05-11_Dissolution-Merger-Conversion
+3000-01-06-01,10-01-06/A,Formation and Charter,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-01_Formation-and-Charter
+3000-01-06-02,10-01-06/B,Operating Agreement,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-02_Operating-Agreement
+3000-01-06-03,10-01-06/C,Ownership and Membership Interests,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-03_Ownership-and-Membership-Interests
+3000-01-06-04,10-01-06/D,Minutes and Consents,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-04_Minutes-and-Consents
+3000-01-06-05,10-01-06/E,Annual Filings and Good Standing,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-05_Annual-Filings-and-Good-Standing
+3000-01-06-06,10-01-06/F,EIN and Tax ID,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-06_EIN-and-Tax-ID
+3000-01-06-07,10-01-06/G,Registered Agent,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-07_Registered-Agent
+3000-01-06-08,10-01-06/H,Foreign Qualifications,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-08_Foreign-Qualifications
+3000-01-06-09,10-01-06/I,DBA and Trade Names,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-09_DBA-and-Trade-Names
+3000-01-06-10,10-01-06/J,Officer and Manager Records,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-10_Officer-and-Manager-Records
+3000-01-06-11,10-01-06/K,Dissolution Merger Conversion,3000-01-06,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-06_TREP-Titan-Real-Estate-Properties-LLC/03000-01-06-11_Dissolution-Merger-Conversion
+3000-01-07-01,10-01-07/A,Formation and Charter,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-01_Formation-and-Charter
+3000-01-07-02,10-01-07/B,Operating Agreement,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-02_Operating-Agreement
+3000-01-07-03,10-01-07/C,Ownership and Membership Interests,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-03_Ownership-and-Membership-Interests
+3000-01-07-04,10-01-07/D,Minutes and Consents,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-04_Minutes-and-Consents
+3000-01-07-05,10-01-07/E,Annual Filings and Good Standing,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-05_Annual-Filings-and-Good-Standing
+3000-01-07-06,10-01-07/F,EIN and Tax ID,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-06_EIN-and-Tax-ID
+3000-01-07-07,10-01-07/G,Registered Agent,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-07_Registered-Agent
+3000-01-07-08,10-01-07/H,Foreign Qualifications,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-08_Foreign-Qualifications
+3000-01-07-09,10-01-07/I,DBA and Trade Names,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-09_DBA-and-Trade-Names
+3000-01-07-10,10-01-07/J,Officer and Manager Records,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-10_Officer-and-Manager-Records
+3000-01-07-11,10-01-07/K,Dissolution Merger Conversion,3000-01-07,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-07_TPOL-Titan-Polishing-LLC-DBA-Reflection-Metal-Works/03000-01-07-11_Dissolution-Merger-Conversion
+3000-01-08-01,10-01-08/A,Trust Instrument and Amendments,3000-01-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-08_LRLT-Lonnie-Ridenbaugh-Living-Trust_RESTRICTED/03000-01-08-01_Trust-Instrument-and-Amendments
+3000-01-08-02,10-01-08/B,Trustee Records,3000-01-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-08_LRLT-Lonnie-Ridenbaugh-Living-Trust_RESTRICTED/03000-01-08-02_Trustee-Records
+3000-01-08-03,10-01-08/C,Assets Held in Trust,3000-01-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-08_LRLT-Lonnie-Ridenbaugh-Living-Trust_RESTRICTED/03000-01-08-03_Assets-Held-in-Trust
+3000-01-08-04,10-01-08/D,Correspondence,3000-01-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-08_LRLT-Lonnie-Ridenbaugh-Living-Trust_RESTRICTED/03000-01-08-04_Correspondence
+3000-01-09-01,10-01-09/A,Formation and Charter,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-01_Formation-and-Charter
+3000-01-09-02,10-01-09/B,Partnership Operating Agreement,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-02_Partnership-Operating-Agreement
+3000-01-09-03,10-01-09/C,Ownership and Capital Accounts,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-03_Ownership-and-Capital-Accounts
+3000-01-09-04,10-01-09/D,Minutes and Consents,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-04_Minutes-and-Consents
+3000-01-09-05,10-01-09/E,Annual Filings and Good Standing,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-05_Annual-Filings-and-Good-Standing
+3000-01-09-06,10-01-09/F,EIN and Tax ID,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-06_EIN-and-Tax-ID
+3000-01-09-07,10-01-09/G,Partner Correspondence,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-07_Partner-Correspondence
+3000-01-09-08,10-01-09/H,Distributions and Allocations,3000-01-09,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-01_Entity-Records/03000-01-09_KTL-Kimberley-Transport-LLC_PARTITIONED/03000-01-09-08_Distributions-and-Allocations
+6000-02-01-01,40-02-01/A,Credit Requests and Applications,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-01_Credit-Requests-and-Applications
+6000-02-01-02,40-02-01/B,Term Sheets and Commitments,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-02_Term-Sheets-and-Commitments
+6000-02-01-03,40-02-01/C,Executed Loan Documents,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-03_Executed-Loan-Documents
+6000-02-01-04,40-02-01/D,Covenant Compliance Certificates,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-04_Covenant-Compliance-Certificates
+6000-02-01-05,40-02-01/E,Borrowing Base Certificates,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-05_Borrowing-Base-Certificates
+6000-02-01-06,40-02-01/F,Reporting Packages Submitted,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-06_Reporting-Packages-Submitted
+6000-02-01-07,40-02-01/G,Correspondence,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-07_Correspondence
+6000-02-01-08,40-02-01/H,Collateral and Appraisals,6000-02-01,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-01_Farmers-National-Bank/06000-02-01-08_Collateral-and-Appraisals
+6000-02-02-01,40-02-02/A,Credit Requests and Applications,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-01_Credit-Requests-and-Applications
+6000-02-02-02,40-02-02/B,Term Sheets and Commitments,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-02_Term-Sheets-and-Commitments
+6000-02-02-03,40-02-02/C,Executed Loan Documents,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-03_Executed-Loan-Documents
+6000-02-02-04,40-02-02/D,Covenant Compliance Certificates,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-04_Covenant-Compliance-Certificates
+6000-02-02-05,40-02-02/E,Borrowing Base Certificates,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-05_Borrowing-Base-Certificates
+6000-02-02-06,40-02-02/F,Reporting Packages Submitted,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-06_Reporting-Packages-Submitted
+6000-02-02-07,40-02-02/G,Correspondence,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-07_Correspondence
+6000-02-02-08,40-02-02/H,Collateral and Appraisals,6000-02-02,Folder,CFO,TITAN-GROUP/06000_Banking-and-Capital/06000-02_Lender-Relationships/06000-02-02_Peoples-Bank/06000-02-02-08_Collateral-and-Appraisals

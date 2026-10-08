@@ -726,14 +726,15 @@ var WALLS = {restricted:"Restricted", segregated:"Segregated",
 
 /* A copy of _title() in fileplan.py, and the tests run both over every folder
    in the tree and compare. Not every hyphen is a word separator: one between
-   two numbers (396-17) or after a single capital (I-9, W-2, E-Verify) stays,
-   because "I 9 Files" is not what that folder is called. */
+   two numbers (396-17) stays, and so does one after a single capital when a
+   capital or a digit follows (W-2, K-1s, E-Verify) - but not "Phase I-and-II",
+   where it is only a gap. */
 function unhyphen(body){
   var parts = body.split("-"), out = parts[0];
   for (var i = 1; i < parts.length; i++){
     var prev = parts[i - 1], next = parts[i];
     var keep = (/[0-9]$/.test(prev) && /^[0-9]/.test(next)) ||
-               /^[A-Z]$/.test(prev);
+               (/^[A-Z]$/.test(prev) && /^[A-Z0-9]/.test(next));
     out += (keep ? "-" : " ") + next;
   }
   return out;
@@ -754,19 +755,31 @@ function prettyFile(name){
 }
 function pretty(r){
   if (r.template) return "Template for new folders";
-  return r.folder ? titleOf(r.name) : prettyFile(r.name);
+  return r.folder ? nice(r.name) : prettyFile(r.name);
 }
+/* The File Class the way the CFO writes it. The folder name pads the master
+   number to five digits so SharePoint sorts 2000 before 10000; nobody says
+   "oh-one-thousand", so 01000-02 shows as 1000-02. */
 function numOf(name){
   var head = name.split("_")[0];
-  return /^[0-9][0-9-]*$/.test(head) ? head : "";
+  if (!/^[0-9]+(-[0-9]+)*$/.test(head)) return "";
+  var i = head.indexOf("-");
+  return i < 0 ? String(parseInt(head, 10))
+               : String(parseInt(head.slice(0, i), 10)) + head.slice(i);
 }
+/* A folder's readable name. The index's own wording wins where it says what
+   a folder name cannot - "M&A", "TEL-FIN-001" - and that holds in the live
+   folders too, because they carry the same names as the plan. */
+var TITLE_BY_NAME = {};
+function nice(name){ return TITLE_BY_NAME[name] || titleOf(name); }
 
 var ALL = [];                       /* every node, flat, for searching */
 function hydrate(node, parent){
   node.parent = parent || null;
   node.depth  = parent ? parent.depth + 1 : 1;
   node.path   = (parent ? parent.path : PLAN.root) + "/" + node.n;
-  node.title  = titleOf(node.n);
+  node.title  = node.t || titleOf(node.n);
+  if (node.t) TITLE_BY_NAME[node.n] = node.t;
   node.num    = numOf(node.n);
   node.master = parent ? parent.master : node;
   node.kids   = node.k || [];
@@ -795,7 +808,8 @@ $("tally").innerHTML =
   '<div><b>' + S.depth + '</b><span>Levels deep</span></div>' +
   '<div><b>' + S.own_walls + '</b><span>Walled off</span></div>';
 
-$("docref").textContent = PLAN.doc + " v" + PLAN.version;
+$("docref").textContent = PLAN.doc + " v" + PLAN.version +
+  (PLAN.numbering ? ", numbered to the " + PLAN.numbering : "");
 $("q").placeholder = "Search all " + S.folders + " folders…";
 
 $("foot").innerHTML =
@@ -835,10 +849,8 @@ function tagsFor(node){
   else if (node.w)
     out += '<span class="tag inherit">Inside ' + WALLS[node.w].toLowerCase() +
            '</span>';
-  if (node.tm || (node.L && node.parent && node.parent.tm))
+  if (node.tm || node.L)
     out += '<span class="tag tmpl">Template</span>';
-  else if (node.L)
-    out += '<span class="tag tmpl">Lettered</span>';
   return out;
 }
 
@@ -932,33 +944,29 @@ function renderDetail(){
   }
 
   if (node.tm){
-    html += '<div class="tmplnote"><b>A record template.</b> The lettered ' +
+    html += '<div class="tmplnote"><b>A record template.</b> The ' +
             'folders below are not one set &mdash; they are the shape that ' +
             'gets copied for ' + esc(node.tm) + '. Copy it, rename it, and ' +
             'every file looks like every other file of its kind.</div>';
-  } else if (node.L && node.parent && node.parent.tm){
+  } else if (node.L){
     html += '<div class="tmplnote"><b>Part of a record template.</b> This ' +
             'folder is reproduced inside the folder for ' +
-            esc(node.parent.tm) + ' rather than existing once.</div>';
-  } else if (node.L){
-    html += '<div class="tmplnote"><b>A lettered subdivision.</b> The same ' +
-            'set of letters appears inside ' +
-            esc(node.rp || (node.parent && node.parent.rp) ||
-                "each folder of this kind") +
-            ', so the shape is identical wherever you look &mdash; but each ' +
-            'of those folders exists in its own right rather than being ' +
-            'made from a template.</div>';
-  } else if (node.kids.length && node.kids[0].L && !node.tm){
-    html += '<div class="tmplnote"><b>Lettered inside.</b> The folders below ' +
-            'are a fixed breakdown rather than a template. Every sibling of ' +
-            'this folder carries the same letters.</div>';
+            esc((node.parent && node.parent.tm) || "each record") +
+            ' rather than existing once.</div>';
   }
 
   html += '<dl>';
+  if (node.num)
+    html += '<dt>File Class</dt><dd>' + esc(node.num) +
+            (node.f ? ' <span style="color:var(--text-dim)">&mdash; was ' +
+                      esc(node.f) + '</span>' : '') + '</dd>';
   html += '<dt>Master folder</dt><dd>' + esc(m.num || "") + ' &mdash; ' +
           esc(m.title || "") + '</dd>';
   if (m.about) html += '<dt>What belongs here</dt><dd>' + esc(m.about) + '</dd>';
-  if (m.owner) html += '<dt>Owner</dt><dd>' + esc(m.owner) + '</dd>';
+  var owner = node.ow || (function(){
+    for (var x = node.parent; x; x = x.parent) if (x.ow) return x.ow;
+    return m.owner; })();
+  if (owner) html += '<dt>Owner</dt><dd>' + esc(owner) + '</dd>';
   html += '<dt>Who can open it</dt><dd><div class="access">' +
           accessChips(m) + '</div></dd>';
   if (m.external && m.external !== "none")
@@ -989,9 +997,12 @@ function goTo(node, alsoPick){
 }
 
 function markMaster(){
-  var num = here ? here.master.num : null;
-  document.querySelectorAll(".master").forEach(function(b){
-    b.classList.toggle("on", !!num && b.dataset.path.indexOf("/" + num + "_") > -1);
+  /* Matched on the master's path, not its number: the number on screen is
+     1000 and the folder is 01000_. Only the plan's own list - the live tab
+     uses the same button style for SharePoint's folders. */
+  var path = here ? here.master.path : null;
+  document.querySelectorAll("#masters .master").forEach(function(b){
+    b.classList.toggle("on", !!path && b.dataset.path === path);
   });
 }
 
@@ -1018,7 +1029,9 @@ function search(term){
   if (!term){ renderCrumbs(); renderList(); return; }
   var hits = ALL.filter(function(n){
     return n.title.toLowerCase().indexOf(term) > -1 ||
-           n.n.toLowerCase().indexOf(term) > -1;
+           n.n.toLowerCase().indexOf(term) > -1 ||
+           n.num.indexOf(term) === 0 ||
+           (n.f && n.f.toLowerCase().indexOf(term) === 0);
   }).slice(0, 220);
 
   $("crumbs").innerHTML = '<span class="here">' + hits.length +
@@ -1070,7 +1083,7 @@ goTo(null);
    Everything below talks to /api/map. The server is the only thing
    that knows where the root is and the only thing that decides what
    is inside it; this code never builds an absolute path and never
-   sees one. Send it "10_CORPORATE-AND-LEGAL/10-01_Entity-Records"
+   sees one. Send it "03000_Corporate-and-Legal/03000-01_Entity-Records"
    and it either resolves inside Site Mapping or it is refused.
    ================================================================ */
 var HERE = "";        /* where we are, relative to the root */
@@ -1302,16 +1315,45 @@ function liveTops(){
     ? TOPS.map(function(t){
         return '<button class="master" data-go="' + esc(t.name) + '">' +
           '<span class="num">' + esc(numOf(t.name)) + '</span>' +
-          '<span class="lbl">' + esc(titleOf(t.name)) + '</span>' +
+          '<span class="lbl">' + esc(nice(t.name)) + '</span>' +
           '<span class="ct">' + (t.children || "") + '</span></button>';
       }).join("")
     : '<div class="empty" style="padding:14px">Nothing here yet.</div>';
+}
+
+/* Master folders still carrying the numbering from before the CFO's File
+   Class index - 00_, 60_HUMAN-RESOURCES and the rest. Their old numbers come
+   with the plan (m.former), so this needs no list of its own. */
+function oldTops(){
+  var was = {};
+  PLAN.masters.forEach(function(m){ if (m.former) was[m.former] = true; });
+  return TOPS.filter(function(t){
+    var head = t.name.split("_")[0];
+    return /^[0-9]{2,3}$/.test(head) && was[head];
+  });
 }
 
 function liveSeeds(){
   var have = {};
   TOPS.forEach(function(t){ have[t.name] = true; });
   var left = PLAN.tree.filter(function(m){ return !have[m.n]; }).length;
+
+  /* While the old-numbered folders are there, building from the plan would
+     make a second, empty tree beside them - so the only thing offered is the
+     rename. */
+  var old = oldTops();
+  if (old.length){
+    $("seeds").innerHTML =
+      '<button class="seed" data-renumber="1">' +
+        '<span class="num">New</span><span class="lbl">Switch to the new ' +
+        'numbering &mdash; ' + old.length + ' master folder' +
+        (old.length === 1 ? '' : 's') + ' and everything in them</span>' +
+        '<span class="mark">&#8635;</span></button>' +
+      '<div class="empty" style="padding:8px 14px;font-size:12.5px">' +
+        'Renames the folders already here to the File Class index. ' +
+        'Files, links and sharing stay with their folders.</div>';
+    return;
+  }
 
   $("seeds").innerHTML =
     '<button class="seed" data-seed="*" ' + (left ? '' : 'disabled') + '>' +
@@ -1320,10 +1362,13 @@ function liveSeeds(){
       '</span></button>' +
     PLAN.tree.map(function(m){
       var there = have[m.n];
+      /* One that is already there can still be pressed: seeding leaves what
+         exists alone and adds only what is missing inside it. */
       return '<button class="seed" data-seed="' + esc(m.n) + '"' +
-        (there ? ' disabled' : '') + '>' +
+        (there ? ' title="There already - press to add anything missing inside it"'
+               : '') + '>' +
         '<span class="num">' + esc(numOf(m.n)) + '</span>' +
-        '<span class="lbl">' + esc(titleOf(m.n)) + '</span>' +
+        '<span class="lbl">' + esc(nice(m.n)) + '</span>' +
         '<span class="mark">' + (there ? '&#10003;' : '+') + '</span></button>';
     }).join("");
 }
@@ -1398,7 +1443,7 @@ function templateHere(){
 
 function newFolder(){
   var t = templateHere();
-  var where = HERE ? titleOf(HERE.split("/").pop()) : (ROOTNAME || "the top");
+  var where = HERE ? nice(HERE.split("/").pop()) : (ROOTNAME || "the top");
   ask({title: "New folder", input: true, ok: "Create",
        text: "Inside " + where + ".",
        placeholder: t ? "e.g. SMITH-J_Hire-2026-09-30" : "",
@@ -1566,7 +1611,7 @@ function sendFiles(files, dest, skipped){
   }
 
   function finish(){
-    var where = dest ? ("<b>" + esc(titleOf(dest.split("/").pop())) + "</b>")
+    var where = dest ? ("<b>" + esc(nice(dest.split("/").pop())) + "</b>")
                      : "<b>" + esc(ROOTNAME || "the top") + "</b>";
     var msg = (sent.length === 1
                 ? "Uploaded <b>" + esc(sent[0]) + "</b>"
@@ -1635,9 +1680,9 @@ function renderDest(){
     acc = join(acc, seg);
     html += '<span class="sep">&rsaquo;</span>';
     html += i === all.length - 1
-      ? '<span class="at">' + esc(titleOf(seg)) + '</span>'
+      ? '<span class="at">' + esc(nice(seg)) + '</span>'
       : '<button type="button" data-to="' + esc(acc) + '">' +
-        esc(titleOf(seg)) + '</button>';
+        esc(nice(seg)) + '</button>';
   });
   $("updest").innerHTML = html;
   $("uphere").hidden = UP.dest !== HERE;
@@ -1655,7 +1700,7 @@ function loadPick(path){
       ? folders.map(function(r){
           return '<button type="button" data-to="' + esc(join(path, r.name)) + '">' +
             '<span class="ic">&#128193;</span>' +
-            '<span class="nm">' + esc(titleOf(r.name)) +
+            '<span class="nm">' + esc(nice(r.name)) +
             '<small>' + esc(r.name) + '</small></span>' +
             '<span class="go">' + (r.children ? r.children + ' &rsaquo;' : '&rsaquo;') +
             '</span></button>';
@@ -1732,7 +1777,7 @@ function runSeed(which){
     }
     var name = list[i++];
     busy(true);
-    toast("Building <b>" + esc(titleOf(name)) + "</b> — " + i + " of " +
+    toast("Building <b>" + esc(nice(name)) + "</b> — " + i + " of " +
           list.length + "…", "busy", true);
     return seedOne(name).then(function(j){
       made += j.made || 0;
@@ -1740,6 +1785,45 @@ function runSeed(which){
     });
   }
   next().catch(failed);
+}
+
+/* The move to the CFO's File Class index. One master folder per call, and a
+   call that runs out of time says so (more) and is simply made again - the
+   server skips whatever already has its new name. */
+function runRenumber(){
+  ask({title: "Switch to the new numbering",
+       ok: "Rename the folders",
+       text: "Every folder from the plan is renamed to its File Class - " +
+             "60_HUMAN-RESOURCES_RESTRICTED becomes " +
+             "08000_Human-Resources_RESTRICTED, and so on down. Employee " +
+             "files and the other records made from templates get the same " +
+             "treatment inside. Folders that are not in the plan keep their " +
+             "names. Nothing is deleted or moved."},
+    function(){
+      var list = PLAN.tree.map(function(m){ return m.n; });
+      var i = 0, renamed = 0, missing = 0, rounds = 0;
+      function next(){
+        if (i >= list.length){
+          return afterChange("Renamed " + renamed + " folder" +
+            (renamed === 1 ? "" : "s") + " to the new numbering." +
+            (missing ? " " + missing + " folder" + (missing === 1 ? "" : "s") +
+                       " from the plan were not there to rename; " +
+                       "&ldquo;Build from the plan&rdquo; can add them." : ""));
+        }
+        var name = list[i];
+        busy(true);
+        toast("Renumbering <b>" + esc(nice(name)) + "</b> &mdash; " + (i + 1) +
+              " of " + list.length + "…", "busy", true);
+        return jpost("/api/map/renumber", {master: name}).then(function(j){
+          renamed += j.renamed || 0;
+          if (j.more && ++rounds < 12) return next();     /* same one again */
+          missing += (j.missing || []).length;
+          rounds = 0; i++;
+          return next();
+        });
+      }
+      next().catch(failed);
+    });
 }
 
 /* ---- wiring ---- */
@@ -1789,6 +1873,7 @@ $("tops").addEventListener("click", function(e){
   openFolder(b.dataset.go);
 });
 $("seeds").addEventListener("click", function(e){
+  if (e.target.closest("[data-renumber]")) return runRenumber();
   var b = e.target.closest("[data-seed]"); if (!b || b.disabled) return;
   runSeed(b.dataset.seed);
 });

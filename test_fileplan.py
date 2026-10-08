@@ -1,10 +1,11 @@
 """The filing system plan - the transcription, and the page that serves it.
 
-The document is 742 folders of numbered structure. Nobody proof-reads that by
-eye, so the shape is checked here instead: numbering runs consecutively inside
-every parent, template letters run A, B, C with no gaps, no name carries a
-character SharePoint rejects, and nothing is deeper or longer than the plan
-says it may be. A dropped line shows up as a gap in a sequence.
+The plan is 732 folders, numbered by the CFO's File Class index
+(file_number_index.csv). Nobody proof-reads that by eye, so the shape is
+checked here instead: numbering runs consecutively inside every parent, every
+name's number is its File Class, no name carries a character SharePoint
+rejects, and nothing is deeper or longer than the plan says it may be. A
+dropped row shows up as a gap in a sequence.
 
 The other half is the page. It is served to somebody who may see it, refused
 to somebody who may not, and refused on the server rather than by leaving the
@@ -36,8 +37,52 @@ def nodes():
 
 def test_the_eighteen_master_folders_are_all_there():
     got = [n["num"] for n in fileplan.tree()["kids"]]
-    assert got == ["00", "05", "10", "20", "30", "40", "50", "60", "70", "80",
-                   "90", "100", "110", "120", "130", "140", "150", "160"]
+    assert got == [str(n * 1000) for n in range(1, 19)]
+
+
+def test_master_folders_are_five_digits_wide_so_sharepoint_sorts_them():
+    """SharePoint sorts by text. 2000 before 10000 only if both are padded."""
+    names = [n["name"] for n in fileplan.tree()["kids"]]
+    assert all(re.match(r"^[0-9]{5}_", n) for n in names)
+    assert names == sorted(names)
+
+
+def test_every_folder_is_numbered_under_its_parent():
+    """8000-01-01 lives in 8000-01, which lives in 8000."""
+    for n in nodes():
+        assert n["num"], n["name"]
+        if n["depth"] > 1:
+            parent = n["path"].split("/")[-2]
+            assert n["num"].rsplit("-", 1)[0] == fileplan._number(parent), \
+                n["path"]
+
+
+def test_the_index_and_the_tree_agree_row_for_row():
+    rows = fileplan.read_index()
+    assert len(rows) == len(nodes())
+    by_num = {n["num"]: n for n in nodes()}
+    for r in rows:
+        assert r["File Class"] in by_num, r["File Class"]
+        assert r["New Folder Path"].split("/")[-1] == \
+            by_num[r["File Class"]]["name"]
+
+
+def test_every_folder_remembers_its_number_before_the_index():
+    """The old numbers are how everybody found things until now. The page
+    shows them, and search finds a folder by either."""
+    formers = [n["former"] for n in nodes()]
+    assert all(formers)
+    assert len(set(formers)) == len(formers)
+    hr = [n for n in nodes() if n["num"] == "8000"][0]
+    assert hr["former"] == "60"
+
+
+def test_the_rename_record_covers_every_folder_in_the_plan():
+    former = fileplan.former_names()
+    paths = {n["path"].split("/", 1)[1] for n in nodes()}
+    assert set(former) == paths
+    assert former["08000_Human-Resources_RESTRICTED"] == \
+        "60_HUMAN-RESOURCES_RESTRICTED"
 
 
 def test_numbering_runs_consecutively_inside_every_parent():
@@ -49,19 +94,10 @@ def test_numbering_runs_consecutively_inside_every_parent():
         assert seq == list(range(seq[0], seq[0] + len(seq))), parent["name"]
 
 
-def test_template_letters_run_a_b_c_with_no_gaps():
-    for parent in fileplan.walk():
-        letters = [k["name"][0] for k in parent["kids"] if k["letter"]]
-        if not letters:
-            continue
-        assert letters == [chr(ord("A") + i) for i in range(len(letters))], \
-            parent["name"]
-
-
-def test_a_parent_never_mixes_numbered_and_lettered_children():
+def test_a_parent_never_mixes_template_and_ordinary_children():
     """The two mean different things - one folder, or one folder per record."""
     for parent in fileplan.walk():
-        kinds = {bool(k["letter"]) for k in parent["kids"]}
+        kinds = {bool(k["part"]) for k in parent["kids"]}
         assert len(kinds) <= 1, parent["name"]
 
 
@@ -105,55 +141,52 @@ def test_the_walls_are_inherited_all_the_way_down():
 
 def test_the_segregated_folders_are_inside_restricted_hr():
     by_name = {n["name"]: n for n in nodes()}
-    for name in ("60-03_I-9-Files_SEGREGATED",
-                 "60-04_Confidential-Medical-Files_SEGREGATED"):
+    for name in ("08000-03_I9-Files_SEGREGATED",
+                 "08000-04_Confidential-Medical-Files_SEGREGATED"):
         assert by_name[name]["path"].startswith(
-            "TITAN-GROUP/60_HUMAN-RESOURCES_RESTRICTED/")
+            "TITAN-GROUP/08000_Human-Resources_RESTRICTED/")
 
 
 def test_every_explained_wall_is_a_folder_that_exists():
     """A typo in WHY would otherwise be invisible: the explanation simply
     never appears next to anything."""
-    names = {n["name"] for n in nodes()}
+    nums = {n["num"] for n in nodes()}
     for key in fileplan.WHY:
-        assert key in names, key
+        assert key in nums, key
 
 
 def test_every_wall_in_the_tree_is_explained_or_inside_one_that_is():
     explained = set(fileplan.WHY)
     for n in nodes():
         if n["own"]:
-            assert n["name"] in explained, n["name"]
+            assert n["num"] in explained, n["name"]
 
 
-def test_every_record_template_exists_and_has_lettered_children():
-    by_name = {n["name"]: n for n in nodes()}
+def test_every_record_template_exists_and_has_template_children():
+    by_num = {n["num"]: n for n in nodes()}
     for key in fileplan.TEMPLATE_OF:
-        assert key in by_name, key
-        kids = by_name[key]["kids"]
-        assert kids and all(k["letter"] for k in kids), key
+        assert key in by_num, key
+        kids = by_num[key]["kids"]
+        assert kids and all(k["part"] for k in kids), key
 
 
-def test_every_lettered_folder_is_explained_one_way_or_the_other():
-    """A lettered folder is either part of a record template - copied per
-    driver, per unit, per customer - or one of the enumerated entity and lender
-    folders that happen to share the same shape. The page says something
-    different about each, so every one of them has to fall into one camp."""
-    for n in nodes():
-        if not n["letter"]:
-            continue
-        parent_name = n["path"].split("/")[-2]
-        grandparent = n["path"].split("/")[-3]
-        assert (parent_name in fileplan.TEMPLATE_OF
-                or grandparent in fileplan.REPEATED_UNDER), n["path"]
+def test_every_template_folder_belongs_to_a_named_template():
+    """The index marks them ([RECORD-ID], Entry Type "Record template");
+    TEMPLATE_OF says what each is copied for. A template the index adds and
+    TEMPLATE_OF does not name would reach the page with no explanation."""
+    parts = [n for n in nodes() if n["part"]]
+    assert len(parts) == 66
+    for n in parts:
+        parent = n["path"].split("/")[-2]
+        assert fileplan._number(parent) in fileplan.TEMPLATE_OF, n["path"]
 
 
 def test_the_enumerated_folders_are_not_called_templates():
     """Saying a folder per entity is made from a template tells somebody they
     can create one, which is the opposite of what the entity wall is for."""
-    for name in fileplan.TEMPLATE_OF:
-        assert not name.startswith("10-01-")
-        assert not name.startswith("40-02-")
+    for num in fileplan.TEMPLATE_OF:
+        assert not num.startswith("3000-01-")
+        assert not num.startswith("6000-02-")
 
 
 def test_the_counts_are_counted_and_not_quoted():
@@ -183,9 +216,9 @@ def test_the_access_matrix_is_one_letter_per_role():
 
 
 def test_hr_is_the_only_role_with_full_access_to_hr():
-    """Worth a test of its own: the whole point of 60 being restricted is that
+    """Worth a test of its own: the whole point of 8000 being restricted is that
     the letters in its row say so."""
-    row = dict(zip(fileplan.ROLES, fileplan.MATRIX["60"][0].split()))
+    row = dict(zip(fileplan.ROLES, fileplan.MATRIX["8000"][0].split()))
     assert row["HR"] == "F"
     assert row["Controller"] == "-"
     assert row["Dispatch"] == "-"
@@ -210,9 +243,10 @@ def test_the_payload_is_json_and_carries_no_derivable_weight():
     for m in data["tree"]:
         keys(m)
 
-    # names and flags only - the title and the path are rebuilt in the browser
-    assert seen <= {"n", "w", "o", "L", "tm", "rp", "why", "k"}
-    assert "p" not in seen and "t" not in seen
+    # names and flags only - the path is rebuilt in the browser, and so is the
+    # title unless the index words it better than the name can
+    assert seen <= {"n", "t", "f", "ow", "w", "o", "L", "tm", "why", "k"}
+    assert "p" not in seen
 
 
 def test_the_payload_carries_every_folder():
@@ -224,15 +258,33 @@ def test_the_payload_carries_every_folder():
 
 
 def test_titles_are_readable_and_lose_the_numbering():
-    assert fileplan._title("70-02_Drug-and-Alcohol-Program_RESTRICTED") == \
+    assert fileplan._title("09000-02_Drug-and-Alcohol-Program_RESTRICTED") == \
         "Drug and Alcohol Program"
-    assert fileplan._title("A_Formation-and-Charter") == "Formation and Charter"
-    assert fileplan._title("160_ARCHIVE-AND-INACTIVE") == "ARCHIVE AND INACTIVE"
+    assert fileplan._title("18000_Archive-and-Inactive") == "Archive and Inactive"
+
+
+def test_the_number_is_the_file_class_as_the_cfo_writes_it():
+    assert fileplan._number("01000_File-Plan-and-Governance") == "1000"
+    assert fileplan._number("01000-02_Naming") == "1000-02"
+    assert fileplan._number("18000-03-01_X") == "18000-03-01"
+    assert fileplan._number("_TEMPLATE_") == ""
+    assert fileplan._number("SMITH-J_Hire-2026-09-30") == ""
+
+
+def test_the_index_wording_wins_where_a_folder_name_cannot_say_it():
+    """No ampersand is allowed in a SharePoint name, so the index's own title
+    is the one shown - and only there."""
+    by_num = {n["num"]: n for n in nodes()}
+    assert by_num["17000"]["their"] == "Strategic M&A and Projects"
+    assert by_num["8000"]["their"] is None           # not "_RESTRICTED"
+    assert sum(1 for n in nodes() if n["their"]) < 10
 
 
 def test_the_hyphens_that_are_part_of_a_name_survive():
     """"I 9 Files" would be wrong in a way HR would notice immediately."""
     assert fileplan._title("60-03_I-9-Files_SEGREGATED") == "I-9 Files"
+    assert fileplan._title("15000-05_Environmental-Phase-I-and-II") == \
+        "Environmental Phase I and II"
     assert fileplan._title("30-08-02_W-2-and-W-3") == "W-2 and W-3"
     assert fileplan._title("30-01-02_K-1s-Issued-and-Received") == \
         "K-1s Issued and Received"
@@ -255,7 +307,8 @@ def test_the_browsers_copy_of_title_would_agree_with_pythons():
         for i in range(1, len(parts)):
             prev, nxt = parts[i - 1], parts[i]
             keep = bool(re.search(r"[0-9]$", prev) and re.match(r"^[0-9]", nxt)
-                        or re.match(r"^[A-Z]$", prev))
+                        or (re.match(r"^[A-Z]$", prev)
+                            and re.match(r"^[A-Z0-9]", nxt)))
             out += ("-" if keep else " ") + nxt
         return out
 
@@ -315,7 +368,7 @@ def test_signed_in_gets_the_plan_filled_in(client):
 
     assert "var PLAN = null;" not in body
     assert "var PLAN = {" in body
-    assert "70-02_Drug-and-Alcohol-Program_RESTRICTED" in body
+    assert "09000-02_Drug-and-Alcohol-Program_RESTRICTED" in body
     assert body.count("/* TITAN-PLAN-END */") == 1
     assert r.headers["Cache-Control"] == "no-store, private"
     assert r.headers["Vary"] == "Cookie"
