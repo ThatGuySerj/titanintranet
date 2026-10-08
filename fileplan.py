@@ -39,8 +39,6 @@ import re
 DOC = "TGC-SYS-EFILE-2026-01"
 VERSION = "1.0"
 NUMBERING = "File Class index, first draft, October 2026"
-OWNER = "Derek Boothe, CFO & Vice President"
-APPROVER = "Lonnie Ridenbaugh, President"
 ROOT = "TITAN-GROUP"
 RECORD_ID = "[RECORD-ID]"
 
@@ -596,7 +594,6 @@ def payload():
 
     return {
         "doc": DOC, "version": VERSION, "numbering": NUMBERING,
-        "owner": OWNER, "approver": APPROVER,
         "root": ROOT,
         "stats": stats(),
         "roles": ROLES,

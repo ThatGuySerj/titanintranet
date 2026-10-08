@@ -430,8 +430,6 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
   border-radius:10px;padding:12px 14px;margin-top:12px}
 .samples code{display:block;font-family:var(--font-mono);font-size:11.5px;
   color:var(--cyan-light);padding:3px 0;word-break:break-all}
-.foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--border-dark);
-  font-size:12px;color:var(--text-dim);display:flex;gap:18px;flex-wrap:wrap}
 
 .nojs{background:#3d1b22;border:1px solid #5c2630;border-radius:10px;
   padding:14px 18px;margin:18px 0;color:#ffc4c4;font-size:14px}
@@ -446,7 +444,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
   .scroll{max-height:none}
 }
 @media print{
-  .bar,.tabs,.tools,.draft,.foot{display:none}
+  .bar,.tabs,.tools,.draft{display:none}
   body{background:#fff;color:#000}
   .outline pre,.outline pre b{color:#000}
   .outline details{border-color:#bbb;break-inside:avoid}
@@ -642,7 +640,6 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
     <div class="cards" id="risks"></div>
   </section>
 
-  <div class="foot" id="foot"></div>
 
 </div>
 
@@ -799,7 +796,7 @@ function countUnder(node){
 }
 
 /* ================================================================
-   Tallies and the footer
+   Tallies
    ================================================================ */
 var S = PLAN.stats;
 $("tally").innerHTML =
@@ -811,13 +808,6 @@ $("tally").innerHTML =
 $("docref").textContent = PLAN.doc + " v" + PLAN.version +
   (PLAN.numbering ? ", numbered to the " + PLAN.numbering : "");
 $("q").placeholder = "Search all " + S.folders + " folders…";
-
-$("foot").innerHTML =
-  '<span>' + esc(PLAN.doc) + ' v' + esc(PLAN.version) + '</span>' +
-  '<span>Owner: ' + esc(PLAN.owner) + '</span>' +
-  '<span>Approved by: ' + esc(PLAN.approver) + '</span>' +
-  '<span>Longest path ' + S.longest + ' of the 400 characters SharePoint ' +
-  'allows, leaving ' + (400 - S.longest) + ' for the filename</span>';
 
 /* ================================================================
    Tabs
