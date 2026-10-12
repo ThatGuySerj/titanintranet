@@ -53,6 +53,9 @@ import systems_access            # noqa: E402
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or "dev-only-not-for-azure"
+# security-headers-v1: HTTPS-only, no framing by other sites, locked-down session cookie
+import web_security  # noqa: E402
+web_security.install(app)
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
 
 PASSCODE = os.environ.get("OFFICE_PASSCODE") or "titan"

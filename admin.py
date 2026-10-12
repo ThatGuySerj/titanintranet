@@ -71,7 +71,10 @@ LOG_SQL = """CREATE TABLE IF NOT EXISTS intranet_admin_log (
     action text NOT NULL,
     target text,
     detail jsonb NOT NULL DEFAULT '{}'
-)"""
+);
+-- security-v1: never readable through Supabase's public API; this site reads
+-- it as the database owner, which row security does not stop.
+ALTER TABLE intranet_admin_log ENABLE ROW LEVEL SECURITY"""
 
 
 def admins():

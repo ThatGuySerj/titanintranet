@@ -356,3 +356,14 @@ def test_settings_through_the_page_never_send_a_secret(site, monkeypatch):
     assert cl.post("/admin/api/azure/restart", json={"app": "titantickets", "confirm": "titantickets"},
                    headers=H).status_code == 200
     assert any("/restart?" in u for _, u, _ in fake.calls)
+
+
+def test_every_page_carries_the_security_headers_and_a_locked_cookie(site):
+    """security-headers-v1"""
+    intranet, _ = site
+    r = client(intranet, SERJ).get("/admin")
+    assert r.headers["Strict-Transport-Security"].startswith("max-age=")
+    assert r.headers["X-Frame-Options"] == "SAMEORIGIN" and "frame-ancestors 'self'" in r.headers["Content-Security-Policy"]
+    assert r.headers["X-Content-Type-Options"] == "nosniff"
+    cfg = intranet.app.config
+    assert cfg["SESSION_COOKIE_SECURE"] and cfg["SESSION_COOKIE_HTTPONLY"] and cfg["SESSION_COOKIE_SAMESITE"] == "Lax"
