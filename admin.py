@@ -77,6 +77,15 @@ LOG_SQL = """CREATE TABLE IF NOT EXISTS intranet_admin_log (
 ALTER TABLE intranet_admin_log ENABLE ROW LEVEL SECURITY"""
 
 
+# Supabase's own connections: background workers (the pg_cron scheduler), its
+# service logins, and its services by name. Shown, but never offered an End.
+SYSTEM_SQL = """(backend_type <> 'client backend'
+     OR usename IN ('supabase_admin', 'supabase_storage_admin', 'supabase_auth_admin',
+                    'supabase_realtime_admin', 'supabase_replication_admin', 'authenticator',
+                    'pgbouncer', 'supabase_read_only_user')
+     OR application_name ~* '^(pg_cron|pg_net|postgrest|supabase|pgbouncer|realtime|gotrue|storage)')"""
+
+
 def admins():
     raw = os.environ.get("ADMIN_SITE_USERS")
     raw = DEFAULT_ADMINS if raw is None else raw
@@ -635,9 +644,9 @@ def make(protected, conn, who, html):
         out["connections"] = section(lambda: q(
             """SELECT pid, usename AS who, application_name AS app, state,
                       extract(epoch from now() - coalesce(state_change, backend_start))::int AS for_s,
-                      left(query, 160) AS query
+                      left(query, 160) AS query, %s AS system
                FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid()
-               ORDER BY (state = 'idle in transaction') DESC, state_change NULLS LAST LIMIT 40"""))
+               ORDER BY (state = 'idle in transaction') DESC, state_change NULLS LAST LIMIT 40""" % SYSTEM_SQL))
         out["heavy"] = section(lambda: q(
             """SELECT calls, rows, round(rows::numeric / greatest(calls, 1)) AS rows_per_call,
                       round(total_exec_time / 1000) AS seconds, left(regexp_replace(query, '\\s+', ' ', 'g'), 180) AS query
@@ -647,15 +656,28 @@ def make(protected, conn, who, html):
     @bp.post("/api/database/end")
     @gate
     def database_end():
-        """End one stuck connection: idle in a transaction, or running over five
-        minutes. Its own work is rolled back; nothing else is touched."""
+        """End one stuck connection: idle in a transaction for over a minute, or
+        one query running over five minutes. Its own work is rolled back;
+        nothing else is touched.
+
+        Never Supabase's own (SYSTEM_SQL). Those sit idle for days by design -
+        the cron scheduler, pg_net, PostgREST, the pooler - and "idle for a
+        long time" is not stuck: an idle connection holds nothing. v1 offered
+        to end anything over five minutes in any state, which put an End
+        button on every one of them."""
         pid = int(body().get("pid") or 0)
-        row = q("""SELECT pid, state, extract(epoch from now() - coalesce(state_change, backend_start))::int AS for_s
-                   FROM pg_stat_activity WHERE pid = %s AND datname = current_database()""", (pid,), one=True)
+        row = q("""SELECT pid, state, extract(epoch from now() - coalesce(state_change, backend_start))::int AS for_s,
+                          %s AS system
+                   FROM pg_stat_activity WHERE pid = %%s AND datname = current_database()""" % SYSTEM_SQL,
+                (pid,), one=True)
         if not row:
             raise Refused("that connection has already gone")
-        if not (row["state"] == "idle in transaction" or row["for_s"] > 300):
-            raise Refused("only a connection stuck in a transaction, or running over five minutes, is ended here")
+        if row["system"]:
+            raise Refused("that is one of Supabase's own connections - it is never ended from here")
+        if not ((row["state"] == "idle in transaction" and row["for_s"] > 60)
+                or (row["state"] == "active" and row["for_s"] > 300)):
+            raise Refused("only a connection stuck in a transaction, or one query running over five minutes, "
+                          "is ended here")
         ok = q("SELECT pg_terminate_backend(%s) AS ok", (pid,), one=True)
         log("database", "end connection", str(pid), dict(row))
         return jsonify(ok=True, ended=bool(ok and ok["ok"]))

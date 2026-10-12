@@ -655,20 +655,28 @@ function restoreSet(schema, set, n){
 R.database = async m => {
   const j = await api('database');
   let h = head();
-  const cs = list(j.connections);
-  const stuck = c => (c.state === 'idle in transaction' && c.for_s > 60) || c.for_s > 300;
-  const plain = s => ({'active': 'Working', 'idle': 'Idle', 'idle in transaction': 'Stuck mid-change'}[s] || esc(s || '—'));
+  const all = list(j.connections);
+  const cs = all.filter(c => !c.system), sys = all.filter(c => c.system);
+  /* Stuck means holding something: mid-change and gone quiet, or one query
+     running for over five minutes. Idle for days is not stuck - an idle
+     connection holds nothing - and Supabase's own are never offered at all. */
+  const stuck = c => !c.system && ((c.state === 'idle in transaction' && c.for_s > 60) || (c.state === 'active' && c.for_s > 300));
+  const plain = s => ({'active': 'Working', 'idle': 'Idle', 'idle in transaction': 'Stuck mid-change'}[s] || (s ? esc(s) : 'Background'));
+  const dur = s => s == null ? '' : s < 120 ? s + ' s' : s < 7200 ? Math.round(s / 60) + ' min' : s < 172800 ? Math.round(s / 3600) + ' hours' : Math.round(s / 86400) + ' days';
+  const table = (rows, ends) => '<div class="tw"><table><tr><th>App</th><th>State</th><th>For</th>' + (ends ? '<th></th>' : '') + '</tr>'
+    + rows.map(c => '<tr><td>' + esc(c.app || c.who || '—') + '</td><td>' + badge(stuck(c) ? 'warn' : c.state === 'active' ? 'ok' : '', stuck(c) && c.state === 'active' ? 'Running long' : plain(c.state)) + '</td><td class="muted">'
+      + dur(c.for_s) + '</td>' + (ends ? '<td style="text-align:right">'
+      + (stuck(c) ? '<button class="btn sm danger" onclick="if(confirm(\'End connection ' + c.pid + '? Its unfinished work is rolled back.\')) act(\'database/end\', {pid:' + c.pid + '}, \'Ended\')">End it</button>' : '')
+      + '</td>' : '') + '</tr>').join('') + '</table></div>';
   let cb = errBox(j.connections, 'the connections');
   if(!failed(j.connections)){
     const n = cs.filter(stuck).length;
-    cb += '<div class="cb"><div class="stats">' + stat(cs.length, 'Open connections') + stat(cs.filter(c => c.state === 'active').length, 'Working now')
-      + stat(n, 'Stuck', n ? 'safe to end' : '', n ? 'warn' : '') + '</div></div>';
-    cb += '<div class="tw"><table><tr><th>App</th><th>State</th><th>For</th><th></th></tr>'
-      + cs.map(c => '<tr><td>' + esc(c.app || c.who || '—') + '</td><td>' + badge(c.state === 'idle in transaction' && c.for_s > 120 ? 'warn' : c.state === 'active' ? 'ok' : '', plain(c.state)) + '</td><td class="muted">'
-        + (c.for_s != null ? (c.for_s < 120 ? c.for_s + ' s' : Math.round(c.for_s / 60) + ' min') : '') + '</td><td style="text-align:right">'
-        + (stuck(c) ? '<button class="btn sm danger" onclick="if(confirm(\'End connection ' + c.pid + '? Its unfinished work is rolled back.\')) act(\'database/end\', {pid:' + c.pid + '}, \'Ended\')">End it</button>' : '')
-        + '</td></tr>').join('') + '</table></div>';
-    cb += fold('Show what each one is running', '<div class="tw"><table><tr><th>App</th><th>Query</th></tr>' + cs.map(c => '<tr><td>' + esc(c.app || c.who || '—') + '</td><td class="mono">' + esc(c.query || '') + '</td></tr>').join('') + '</table></div>', true);
+    cb += '<div class="cb"><div class="stats">' + stat(cs.length, 'Our sites\' connections') + stat(cs.filter(c => c.state === 'active').length, 'Working now')
+      + stat(n, 'Stuck', n ? 'safe to end' : 'nothing to do', n ? 'warn' : 'good') + '</div>'
+      + '<p class="help">Idle is normal: a site keeps a connection open and reuses it. Only one marked stuck gets an End button.</p></div>';
+    cb += cs.length ? table(cs, true) : empty('None open.');
+    if(sys.length) cb += fold('Supabase\'s own connections (' + sys.length + ') — leave these alone', '<p class="help" style="margin:0 18px 8px">The scheduler, the API, the pooler and the file store. Idle for days is how they work.</p>' + table(sys, false), true);
+    cb += fold('Show what each one is running', '<div class="tw"><table><tr><th>App</th><th>Query</th></tr>' + all.map(c => '<tr><td>' + esc(c.app || c.who || '—') + '</td><td class="mono">' + esc(c.query || '') + '</td></tr>').join('') + '</table></div>', true);
   }
   h += card('Connections', cb);
 

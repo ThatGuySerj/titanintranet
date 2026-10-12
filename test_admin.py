@@ -367,3 +367,32 @@ def test_every_page_carries_the_security_headers_and_a_locked_cookie(site):
     assert r.headers["X-Content-Type-Options"] == "nosniff"
     cfg = intranet.app.config
     assert cfg["SESSION_COOKIE_SECURE"] and cfg["SESSION_COOKIE_HTTPONLY"] and cfg["SESSION_COOKIE_SAMESITE"] == "Lax"
+
+
+def test_an_idle_connection_is_never_ended_and_one_mid_change_is(site):
+    """Idle for days is how Supabase's own connections - and every site's
+    pooled ones - work; an idle connection holds nothing. Only one stuck in a
+    transaction (or running one query for over five minutes) may be ended."""
+    import time
+    import psycopg
+    intranet, uri = site
+    cl = client(intranet, SERJ)
+    idle = psycopg.connect(uri, application_name="pg_cron scheduler test")
+    stuck = psycopg.connect(uri, application_name="some-site")
+    try:
+        idle.execute("SELECT 1")
+        idle.commit()
+        stuck.execute("SELECT 1")              # a transaction left open
+        time.sleep(1.2)
+        pid_idle, pid_stuck = idle.info.backend_pid, stuck.info.backend_pid
+        rows = {c["pid"]: c for c in cl.get("/admin/api/database").get_json()["connections"]}
+        assert rows[pid_idle]["system"] and not rows[pid_stuck]["system"]
+
+        r = cl.post("/admin/api/database/end", json={"pid": pid_idle}, headers=H)
+        assert r.status_code == 409 and "Supabase" in r.get_json()["error"]
+        r = cl.post("/admin/api/database/end", json={"pid": pid_stuck}, headers=H)
+        assert r.status_code == 409                # stuck, but not for a minute yet
+        sql(uri, "SELECT 1")                       # nothing else was touched
+    finally:
+        idle.close()
+        stuck.close()
