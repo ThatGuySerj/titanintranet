@@ -1,17 +1,15 @@
 """admin-site-v1 tests: /admin.
 
 On a throwaway Postgres (pgserver) carrying small copies of the tables the
-admin page reads from the other sites - never a real database. Azure is a fake
-that records what it was asked; nothing here talks to Azure or the internet.
+admin page reads from the other sites - never a real database. Nothing here
+talks to the internet.
 
 What matters most is what must NOT happen: anybody but the two admins getting
-in, a change made by a form on another site, a secret setting reaching the
-browser, a guarded setting or a restart without the app's name typed, a test
-app pointed at production's database, and a restore that files something twice.
+in, a change made by a form on another site, ending a connection that is not
+stuck, and a restore that files something twice.
 
     python -m pytest test_admin.py -q
 """
-import json
 import os
 import sys
 import tempfile
@@ -21,99 +19,8 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-import azure_admin as az  # noqa: E402
 
 SERJ, DEREK, OTHER = "swahl@tetransports.com", "dboothe@tetransports.com", "clerk@tetransports.com"
-
-
-# ---------------------------------------------------------------------------
-#  Azure, with a fake on the wire
-# ---------------------------------------------------------------------------
-class FakeAzure:
-    def __init__(self):
-        self.apps = {"titantickets": {"DATABASE_URL": "postgresql://u:prodpw@db.example/postgres",
-                                      "DISPATCH_PUSH": "preview", "SECRET_KEY": "k" * 40,
-                                      "AP_MAIL_SKIP": "allied capital"},
-                     "titantickets-test": {"DATABASE_URL": "postgresql://u:testpw@db.example/test"},
-                     "titan-ap": {"AP_MAIL_USER": "ap@tetransports.com"}}
-        self.calls = []
-
-    def __call__(self, method, url, headers, body):
-        self.calls.append((method, url, body))
-        if method == "TOKEN":
-            return 200, {"access_token": "t", "expires_in": 3600}
-        base = "https://management.azure.com/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Web/sites/"
-        if "/providers/Microsoft.Web/sites?" in url:
-            return 200, {"value": [{"name": n, "id": base + n, "kind": "app,linux",
-                                    "properties": {"state": "Running", "hostNames": [n + ".example"]}}
-                                   for n in self.apps]}
-        if "/slots?" in url:
-            return 200, {"value": []}
-        name = url.split("/sites/")[1].split("/")[0]
-        if "/config/appsettings/list" in url:
-            return 200, {"properties": dict(self.apps[name])}
-        if "/config/appsettings?" in url and method == "PUT":
-            self.apps[name] = dict(body["properties"])
-            return 200, {}
-        if "/restart?" in url:
-            return 200, {}
-        return 404, {"error": {"message": "no"}}
-
-
-@pytest.fixture()
-def azure(monkeypatch):
-    for k, v in {"ADMIN_AZ_CLIENT_ID": "c", "ADMIN_AZ_CLIENT_SECRET": "s", "ADMIN_AZ_SUBSCRIPTION": "sub",
-                 "TENANT_ID": "t"}.items():
-        monkeypatch.setenv(k, v)
-    fake = FakeAzure()
-    return fake, az.Azure(http=fake)
-
-
-def test_secrets_never_leave_as_values(azure):
-    fake, a = azure
-    shown = {s["name"]: s for s in a.shown_settings("titantickets")}
-    assert shown["DATABASE_URL"]["secret"] and shown["DATABASE_URL"]["value"] is None
-    assert shown["SECRET_KEY"]["secret"] and "40 characters" in shown["SECRET_KEY"]["hint"]
-    assert shown["DISPATCH_PUSH"]["value"] == "preview"
-    assert "prodpw" not in json.dumps(a.shown_settings("titantickets"))
-    # a password in any URL counts, whatever the setting is called
-    assert az.is_secret("SOME_ENDPOINT", "https://user:pw@host/x")
-
-
-def test_a_change_keeps_every_other_setting(azure):
-    fake, a = azure
-    a.change("titantickets", "DISPATCH_PUSH", "on")
-    assert fake.apps["titantickets"]["DISPATCH_PUSH"] == "on"
-    assert fake.apps["titantickets"]["SECRET_KEY"] == "k" * 40 and len(fake.apps["titantickets"]) == 4
-    a.change("titantickets", "AP_MAIL_SKIP", delete=True)
-    assert "AP_MAIL_SKIP" not in fake.apps["titantickets"] and len(fake.apps["titantickets"]) == 3
-
-
-def test_guarded_settings_need_the_app_name(azure):
-    fake, a = azure
-    with pytest.raises(az.AzureError):
-        a.change("titantickets", "SECRET_KEY", "new")
-    with pytest.raises(az.AzureError):
-        a.change("titantickets", "PORTAL_ADMINS", "x@y.z", confirm="titan-ap")
-    a.change("titantickets", "PORTAL_ADMINS", "x@y.z", confirm="titantickets")
-    assert fake.apps["titantickets"]["PORTAL_ADMINS"] == "x@y.z"
-
-
-def test_a_test_app_is_never_pointed_at_production(azure):
-    fake, a = azure
-    with pytest.raises(az.AzureError, match="must never"):
-        a.change("titantickets-test", "DATABASE_URL", "postgresql://u:prodpw@db.example/postgres",
-                 confirm="titantickets-test")
-    a.change("titantickets-test", "DATABASE_URL", "postgresql://u:other@db.example/t2", confirm="titantickets-test")
-    assert fake.apps["titantickets-test"]["DATABASE_URL"].endswith("/t2")
-
-
-def test_bad_names_and_a_missing_login(azure, monkeypatch):
-    fake, a = azure
-    with pytest.raises(az.AzureError):
-        a.change("titantickets", "bad name", "x")
-    monkeypatch.delenv("ADMIN_AZ_CLIENT_SECRET")
-    assert "ADMIN_AZ_CLIENT_SECRET" in az.missing()
 
 
 # ---------------------------------------------------------------------------
@@ -175,8 +82,6 @@ def site():
     os.environ.setdefault("SECRET_KEY", "test-only")
     os.environ["ADMIN_HEALTH_URLS"] = "Nowhere=https://127.0.0.1:9/"     # refused at once, no network
     os.environ.pop("ADMIN_SITE_USERS", None)
-    for k in ("ADMIN_AZ_CLIENT_ID", "ADMIN_AZ_CLIENT_SECRET", "ADMIN_AZ_SUBSCRIPTION"):
-        os.environ.pop(k, None)
     import psycopg
     with psycopg.connect(srv.get_uri()) as c:
         c.execute(SCHEMA)
@@ -332,30 +237,6 @@ def test_database_and_activity_answer(site):
     assert d["ok"] and isinstance(d["schemas"], list) and "heavy" in d
     a = cl.get("/admin/api/activity").get_json()
     assert a["ok"] and a["admin_log"]
-
-
-def test_settings_through_the_page_never_send_a_secret(site, monkeypatch):
-    intranet, _ = site
-    for k, v in {"ADMIN_AZ_CLIENT_ID": "c", "ADMIN_AZ_CLIENT_SECRET": "s", "ADMIN_AZ_SUBSCRIPTION": "sub",
-                 "TENANT_ID": "t"}.items():
-        monkeypatch.setenv(k, v)
-    fake = FakeAzure()
-    real = az.Azure.__new__(az.Azure)
-    az.Azure.__init__(real, http=fake)
-    monkeypatch.setattr(az, "Azure", lambda: real)
-    cl = client(intranet, DEREK)
-    apps = cl.get("/admin/api/azure/apps").get_json()
-    assert [a["name"] for a in apps["apps"]] == ["titan-ap", "titantickets", "titantickets-test"]
-    s = cl.get("/admin/api/azure/settings?app=titantickets")
-    assert b"prodpw" not in s.data and b"kkkk" not in s.data
-    assert cl.post("/admin/api/azure/set", json={"app": "titantickets", "name": "SECRET_KEY", "value": "x"},
-                   headers=H).status_code == 409
-    r = cl.post("/admin/api/azure/set", json={"app": "titantickets", "name": "DISPATCH_PUSH", "value": "on"}, headers=H)
-    assert r.status_code == 200 and fake.apps["titantickets"]["DISPATCH_PUSH"] == "on"
-    assert cl.post("/admin/api/azure/restart", json={"app": "titantickets"}, headers=H).status_code == 409
-    assert cl.post("/admin/api/azure/restart", json={"app": "titantickets", "confirm": "titantickets"},
-                   headers=H).status_code == 200
-    assert any("/restart?" in u for _, u, _ in fake.calls)
 
 
 def test_every_page_carries_the_security_headers_and_a_locked_cookie(site):

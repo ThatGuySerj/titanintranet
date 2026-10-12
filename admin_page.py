@@ -5,14 +5,17 @@ signal when something is already wrong. Sections down the left on a computer,
 tabs along the bottom on a phone. Everything it shows comes from /admin/api/*
 and every change it makes goes back there with the page's own header.
 
+There is no Settings section: the Azure settings are changed in the Azure
+portal, not from here (removed 12 Oct 2026 at Serj's call).
+
 v2 (12 Oct 2026) is a re-skin of v1 for reading at a glance, with the same API
 and the same confirmations:
 
   - Overview opens with one line: everything is fine, or the short list of
     what is not, each a link to where it is fixed.
   - Numbers are tiles with a word under them, not rows of key: value.
-  - The technical parts - every Azure setting, database queries, table sizes,
-    finished OCR jobs - are folded away under "Show ..." until wanted.
+  - The technical parts - database queries, table sizes, finished OCR jobs -
+    are folded away under "Show ..." until wanted.
   - Values that go into a click handler are passed through q() (a JSON string,
     HTML-escaped), so an apostrophe in a name cannot break the button.
 """
@@ -187,14 +190,6 @@ td.c,th.c{text-align:center}
 .muted{color:var(--soft);font-size:13px}
 .empty{color:var(--faint);font-size:14px;padding:14px 18px}
 
-/* ---- settings ---- */
-.set{display:grid;grid-template-columns:1fr minmax(160px,260px) auto;gap:6px 14px;align-items:center;padding:13px 18px;
-  border-top:1px solid var(--line-2)}
-.set:first-child{border-top:0}
-.set .what{font-size:14.5px;font-weight:600}
-.set .nm{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--faint);overflow-wrap:anywhere}
-.set input,.set select{width:100%}
-
 /* ---- messages ---- */
 .err{background:var(--bad-bg);color:var(--bad);border-radius:10px;padding:10px 14px;font-size:13.5px;margin:12px 18px}
 .note{background:var(--warn-bg);color:#6b4500;border-radius:10px;padding:10px 14px;font-size:13.5px;margin:12px 18px}
@@ -223,7 +218,6 @@ nav.tabs{display:none}
   #toast{bottom:84px}
   header .who small,header .hb span{display:none}
   .cols{grid-template-columns:1fr}
-  .set{grid-template-columns:1fr;gap:6px}
   .rows > .r{flex-wrap:wrap}
   details.site-acc > .in{padding-left:18px}
   th,td{padding:8px}
@@ -248,7 +242,6 @@ const ME = __ME__;
 const I = {
   overview:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
   access:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M17 11l2 2 4-4"/>',
-  settings:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   work:'<path d="M4 5h16v14H4z"/><path d="M4 7l8 6 8-6"/>',
   restore:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
   database:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
@@ -257,7 +250,6 @@ const I = {
 const SECTIONS = [
   ['overview','Overview','How every site is doing right now.'],
   ['access','Access','Who can open which site.'],
-  ['settings','Settings','The switches each site runs on.'],
   ['work','Scans & mail','Ticket scans being read, and the mailboxes being checked.'],
   ['restore','Restore','Put back things that were cleared out. Nothing here deletes anything.'],
   ['database','Database','The shared database every site uses.'],
@@ -487,86 +479,6 @@ function igAdd(){ act('access/intranet', {email: document.getElementById('ig_new
 function setGroups(box, email){
   const groups = [...box.closest('tr').querySelectorAll('input[type=checkbox]')].filter(x => x.checked).map(x => x.dataset.g);
   act('access/intranet', {email, groups}, 'Saved', false);
-}
-
-/* ---- settings (Azure) -------------------------------------------------- */
-let AZ = null, AZAPP = null;
-R.settings = async m => {
-  const j = AZ || await api('azure/apps');
-  let h = head();
-  if(j.missing){
-    h += '<div class="card"><div class="note" style="margin:16px 18px"><b>Not connected to Azure yet.</b> The page needs its own Azure login before it can change settings. '
-      + 'Missing on the intranet app: <b>' + esc(j.missing.join(', ')) + '</b>. The steps are in <b>Admin site - walkthrough.md</b> in the Intranet folder.</div></div>';
-    h += switchList(j.switches || [], null, {});
-    m.innerHTML = h; return;
-  }
-  AZ = j;
-  const apps = j.apps || [];
-  if(!AZAPP || !apps.some(a => a.name === AZAPP)) AZAPP = (apps.find(a => /tickets$/.test(a.name)) || apps[0] || {}).name;
-  const app = apps.find(a => a.name === AZAPP) || {};
-  const picker = '<div class="card"><div class="cb"><div class="line"><label class="lbl" for="azapp">Web app</label><select id="azapp" onchange="AZAPP=this.value;load()" style="flex:1;min-width:200px">'
-    + apps.map(a => '<option value="' + esc(a.name) + '"' + (a.name === AZAPP ? ' selected' : '') + '>' + esc(a.name) + (a.state && a.state !== 'Running' ? ' (' + esc(a.state) + ')' : '') + '</option>').join('')
-    + '</select><button class="btn danger" onclick="restartApp()">Restart app</button></div>'
-    + '<p class="help">' + esc((app.hosts || []).join(' · ')) + (app.hosts && app.hosts.length ? ' — ' : '') + 'Saving any setting restarts the app for about 30 seconds.</p></div></div>';
-  h += picker;
-  m.innerHTML = h + '<div class="loading"><span class="spin"></span>Reading settings…</div>';
-  const s = await api('azure/settings?app=' + encodeURIComponent(AZAPP));
-  const by = Object.fromEntries(s.settings.map(x => [x.name, x]));
-  h += switchList(j.switches || [], AZAPP, by);
-  h += '<div class="card">' + fold('Show every setting on ' + esc(AZAPP) + ' (' + s.settings.length + ')',
-      '<div style="padding:0 18px 6px">' + (s.test_target ? '<div class="note" style="margin:0 0 10px">This is a test app or slot. It will refuse a database setting that matches production\'s.</div>' : '')
-      + '<p class="help" style="margin:0">Secrets show only as "set" and can be replaced, never read. Guarded ones need the app\'s name typed to change.</p></div>'
-      + s.settings.map(x => setRow(x)).join('')
-      + '<div class="set"><input id="new_n" placeholder="NEW_SETTING_NAME"><input id="new_v" placeholder="value">'
-      + '<button class="btn pri" onclick="setVal(document.getElementById(\'new_n\').value, document.getElementById(\'new_v\').value)">Add setting</button></div>', true)
-    + '</div>';
-  m.innerHTML = h;
-};
-function setRow(x){
-  const id = 'v_' + x.name;
-  return '<div class="set"><div><div class="mono" style="color:var(--ink);font-size:13px">' + esc(x.name) + '</div>'
-    + (x.guarded ? badge('warn', 'Guarded') : '') + (x.secret ? ' ' + badge('info', 'Secret') : '') + '</div>'
-    + (x.secret ? '<input id="' + esc(id) + '" type="password" placeholder="' + esc(x.hint) + ' — type to replace" autocomplete="new-password">'
-              : '<input id="' + esc(id) + '" value="' + esc(x.value) + '">')
-    + '<div class="line"><button class="btn sm" onclick="setVal(' + q(x.name) + ', document.getElementById(' + q(id) + ').value, ' + !!x.guarded + ', ' + !!x.secret + ')">Save</button>'
-    + '<button class="btn sm danger" onclick="delVal(' + q(x.name) + ', ' + !!x.guarded + ')" title="Delete this setting">Delete</button></div></div>';
-}
-function switchList(sw, app, by){
-  const sites = [...new Set(sw.map(s => s.site))];
-  let h = '';
-  sites.forEach(site => {
-    let rows = '';
-    sw.filter(s => s.site === site).forEach(s => {
-      const have = by[s.name], v = have ? (have.secret ? '' : have.value) : '';
-      let ctl;
-      if(!app) ctl = '<span></span>';
-      else if(s.kind === 'choice') ctl = '<select id="sw_' + s.name + '"><option value="">(not set)</option>' + s.choices.map(c => '<option' + (c === v ? ' selected' : '') + '>' + esc(c) + '</option>').join('') + '</select>';
-      else if(s.kind === 'bool') ctl = '<select id="sw_' + s.name + '"><option value="">(not set)</option><option value="1"' + (/^(1|true|on|yes)$/i.test(v) ? ' selected' : '') + '>On</option><option value="0"' + (/^(0|false|off|no)$/i.test(v) ? ' selected' : '') + '>Off</option></select>';
-      else ctl = '<input id="sw_' + s.name + '" value="' + esc(v) + '"' + (s.kind === 'number' ? ' inputmode="numeric"' : '') + ' placeholder="(not set)">';
-      rows += '<div class="set"><div><div class="what">' + esc(s.help) + '</div><div class="nm">' + esc(s.name) + (app && !have ? ' · not set on this app' : '') + '</div></div>' + ctl
-        + (app ? '<button class="btn sm" onclick="setVal(' + q(s.name) + ', document.getElementById(' + q('sw_' + s.name) + ').value, ' + (s.name === 'PORTAL_ADMINS') + ')">Save</button>' : '<span></span>') + '</div>';
-    });
-    h += card(esc(site === 'All' ? 'Every site' : site), '<div>' + rows + '</div>', '', app ? '' : 'for reference until Azure is connected');
-  });
-  return h;
-}
-async function setVal(name, value, guarded, secret){
-  name = (name || '').trim(); if(!name) return;
-  if(secret && !value){ toast('Type the new value first', true); return; }
-  let confirmName = '';
-  if(guarded){ confirmName = prompt(name + ' is guarded. Type the app name (' + AZAPP.split('/')[0] + ') to change it.'); if(!confirmName) return; }
-  else if(!confirm('Set ' + name + ' on ' + AZAPP + '? The app restarts for about 30 seconds.')) return;
-  await act('azure/set', {app: AZAPP, name, value, confirm: confirmName}, name + ' saved — ' + AZAPP + ' is restarting');
-}
-async function delVal(name, guarded){
-  let c = '';
-  if(guarded){ c = prompt('Delete guarded setting ' + name + '? Type the app name to confirm.'); if(!c) return; }
-  else if(!confirm('Delete ' + name + ' from ' + AZAPP + '? The app restarts.')) return;
-  await act('azure/set', {app: AZAPP, name, delete: true, confirm: c}, name + ' deleted');
-}
-async function restartApp(){
-  const c = prompt('Restart ' + AZAPP + '? It is down for about 30 seconds. Type ' + AZAPP.split('/')[0] + ' to confirm.');
-  if(c) await act('azure/restart', {app: AZAPP, confirm: c}, AZAPP + ' is restarting', false);
 }
 
 /* ---- scans & mail ------------------------------------------------------ */

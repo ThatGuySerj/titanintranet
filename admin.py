@@ -3,8 +3,7 @@ see and fix every Titan site, from a desk or a phone.
 
 Only the people in ADMIN_SITE_USERS get in (Serj and Derek to begin with).
 Nobody else - not the intranet's own admins, not PORTAL_ADMINS. It can change
-who gets into payroll and accounts payable and switch the sites' settings, so
-the list is short on purpose and it fails closed: an empty or unreadable list
+who gets into payroll and accounts payable, so the list is short on purpose and it fails closed: an empty or unreadable list
 lets nobody in.
 
 What is on it:
@@ -13,10 +12,8 @@ What is on it:
              dispatch feed, the database - each with how long ago
   Access     who may open which site (the portal tables every site checks),
              the portal admins, the intranet's groups
-  Settings   each web app's Azure settings, with friendly controls for the
-             switches that matter, and a restart button (azure_admin.py)
-  Mail & OCR re-check the mail and run the queue now, retry or cancel an OCR
-             job, put back a discarded scan, re-read an AP mailbox from a time
+  Scans &    re-check the mail and run the queue now, retry or cancel an OCR
+  mail       job, put back a discarded scan, re-read an AP mailbox from a time
   Restore    put back AP invoices from the backups taken before a clean-out,
              reopen a voided invoice
   Database   size, connections, what is stuck, which queries move the most data
@@ -44,7 +41,6 @@ import urllib.request
 
 from flask import Blueprint, Response, jsonify, request, session
 
-import azure_admin
 import intranet_access
 import systems_access
 import titan_auth as auth
@@ -114,7 +110,7 @@ def make(protected, conn, who, html):
     page helpers (passed in rather than imported, so app.py stays the one
     place they live)."""
     bp = Blueprint("admin", __name__, url_prefix="/admin")
-    state = {"log_ready": False, "azure": None}
+    state = {"log_ready": False}
 
     # -- helpers ------------------------------------------------------------
     def q(sql, args=(), one=False):
@@ -152,11 +148,6 @@ def make(protected, conn, who, html):
                         (who() or "?", area, action, (target or "")[:300], json.dumps(detail or {}, default=str)))
         c.commit()
 
-    def azure():
-        if state["azure"] is None:
-            state["azure"] = azure_admin.Azure()
-        return state["azure"]
-
     def body():
         return request.get_json(silent=True) or {}
 
@@ -185,7 +176,7 @@ def make(protected, conn, who, html):
                     return jsonify(ok=False, error="that request came from another site"), 403
             try:
                 return fn(*a, **kw)
-            except (Refused, ValueError, azure_admin.AzureError) as e:
+            except (Refused, ValueError) as e:
                 try:
                     conn().rollback()
                 except Exception:
@@ -200,8 +191,7 @@ def make(protected, conn, who, html):
     def page():
         import admin_page
         return html(admin_page.HTML.replace("__ME__", json.dumps(
-            {"email": who(), "name": session.get("name") or who(),
-             "azure_missing": azure_admin.missing()}).replace("<", "\\u003c")))
+            {"email": who(), "name": session.get("name") or who()}).replace("<", "\\u003c")))
 
     # -- overview -----------------------------------------------------------
     def _probe(name, url, out):
@@ -388,44 +378,6 @@ def make(protected, conn, who, html):
         else:
             intranet_access.drop_member(conn(), email)
         log("access", "intranet groups", email, {"groups": groups})
-        return jsonify(ok=True)
-
-    # -- Azure settings -----------------------------------------------------
-    @bp.get("/api/azure/apps")
-    @gate
-    def azure_apps():
-        if azure_admin.missing():
-            return jsonify(ok=False, missing=azure_admin.missing(), switches=azure_admin.SWITCHES)
-        return jsonify(ok=True, apps=azure().apps(), switches=azure_admin.SWITCHES)
-
-    @bp.get("/api/azure/settings")
-    @gate
-    def azure_settings():
-        app_name = request.args.get("app") or ""
-        return jsonify(ok=True, app=app_name, settings=azure().shown_settings(app_name),
-                       test_target=azure_admin.is_test_target(app_name))
-
-    @bp.post("/api/azure/set")
-    @gate
-    def azure_set():
-        b = body()
-        app_name, name = b.get("app") or "", (b.get("name") or "").strip()
-        before = azure().change(app_name, name, b.get("value"), delete=bool(b.get("delete")),
-                                confirm=b.get("confirm") or "")
-        after = None if b.get("delete") else azure_admin.shown(name, b.get("value"))
-        log("settings", "delete" if b.get("delete") else "set", "%s %s" % (app_name, name),
-            {"before": before, "after": after})
-        return jsonify(ok=True, before=before, after=after)
-
-    @bp.post("/api/azure/restart")
-    @gate
-    def azure_restart():
-        b = body()
-        app_name = b.get("app") or ""
-        if (b.get("confirm") or "").strip().lower() != app_name.split("/")[0].lower():
-            raise Refused("type the app's name to restart it")
-        azure().restart(app_name)
-        log("settings", "restart", app_name)
         return jsonify(ok=True)
 
     # -- mail & OCR ---------------------------------------------------------
