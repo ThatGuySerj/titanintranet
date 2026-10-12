@@ -217,7 +217,7 @@ def sql(uri, q, *a):
 def test_only_serj_and_derek_get_in(site):
     intranet, _ = site
     assert client(intranet, SERJ).get("/admin").status_code == 200
-    assert b"Titan admin" in client(intranet, DEREK).get("/admin/").data
+    assert b"Titan Admin" in client(intranet, DEREK).get("/admin/").data
     r = client(intranet, OTHER).get("/admin")
     assert r.status_code == 403 and b"for the Titan admins" in r.data
     assert client(intranet, OTHER).get("/admin/api/overview").status_code == 403
