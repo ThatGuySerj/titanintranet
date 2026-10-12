@@ -76,17 +76,22 @@ def test_the_index_and_the_tree_agree_row_for_row():
 def test_every_folder_remembers_its_number_before_the_index():
     """The old numbers are how everybody found things until now. The page
     shows them, and search finds a folder by either."""
-    formers = [n["former"] for n in nodes()]
-    assert all(formers)
+    formers = [n["former"] for n in nodes() if n["former"]]
     assert len(set(formers)) == len(formers)
+    # every folder had an old number except the Accounting section, which was
+    # laid out new on 9 October 2026 and never had one
+    for n in nodes():
+        if not n["former"]:
+            assert n["path"].startswith("TITAN-GROUP/4000_Finance-and-Accounting/"), \
+                n["path"]
     hr = [n for n in nodes() if n["num"] == "8000"][0]
     assert hr["former"] == "60"
 
 
 def test_the_rename_record_covers_every_folder_in_the_plan():
     former = fileplan.former_names()
-    paths = {n["path"].split("/", 1)[1] for n in nodes()}
-    assert set(former) == paths
+    had = {n["path"].split("/", 1)[1] for n in nodes() if n["former"]}
+    assert set(former) == had
     assert former["8000_Human-Resources_RESTRICTED"] == \
         "60_HUMAN-RESOURCES_RESTRICTED"
 
@@ -181,7 +186,7 @@ def test_every_template_folder_belongs_to_a_named_template():
     TEMPLATE_OF says what each is copied for. A template the index adds and
     TEMPLATE_OF does not name would reach the page with no explanation."""
     parts = [n for n in nodes() if n["part"]]
-    assert len(parts) == 66
+    assert len(parts) == 66 + 5 + 12 * 5        # + Accounting's 1099s and closes
     for n in parts:
         parent = n["path"].split("/")[-2]
         assert fileplan._number(parent) in fileplan.TEMPLATE_OF, n["path"]
@@ -423,3 +428,21 @@ def test_the_rail_link_and_the_gate_use_the_same_key():
 
     keys = [i["key"] for item in ia.inventory(cfg) for i in item["children"]]
     assert appmod.PLAN_KEY in keys
+
+
+def test_accounting_is_laid_out_by_company():
+    """Serj's layout, 9 October 2026: one folder per company with the same
+    working folders in each, and a year's close made from a template of
+    twelve months."""
+    acct = [n for n in fileplan.tree()["kids"] if n["num"] == "4000"][0]
+    titles = [k["title"] for k in acct["kids"]]
+    assert titles == ["Form W-9s and Form 1099s", "Insurance",
+                      "Kimberley Transport", "Master Truck List",
+                      "Titan Energy Transportation",
+                      "Titan Enterprises Leasing Company", "Titan Oil",
+                      "Titan Real Estate Properties", "Titan Trucking Industries"]
+    oil = [k for k in acct["kids"] if k["title"] == "Titan Oil"][0]
+    close = [k for k in oil["kids"] if k["title"] == "Monthly Close"][0]
+    assert close["tmpl"] == "every year"
+    assert [m["title"] for m in close["kids"]][0] == "January"
+    assert [m["num"] for m in close["kids"]][-1] == "4000-07-05-12"

@@ -94,86 +94,112 @@ File Class,Former Code,Folder / Document Type,Parent Class,Entry Type,Primary Ow
 3000-08-01,10-08-01,Engagement Letters,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-01_Engagement-Letters
 3000-08-02,10-08-02,Matter Files by Firm,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-02_Matter-Files-by-Firm
 3000-08-03,10-08-03,Legal Invoices and Budgets,3000-08,Folder,CFO,TITAN-GROUP/03000_Corporate-and-Legal/03000-08_Outside-Counsel/03000-08-03_Legal-Invoices-and-Budgets
-4000-01,20-01,Financial Statements,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements
-4000-01-01,20-01-01,Consolidated and Combined,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-01_Consolidated-and-Combined
-4000-01-02,20-01-02,By Entity,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-02_By-Entity
-4000-01-03,20-01-03,Monthly Reporting Packages,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-03_Monthly-Reporting-Packages
-4000-01-04,20-01-04,Quarterly Packages,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-04_Quarterly-Packages
-4000-01-05,20-01-05,Annual Year End,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-05_Annual-Year-End
-4000-01-06,20-01-06,Lender and Third Party Versions,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Financial-Statements/04000-01-06_Lender-and-Third-Party-Versions
-4000-02,20-02,Month End Close,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close
-4000-02-01,20-02-01,Close Calendar and Checklists,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-01_Close-Calendar-and-Checklists
-4000-02-02,20-02-02,Journal Entries and Support,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-02_Journal-Entries-and-Support
-4000-02-03,20-02-03,Account Reconciliations,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-03_Account-Reconciliations
-4000-02-04,20-02-04,Accruals and Prepaids,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-04_Accruals-and-Prepaids
-4000-02-05,20-02-05,Flux and Variance Analysis,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-05_Flux-and-Variance-Analysis
-4000-02-06,20-02-06,Intercompany Eliminations,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Month-End-Close/04000-02-06_Intercompany-Eliminations
-4000-03,20-03,General Ledger and COA,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA
-4000-03-01,20-03-01,Chart of Accounts Master,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-01_Chart-of-Accounts-Master
-4000-03-02,20-03-02,Trial Balances,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-02_Trial-Balances
-4000-03-03,20-03-03,GL Detail Exports,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-03_GL-Detail-Exports
-4000-03-04,20-03-04,Opening Balances and Conversions,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_General-Ledger-and-COA/04000-03-04_Opening-Balances-and-Conversions
-4000-04,20-04,Accounts Payable,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable
-4000-04-01,20-04-01,Vendor Invoices Paid,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-01_Vendor-Invoices-Paid
-4000-04-02,20-04-02,Open and Pending Payables,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-02_Open-and-Pending-Payables
-4000-04-03,20-04-03,Check Runs and ACH Batches,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-03_Check-Runs-and-ACH-Batches
-4000-04-04,20-04-04,Vendor W9 and 1099 Reporting,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-04_Vendor-W9-and-1099-Reporting
-4000-04-05,20-04-05,Fuel and Fluids AP,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-05_Fuel-and-Fluids-AP
-4000-04-06,20-04-06,Credit Card Statements and Receipts,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-06_Credit-Card-Statements-and-Receipts
-4000-04-07,20-04-07,Employee Expense Reports,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-07_Employee-Expense-Reports
-4000-04-08,20-04-08,Disputes and Vendor Statements,4000-04,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Accounts-Payable/04000-04-08_Disputes-and-Vendor-Statements
-4000-05,20-05,Accounts Receivable,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable
-4000-05-01,20-05-01,Customer Invoices Issued,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-01_Customer-Invoices-Issued
-4000-05-02,20-05-02,Field Tickets and Run Tickets Billing Support,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-02_Field-Tickets-and-Run-Tickets-Billing-Support
-4000-05-03,20-05-03,Aging and Collections,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-03_Aging-and-Collections
-4000-05-04,20-05-04,Credit Memos and Adjustments,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-04_Credit-Memos-and-Adjustments
-4000-05-05,20-05-05,Customer Credit Applications and References,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-05_Customer-Credit-Applications-and-References
-4000-05-06,20-05-06,Lien Notices and Preliminary Notices,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-06_Lien-Notices-and-Preliminary-Notices
-4000-05-07,20-05-07,Cash Application and Remittance Advices,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-07_Cash-Application-and-Remittance-Advices
-4000-05-08,20-05-08,Bad Debt and Write Offs,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Accounts-Receivable/04000-05-08_Bad-Debt-and-Write-Offs
-4000-06,20-06,Payroll Accounting_RESTRICTED,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED
-4000-06-01,20-06-01,Payroll Registers,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-01_Payroll-Registers
-4000-06-02,20-06-02,Payroll Tax Deposits,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-02_Payroll-Tax-Deposits
-4000-06-03,20-06-03,Garnishments and Withholding Orders,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-03_Garnishments-and-Withholding-Orders
-4000-06-04,20-06-04,401k and Benefit Remittances,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-04_401k-and-Benefit-Remittances
-4000-06-05,20-06-05,Driver Settlements and Owner Operator Pay,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-05_Driver-Settlements-and-Owner-Operator-Pay
-4000-06-06,20-06-06,Payroll Reconciliations,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Payroll-Accounting_RESTRICTED/04000-06-06_Payroll-Reconciliations
-4000-07,20-07,Fixed Assets and Depreciation,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation
-4000-07-01,20-07-01,Fixed Asset Register,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-01_Fixed-Asset-Register
-4000-07-02,20-07-02,Additions and Capitalization Support,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-02_Additions-and-Capitalization-Support
-4000-07-03,20-07-03,Disposals and Gain Loss,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-03_Disposals-and-Gain-Loss
-4000-07-04,20-07-04,Depreciation Schedules Book and Tax,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-04_Depreciation-Schedules-Book-and-Tax
-4000-07-05,20-07-05,Impairment and Valuation,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Fixed-Assets-and-Depreciation/04000-07-05_Impairment-and-Valuation
-4000-08,20-08,Debt and Lease Schedules,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules
-4000-08-01,20-08-01,Debt Amortization Schedules,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-01_Debt-Amortization-Schedules
-4000-08-02,20-08-02,Lease Schedules and ASC 842,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-02_Lease-Schedules-and-ASC-842
-4000-08-03,20-08-03,Interest and Fee Accruals,4000-08,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Debt-and-Lease-Schedules/04000-08-03_Interest-and-Fee-Accruals
-4000-09,20-09,Budget and Forecast,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast
-4000-09-01,20-09-01,Annual Operating Budget,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-01_Annual-Operating-Budget
-4000-09-02,20-09-02,Capital Expenditure Budget,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-02_Capital-Expenditure-Budget
-4000-09-03,20-09-03,Rolling Forecast and Reforecast,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-03_Rolling-Forecast-and-Reforecast
-4000-09-04,20-09-04,Budget to Actual Reporting,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Budget-and-Forecast/04000-09-04_Budget-to-Actual-Reporting
-4000-10,20-10,Cost Accounting and Unit Economics,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics
-4000-10-01,20-10-01,Cost Per Mile and Cost Per Hour,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-01_Cost-Per-Mile-and-Cost-Per-Hour
-4000-10-02,20-10-02,Cost Per Barrel Water Division,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-02_Cost-Per-Barrel-Water-Division
-4000-10-03,20-10-03,Per Unit and Per Driver Profitability,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-03_Per-Unit-and-Per-Driver-Profitability
-4000-10-04,20-10-04,Division and Yard Level P&L,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-04_Division-and-Yard-Level-PandL
-4000-10-05,20-10-05,Job and Customer Profitability,4000-10,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-10_Cost-Accounting-and-Unit-Economics/04000-10-05_Job-and-Customer-Profitability
-4000-11,20-11,Audit Review and Compilation,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation
-4000-11-01,20-11-01,Engagement Letters,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-01_Engagement-Letters
-4000-11-02,20-11-02,PBC Requests and Deliverables,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-02_PBC-Requests-and-Deliverables
-4000-11-03,20-11-03,Workpapers Provided,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-03_Workpapers-Provided
-4000-11-04,20-11-04,Management Letters and Responses,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-04_Management-Letters-and-Responses
-4000-11-05,20-11-05,Issued Reports,4000-11,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-11_Audit-Review-and-Compilation/04000-11-05_Issued-Reports
-4000-12,20-12,Cash Management,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management
-4000-12-01,20-12-01,Daily Cash Position,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-01_Daily-Cash-Position
-4000-12-02,20-12-02,Thirteen Week Cash Flow,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-02_Thirteen-Week-Cash-Flow
-4000-12-03,20-12-03,Cash Forecast Support,4000-12,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-12_Cash-Management/04000-12-03_Cash-Forecast-Support
-4000-13,20-13,Accounting Policies and SOPs,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-13_Accounting-Policies-and-SOPs
-4000-14,20-14,Financial Systems and Data,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data
-4000-14-01,20-14-01,ERP Accounting System Documentation,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-01_ERP-Accounting-System-Documentation
-4000-14-02,20-14-02,Data Exports and Backups,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-02_Data-Exports-and-Backups
-4000-14-03,20-14-03,System Change Log,4000-14,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-14_Financial-Systems-and-Data/04000-14-03_System-Change-Log
+4000-01,,Form W-9s and Form 1099s,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s
+4000-01-01,,Form 1099s,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s
+4000-01-01-01,,Kimberley Transport,4000-01-01,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s/[RECORD-ID]/04000-01-01-01_Kimberley-Transport
+4000-01-01-02,,Titan Energy Transportation,4000-01-01,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s/[RECORD-ID]/04000-01-01-02_Titan-Energy-Transportation
+4000-01-01-03,,Titan Enterprises Leasing Company,4000-01-01,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s/[RECORD-ID]/04000-01-01-03_Titan-Enterprises-Leasing-Company
+4000-01-01-04,,Titan Oil,4000-01-01,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s/[RECORD-ID]/04000-01-01-04_Titan-Oil
+4000-01-01-05,,Titan Trucking Industries,4000-01-01,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-01_Form-1099s/[RECORD-ID]/04000-01-01-05_Titan-Trucking-Industries
+4000-01-02,,W-9s All Companies,4000-01,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-01_Form-W-9s-and-Form-1099s/04000-01-02_W-9s-All-Companies
+4000-02,,Insurance,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Insurance
+4000-02-01,,Kimberley Transport,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Insurance/04000-02-01_Kimberley-Transport
+4000-02-02,,Titan Energy Transportation,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Insurance/04000-02-02_Titan-Energy-Transportation
+4000-02-03,,Titan Oil,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Insurance/04000-02-03_Titan-Oil
+4000-02-04,,Titan Trucking Industries,4000-02,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-02_Insurance/04000-02-04_Titan-Trucking-Industries
+4000-03,,Kimberley Transport,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport
+4000-03-01,,Accounts Payable,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-01_Accounts-Payable
+4000-03-02,,Bank Reconciliations,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-02_Bank-Reconciliations
+4000-03-03,,Credit Card Reconciliations,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-03_Credit-Card-Reconciliations
+4000-03-04,,Invoices,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-04_Invoices
+4000-03-05,,Loans,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-05_Loans
+4000-03-06,,Monthly Close,4000-03,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close
+4000-03-06-01,,January,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-01_January
+4000-03-06-02,,February,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-02_February
+4000-03-06-03,,March,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-03_March
+4000-03-06-04,,April,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-04_April
+4000-03-06-05,,May,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-05_May
+4000-03-06-06,,June,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-06_June
+4000-03-06-07,,July,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-07_July
+4000-03-06-08,,August,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-08_August
+4000-03-06-09,,September,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-09_September
+4000-03-06-10,,October,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-10_October
+4000-03-06-11,,November,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-11_November
+4000-03-06-12,,December,4000-03-06,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-03_Kimberley-Transport/04000-03-06_Monthly-Close/[RECORD-ID]/04000-03-06-12_December
+4000-04,,Master Truck List,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-04_Master-Truck-List
+4000-05,,Titan Energy Transportation,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation
+4000-05-01,,Accounts Payable,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-01_Accounts-Payable
+4000-05-02,,Bank Reconciliations,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-02_Bank-Reconciliations
+4000-05-03,,Credit Card Reconciliations,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-03_Credit-Card-Reconciliations
+4000-05-04,,Invoices,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-04_Invoices
+4000-05-05,,Monthly Close,4000-05,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close
+4000-05-05-01,,January,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-01_January
+4000-05-05-02,,February,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-02_February
+4000-05-05-03,,March,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-03_March
+4000-05-05-04,,April,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-04_April
+4000-05-05-05,,May,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-05_May
+4000-05-05-06,,June,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-06_June
+4000-05-05-07,,July,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-07_July
+4000-05-05-08,,August,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-08_August
+4000-05-05-09,,September,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-09_September
+4000-05-05-10,,October,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-10_October
+4000-05-05-11,,November,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-11_November
+4000-05-05-12,,December,4000-05-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-05_Titan-Energy-Transportation/04000-05-05_Monthly-Close/[RECORD-ID]/04000-05-05-12_December
+4000-06,,Titan Enterprises Leasing Company,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company
+4000-06-01,,Accounts Payable,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-01_Accounts-Payable
+4000-06-02,,Bank Reconciliations,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-02_Bank-Reconciliations
+4000-06-03,,Credit Card Reconciliations,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-03_Credit-Card-Reconciliations
+4000-06-04,,Invoices,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-04_Invoices
+4000-06-05,,Monthly Close,4000-06,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close
+4000-06-05-01,,January,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-01_January
+4000-06-05-02,,February,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-02_February
+4000-06-05-03,,March,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-03_March
+4000-06-05-04,,April,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-04_April
+4000-06-05-05,,May,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-05_May
+4000-06-05-06,,June,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-06_June
+4000-06-05-07,,July,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-07_July
+4000-06-05-08,,August,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-08_August
+4000-06-05-09,,September,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-09_September
+4000-06-05-10,,October,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-10_October
+4000-06-05-11,,November,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-11_November
+4000-06-05-12,,December,4000-06-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-06_Titan-Enterprises-Leasing-Company/04000-06-05_Monthly-Close/[RECORD-ID]/04000-06-05-12_December
+4000-07,,Titan Oil,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil
+4000-07-01,,Accounts Payable,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-01_Accounts-Payable
+4000-07-02,,Bank Reconciliations,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-02_Bank-Reconciliations
+4000-07-03,,Credit Card Reconciliations,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-03_Credit-Card-Reconciliations
+4000-07-04,,Invoices,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-04_Invoices
+4000-07-05,,Monthly Close,4000-07,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close
+4000-07-05-01,,January,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-01_January
+4000-07-05-02,,February,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-02_February
+4000-07-05-03,,March,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-03_March
+4000-07-05-04,,April,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-04_April
+4000-07-05-05,,May,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-05_May
+4000-07-05-06,,June,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-06_June
+4000-07-05-07,,July,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-07_July
+4000-07-05-08,,August,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-08_August
+4000-07-05-09,,September,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-09_September
+4000-07-05-10,,October,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-10_October
+4000-07-05-11,,November,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-11_November
+4000-07-05-12,,December,4000-07-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-07_Titan-Oil/04000-07-05_Monthly-Close/[RECORD-ID]/04000-07-05-12_December
+4000-08,,Titan Real Estate Properties,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-08_Titan-Real-Estate-Properties
+4000-09,,Titan Trucking Industries,4000,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries
+4000-09-01,,Accounts Payable,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-01_Accounts-Payable
+4000-09-02,,Bank Reconciliations,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-02_Bank-Reconciliations
+4000-09-03,,Credit Card Reconciliations,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-03_Credit-Card-Reconciliations
+4000-09-04,,Invoices,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-04_Invoices
+4000-09-05,,Monthly Close,4000-09,Folder,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close
+4000-09-05-01,,January,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-01_January
+4000-09-05-02,,February,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-02_February
+4000-09-05-03,,March,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-03_March
+4000-09-05-04,,April,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-04_April
+4000-09-05-05,,May,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-05_May
+4000-09-05-06,,June,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-06_June
+4000-09-05-07,,July,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-07_July
+4000-09-05-08,,August,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-08_August
+4000-09-05-09,,September,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-09_September
+4000-09-05-10,,October,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-10_October
+4000-09-05-11,,November,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-11_November
+4000-09-05-12,,December,4000-09-05,Record template,Controller,TITAN-GROUP/04000_Finance-and-Accounting/04000-09_Titan-Trucking-Industries/04000-09-05_Monthly-Close/[RECORD-ID]/04000-09-05-12_December
 5000-01,30-01,Federal Income Tax,5000,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax
 5000-01-01,30-01-01,Returns by Entity and Year,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-01_Returns-by-Entity-and-Year
 5000-01-02,30-01-02,K1s Issued and Received,5000-01,Folder,CFO,TITAN-GROUP/05000_Tax/05000-01_Federal-Income-Tax/05000-01-02_K1s-Issued-and-Received

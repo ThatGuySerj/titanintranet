@@ -194,6 +194,19 @@ from its *New Folder Path* column, so when the next draft arrives, save it over
 that file (as CSV), run the tests, and the page follows. The index's
 `[RECORD-ID]` is our `_TEMPLATE_` folder.
 
+**Accounting is Titan's own layout, not the CFO's draft.** On 9 October the
+4000 Finance and Accounting section was replaced with the layout Accounting
+already uses in SharePoint: Form W-9s and Form 1099s, Insurance, the Master
+Truck List, and one folder per company holding Accounts Payable, Bank
+Reconciliations, Credit Card Reconciliations, Invoices (and Loans for
+Kimberley) and Monthly Close. Monthly Close and the 1099s are templates: make a
+folder called `2027` inside one and it arrives with the twelve months, or with
+a 1099 folder per company. The CFO's draft of that section — financial
+statements, GL, AR, payroll accounting and the rest — is kept in
+`file_number_index_4000_cfo_draft.csv` in case any of it is wanted back. If the
+CFO sends a new draft of the whole index, that section has to be put back to
+this layout before it is saved over `file_number_index.csv`.
+
 **What the page shows.** Every folder's detail panel gives its File Class and
 the number it had before ("8000-01 — was 60-01"), and search finds a folder by
 either number. Owners come from the index's Primary Owner column.

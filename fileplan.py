@@ -61,8 +61,10 @@ MASTERS = {
                          "area only - nothing lives here permanently."),
     "3000": ("CFO", "Entity records, intercompany agreements, contracts, "
                   "litigation, governance, restructuring."),
-    "4000": ("Controller", "Financials, close, GL, AP, AR, payroll accounting, "
-                         "fixed assets, budget, unit economics."),
+    "4000": ("Controller", "Accounting by company - payables, bank and credit "
+                           "card reconciliations, invoices, monthly close - "
+                           "plus W-9s and 1099s, insurance and the master "
+                           "truck list."),
     "5000": ("CFO", "Federal, state, local, sales and use, IFTA, 2290, "
                   "property, payroll tax, planning."),
     "6000": ("CFO", "Bank accounts, lender relationships, loan files, UCCs, "
@@ -155,8 +157,6 @@ WHY = {
         "HR and CFO", "Contains medical information."),
     "7000-04-04": (
         "HR and CFO", "Contains medical information."),
-    "4000-06": (
-        "CFO, Controller and HR", "Compensation confidentiality."),
     "6000-09": (
         "Owner and CFO", "The owner's personal financial data."),
     "3000-01-08": (
@@ -183,6 +183,15 @@ WHY = {
 # shape too, but each of those exists once - they are enumerated, not copied -
 # and the index rightly lists them as ordinary folders.
 TEMPLATE_OF = {
+    # Accounting, laid out by Serj on 9 October 2026. Each year gets a folder
+    # made from the template - twelve months of close, or one 1099 folder per
+    # company.
+    "4000-01-01": "every tax year",
+    "4000-03-06": "every year",
+    "4000-05-05": "every year",
+    "4000-06-05": "every year",
+    "4000-07-05": "every year",
+    "4000-09-05": "every year",
     "8000-01": "every employee",
     "9000-01": "every driver",
     "10000-01": "every unit",
