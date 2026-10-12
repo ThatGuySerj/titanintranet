@@ -2169,6 +2169,13 @@ def orientation_print():
 #  Odds and ends
 # ---------------------------------------------------------------------------
 
+# admin-site-v1: /admin - every Titan site in one place, for the people in
+# ADMIN_SITE_USERS only (admin.py). Built here with this site's own sign-in,
+# connection and page helpers.
+import admin as admin_site        # noqa: E402
+app.register_blueprint(admin_site.make(protected, conn, _who, _html))
+
+
 @app.get("/healthz")
 def healthz():
     """Open to the internet, so it says whether things work and nothing else.
