@@ -494,6 +494,10 @@ def seed(tree, master, progress=None):
     Re-running is safe. Existing folders are left alone, so a call that failed
     halfway through can simply be made again.
     """
+    if master.get("x"):
+        # lives in a SharePoint site of its own (fileplan.ELSEWHERE): there is
+        # nothing to build here, and building it would be the wrong thing
+        return {"made": 0, "kept": 0, "folders": 0, "master": master["n"], "elsewhere": True}
     made, kept = 0, 0
 
     def ensure(parent_rel, name):
@@ -588,6 +592,8 @@ def renumber(tree, master, former, budget=80.0):
     deadline = time.time() + budget
     out = {"master": master["n"], "renamed": 0, "right": 0, "records": 0,
            "missing": [], "more": False}
+    if master.get("x"):
+        return out                      # in a site of its own; never touched here
 
     def folders(rel, row=None):
         if row is not None and not row.get("children"):

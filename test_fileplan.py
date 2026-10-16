@@ -35,9 +35,10 @@ def nodes():
     return [n for n in fileplan.walk() if n["depth"] > 0]
 
 
-def test_the_eighteen_master_folders_are_all_there():
+def test_the_master_folders_are_all_there():
+    """The CFO's eighteen, and 19000: the owner and CFO's private site."""
     got = [n["num"] for n in fileplan.tree()["kids"]]
-    assert got == [str(n * 1000) for n in range(1, 19)]
+    assert got == [str(n * 1000) for n in range(1, 20)]
 
 
 def test_no_folder_name_starts_with_a_zero():
@@ -79,11 +80,11 @@ def test_every_folder_remembers_its_number_before_the_index():
     formers = [n["former"] for n in nodes() if n["former"]]
     assert len(set(formers)) == len(formers)
     # every folder had an old number except the Accounting section, which was
-    # laid out new on 9 October 2026 and never had one
+    # laid out new on 9 October 2026, and the private site added on the 16th
     for n in nodes():
         if not n["former"]:
-            assert n["path"].startswith("TITAN-GROUP/4000_Finance-and-Accounting/"), \
-                n["path"]
+            assert (n["path"].startswith("TITAN-GROUP/4000_Finance-and-Accounting/")
+                    or n["num"] == "19000"), n["path"]
     hr = [n for n in nodes() if n["num"] == "8000"][0]
     assert hr["former"] == "60"
 
@@ -203,7 +204,7 @@ def test_the_enumerated_folders_are_not_called_templates():
 def test_the_counts_are_counted_and_not_quoted():
     s = fileplan.stats()
     assert s["folders"] == len(nodes())
-    assert s["masters"] == 18
+    assert s["masters"] == 19
     assert s["depth"] == 4
     assert s["own_walls"] == len([n for n in nodes() if n["own"]])
     assert s["longest"] == len(s["longest_path"])
@@ -256,7 +257,7 @@ def test_the_payload_is_json_and_carries_no_derivable_weight():
 
     # names and flags only - the path is rebuilt in the browser, and so is the
     # title unless the index words it better than the name can
-    assert seen <= {"n", "t", "f", "ow", "w", "o", "L", "tm", "why", "k"}
+    assert seen <= {"n", "t", "f", "ow", "w", "o", "L", "tm", "x", "why", "k"}
     assert "p" not in seen
 
 
@@ -394,7 +395,7 @@ def test_the_injected_block_is_the_whole_payload(client):
     end = body.index(";\n/* TITAN-PLAN-END */")
     data = json.loads(body[start:end])
     assert data["stats"]["folders"] == fileplan.stats()["folders"]
-    assert len(data["tree"]) == 18
+    assert len(data["tree"]) == 19
 
 
 def test_restricting_the_rail_link_shuts_the_page_itself(client):
@@ -446,3 +447,14 @@ def test_accounting_is_laid_out_by_company():
     assert close["tmpl"] == "every year"
     assert [m["title"] for m in close["kids"]][0] == "January"
     assert [m["num"] for m in close["kids"]][-1] == "4000-07-05-12"
+
+
+def test_the_private_site_is_a_link_and_nothing_else():
+    """The intranet's app login can open every site, so the page must never
+    show what is inside a private one - only where it is. SharePoint decides
+    who gets in."""
+    node = [n for n in fileplan.tree()["kids"] if n["num"] == "19000"][0]
+    assert node["away"]["url"].startswith("https://netorgft9778845.sharepoint.com/sites/")
+    assert not node["kids"]
+    row = dict(zip(fileplan.ROLES, fileplan.MATRIX["19000"][0].split()))
+    assert [r for r, v in row.items() if v != "-"] == ["Owner / President", "CFO"]

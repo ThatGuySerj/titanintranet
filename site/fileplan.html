@@ -489,7 +489,7 @@ ul.plain li::before{content:"";position:absolute;left:0;top:9px;width:6px;height
       <span class="eyebrow">Electronic Filing System &mdash; Master File Plan</span>
       <h1>How everything would be filed</h1>
       <div class="rule"></div>
-      <p>Eighteen numbered master folders, organised by what the business does
+      <p>Numbered master folders, organised by what the business does
       rather than by which company did it. Click through it exactly as you
       would in SharePoint. Anything walled off is marked, and the panel on the
       right says who would be able to open it.</p>
@@ -840,6 +840,8 @@ function tagsFor(node){
            '</span>';
   if (node.tm || node.L)
     out += '<span class="tag tmpl">Template</span>';
+  if (node.x)
+    out += '<span class="tag wall">Private site</span>';
   return out;
 }
 
@@ -876,7 +878,7 @@ function rowFor(node, showPath){
     '<small>' + esc(showPath ? node.path.replace(PLAN.root + "/", "") : node.n) +
     '</small></span>' +
     tagsFor(node) +
-    '<span class="go">' + (kids ? kids + ' &rsaquo;' : 'documents') + '</span>' +
+    '<span class="go">' + (node.x ? 'own site' : kids ? kids + ' &rsaquo;' : 'documents') + '</span>' +
     '</button>';
 }
 
@@ -930,6 +932,15 @@ function renderDetail(){
             ' folder.</b> It inherits the wall from ' +
             esc(nearestWall(node)) + ', so the same short list of people can ' +
             'open it.</div>';
+  }
+
+  if (node.x){
+    html += '<div class="why"><b>Kept in its own private SharePoint site.</b> ' +
+            'Only ' + esc(node.x.who) + ' can open it &mdash; SharePoint checks, ' +
+            'not this page, and the intranet never reads what is inside. ' +
+            'Anybody else who follows the link is turned away by Microsoft.' +
+            '<div style="margin-top:10px"><a class="btn go" target="_blank" rel="noopener" href="' +
+            esc(node.x.url) + '">Open in SharePoint</a></div></div>';
   }
 
   if (node.tm){
@@ -1327,10 +1338,14 @@ function oldTops(){
   });
 }
 
+/* The master folders that are built in Site Mapping - not the ones that live
+   in a SharePoint site of their own (m.x), which are only ever linked to. */
+function HERE_MASTERS(){ return PLAN.tree.filter(function(m){ return !m.x; }); }
+
 function liveSeeds(){
   var have = {};
   TOPS.forEach(function(t){ have[t.name] = true; });
-  var left = PLAN.tree.filter(function(m){ return !have[m.n]; }).length;
+  var left = HERE_MASTERS().filter(function(m){ return !have[m.n]; }).length;
 
   /* While the old-numbered folders are there, building from the plan would
      make a second, empty tree beside them - so the only thing offered is the
@@ -1352,9 +1367,9 @@ function liveSeeds(){
   $("seeds").innerHTML =
     '<button class="seed" data-seed="*" ' + (left ? '' : 'disabled') + '>' +
       '<span class="num">All</span><span class="lbl">' +
-      (left ? 'Build the ' + left + ' that are missing' : 'All eighteen are there') +
+      (left ? 'Build the ' + left + ' that are missing' : 'All ' + HERE_MASTERS().length + ' are there') +
       '</span></button>' +
-    PLAN.tree.map(function(m){
+    HERE_MASTERS().map(function(m){
       var there = have[m.n];
       /* One that is already there can still be pressed: seeding leaves what
          exists alone and adds only what is missing inside it. */
@@ -1758,7 +1773,7 @@ function seedOne(name){
 
 function runSeed(which){
   var list = which === "*"
-    ? PLAN.tree.map(function(m){ return m.n; }).filter(function(n){
+    ? HERE_MASTERS().map(function(m){ return m.n; }).filter(function(n){
         return !TOPS.some(function(t){ return t.name === n; });
       })
     : [which];
@@ -1794,7 +1809,7 @@ function runRenumber(){
              "treatment inside. Folders that are not in the plan keep their " +
              "names. Nothing is deleted or moved."},
     function(){
-      var list = PLAN.tree.map(function(m){ return m.n; });
+      var list = HERE_MASTERS().map(function(m){ return m.n; });
       var i = 0, renamed = 0, missing = 0, rounds = 0;
       function next(){
         if (i >= list.length){

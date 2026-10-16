@@ -92,6 +92,9 @@ MASTERS = {
                                   "management, backup, cybersecurity."),
     "17000": ("CFO", "Active deals, closed deals, pipeline, the exit-readiness "
                    "data room."),
+    "19000": ("CFO", "Records for the owner and the CFO alone. They are kept in "
+                     "a private SharePoint site of their own, not in Company "
+                     "Documents, so this is a signpost rather than a folder."),
     "18000": ("Controller", "Closed entities, superseded records, the scanned "
                           "backfile, legal hold, pending destruction."),
 }
@@ -124,6 +127,7 @@ MATRIX = {
     "16000": ("R E R - - - - - -", "MSP: full"),
     "17000": ("F F - - - - - - -", "Advisor: edit, staged"),
     "18000": ("R F F R - - - - -", "none"),
+    "19000": ("F F - - - - - - -", "none"),
 }
 
 # ---------------------------------------------------------------------------
@@ -172,6 +176,23 @@ WHY = {
         "CFO and the KTL partner",
         "Kimberley Transport's livestock hauling. Partitioned for the same "
         "reason as KTL's entity records: it is a third-party partnership."),
+}
+
+# Folders that live in a SharePoint site of their own, keyed by File Class.
+#
+# The intranet only ever LINKS to these. The folders tab reads and writes
+# SharePoint through the intranet's own app login, which can open every site
+# in the tenant - so showing a private site's contents here would make the
+# intranet, and whoever runs it, the way round the site's own permissions.
+# A link leaves SharePoint to decide: the owner and the CFO open it, anybody
+# else is refused by Microsoft, not by this page. Seeding, renumbering and the
+# folders tab all leave these alone.
+ELSEWHERE = {
+    "19000": {
+        "url": "https://netorgft9778845.sharepoint.com/sites/CompanyDocument/"
+               "Company%20Document/Forms/AllItems.aspx",
+        "who": "the owner and the CFO",
+    },
 }
 
 # The record templates, keyed by File Class: the parents whose children the
@@ -469,6 +490,8 @@ def tree():
         wall     restricted / segregated / partitioned, inherited downwards
         own      True when the wall is this folder's own, not inherited
         part     True for a record-template folder ([RECORD-ID] in the index)
+        away     {url, who} when the folder lives in a site of its own
+                 (ELSEWHERE) - shown as a link, never opened or built here
         tmpl     what the template gets copied for, on the parent
         kids     children
 
@@ -478,7 +501,7 @@ def tree():
     """
     root = {"name": ROOT, "title": "Titan Group", "their": None, "num": "",
             "former": "", "owner": "", "path": ROOT, "depth": 0, "wall": None,
-            "own": False, "part": False, "tmpl": None, "kids": []}
+            "own": False, "part": False, "tmpl": None, "away": None, "kids": []}
     by_path = {ROOT: root}
 
     # Parents first, whatever order the index lists them in. It lists the
@@ -512,6 +535,7 @@ def tree():
             "part": part or (r.get("Entry Type") or "").strip().lower()
                     == "record template",
             "tmpl": TEMPLATE_OF.get(num),
+            "away": ELSEWHERE.get(num),
             "kids": [],
         }
         parent["kids"].append(node)
@@ -576,6 +600,8 @@ def _thin(node, master_owner):
         out["L"] = 1
     if node["tmpl"]:
         out["tm"] = node["tmpl"]
+    if node["away"]:
+        out["x"] = dict(node["away"])
     if node["num"] in WHY:
         out["why"] = {"who": WHY[node["num"]][0], "text": WHY[node["num"]][1]}
     if node["kids"]:

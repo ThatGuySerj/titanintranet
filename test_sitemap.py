@@ -762,3 +762,14 @@ def test_renumbering_drops_the_leading_zero_from_folders_that_have_it():
     assert out["missing"] == []
     assert plan <= g.paths
     assert not any(p.split("/")[0].startswith("0") for p in g.paths)
+
+
+def test_the_private_site_is_never_built_or_renamed_in_site_mapping():
+    import fileplan
+    master = [m for m in fileplan.payload()["tree"] if m.get("x")][0]
+    fake = FakeTree()
+    out = sitemap.seed(fake, master)
+    assert fake.made == [] and out["elsewhere"]
+    g = GraphFake(set())
+    out = sitemap.renumber(g, master, fileplan.former_names())
+    assert g.calls == [] and out["missing"] == []
